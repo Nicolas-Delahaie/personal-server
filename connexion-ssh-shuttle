@@ -1,0 +1,28 @@
+# Connexion SSH au Shutle
+
+> Connexion entre shutle (mini ordi debian) et mac via ethernet uniquement (pas d'internet)
+
+## Prérequis
+
+1. Branchement doit être bon (pas d’ethernet débranché)
+2. Activer le port réseau
+   1. Vérifier laquelle des carte est utilisée via `ip a`
+   2. Activer le port ethernet lié via `nmtui` (network-manager doit être installé)
+3. Configurer le hostname via nmtui
+
+## Solution 1 : partage internet
+
+La 1ere solution consiste à partager internet du mac au shuttle afin de le lier au même réseau. Cependant cette solution ne permet pas une réelle isolation en réseau local exclusif.
+
+1. Paramètres > Partage Internet
+2. Source : connexion internet à partager (ex: wifi)
+3. Destination : port utilisé pour l’ethernet
+
+## Solution 2 : serveur DHCP
+
+La 2e solution consiste à créer un sous réseau grâce à un serveur DHCP (dnsmasq) hébergé sur le mac. Ce serveur a pour but d'écouter les connexions entrantes sur un périphérique défini et d'adresser une adresse dynamiquement dans une plage définie à l'appareil le demandant.
+
+## Deboggage
+
+1. Rebrancher l’ethernet si les parametres du Mac sont modifiés (internet partagé, wifi changé)
+2. Vérifier sur le Mac dans Paramètres > Internet que la connexion apparaisse
