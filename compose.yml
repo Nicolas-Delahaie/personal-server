@@ -1,0 +1,21 @@
+services:
+  glances:
+    image: nicolargo/glances
+    container_name: glances
+    ports:
+      - "61208:61208"
+    volumes:
+      - ./glances.conf:/glances/conf/glances.conf
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - GLANCES_OPT=-C /glances/conf/glances.conf -w
+  portainer:
+    image: portainer/portainer-ce
+    ports:
+      - 127.0.0.1:9000:9000 # Only accessible from localhost. Remove "127.0.0.1" when credential are set.
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
