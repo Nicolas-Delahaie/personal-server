@@ -1,7 +1,6 @@
 services:
   glances:
     image: nicolargo/glances
-    container_name: glances
     ports:
       - "61208:61208"
     volumes:

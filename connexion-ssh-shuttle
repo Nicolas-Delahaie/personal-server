@@ -26,3 +26,12 @@ La 2e solution consiste à créer un sous réseau grâce à un serveur DHCP (dns
 
 1. Rebrancher l’ethernet si les parametres du Mac sont modifiés (internet partagé, wifi changé)
 2. Vérifier sur le Mac dans Paramètres > Internet que la connexion apparaisse
+
+## Configuration SSH
+
+Le Shuttle étant accessible via SSH depuis l'extérieur, on se doit de le protéger. Pour ce faire :
+
+1. Surcharger la configuration avec des paramètres plus strictes : `sudo nano /etc/ssh/sshd_config.d/custom-config.conf`.
+2. Copier dans celui-ci le fichier `ssh.conf`.
+3. Redémarrer SSH avec `sudo systemctl restart fail2ban`.
+4. Installation du service fail2ban pour empêcher les attaques par brut force : `sudo apt install fail2ban`.
