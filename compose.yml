@@ -1,20 +1,38 @@
 services:
   glances:
     image: nicolargo/glances
-    ports:
-      - "61208:61208"
     volumes:
       - ./glances.conf:/glances/conf/glances.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.glances.rule=Host(`monitoring.localhost`)"
+      - "traefik.http.services.glances.loadbalancer.server.port=61208"
+      - "traefik.http.routers.glances.entrypoints=web"
+
   portainer:
     image: portainer/portainer-ce
-    ports:
-      - 127.0.0.1:9000:9000 # Only accessible from localhost. Remove "127.0.0.1" when credential are set.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.localhost`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.entrypoints=web"
 
+  traefik:
+    image: traefik:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - "--api.insecure=true" # Only because port 8000 is local (127.0.0.1) and not exposed to the internet
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - 80:80
+      - 127.0.0.1:8080:8080 # Warning : should never be exposed publicly
 volumes:
   portainer_data:
