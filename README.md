@@ -30,4 +30,10 @@ Pour ce faire :
 5. Annuler les modifications du `compose.yml`.
 6. Le compte admin est configuré !
 
-Tant que le volume partagé Docker n'est pas supprimé, les identifiants seront gardés, alors aucuns soucis à se faire aux redémarrages et rebuilds des containers.
+Tant que le volume partagé Docker n'est pas supprimé, les identifiants seront gardés, alors aucuns soucis à se faire aux redémarrages et rebuilds des conteneurs.
+
+## Développement
+
+Pour les modifications nécessitant le re lancement des conteneurs et des tests, je recommande de développer directement dans le shuttle, notamment via l'extension VSCode `ms-vscode-remote.remote-ssh`. Ensuite lorsque la modification fonctionne, copier coller et comiter en local. De cette manière, pas besoins de modifier-commit-push-pull-tester à chaque modification du code.
+
+Je recommande aussi de faire attention à garder les modifications effectives sois en local, sois sur la Shuttle pour ne pas s'emmêler les pinceaux.

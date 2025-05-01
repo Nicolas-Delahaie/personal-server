@@ -8,7 +8,7 @@ services:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.glances.rule=HostRegexp(`glances.{domain:.+}`)"
+      - "traefik.http.routers.glances.rule=Host(`glances.${DOMAIN}`)"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.entrypoints=web"
 
@@ -19,7 +19,7 @@ services:
       - portainer_data:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=HostRegexp(`portainer.{domain:.+}`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN}`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.entrypoints=web"
 
