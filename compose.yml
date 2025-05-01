@@ -33,6 +33,6 @@ services:
       - "--entrypoints.web.address=:80"
     ports:
       - 80:80
-      - 127.0.0.1:8080:8080 # Warning : should never be exposed publicly
+      - 8080:8080 # Warning : should never be exposed publicly
 volumes:
   portainer_data:
