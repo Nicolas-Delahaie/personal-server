@@ -2,6 +2,20 @@
 
 Explications de la mise en place d'un serveur perso et codes divers. Dans mon cas, j'utilise un "Shuttle" (ordinateur compact) en Debian.
 
+## Installation
+
+Pour lancer le projet, créer un fichier `.env` avec les variables suivantes :
+
+1. `DOMAIN` : hôte
+2. `TRAEFIK_USER` : utilisateur pour l'authentification de traefik
+3. `TRAEFIK_PASSWORD` : mot de passe pour l'authentification de traefik
+
+Ensuite, exécuter :
+
+```bash
+docker compose up -d --build
+```
+
 ## Configuration de Portainer
 
 Le premier lancement de Portainer ne doit surtout pas être fait en public. En effet, celui-ci a absolument besoins d'être lancé en local au premier lancement pour configurer les identifiants depuis l'interface.

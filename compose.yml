@@ -11,6 +11,7 @@ services:
       - "traefik.http.routers.glances.rule=Host(`glances.${DOMAIN}`)"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.entrypoints=web"
+      - "traefik.http.routers.glances.middlewares=auth@docker"
 
   portainer:
     image: portainer/portainer-ce
@@ -24,15 +25,28 @@ services:
       - "traefik.http.routers.portainer.entrypoints=web"
 
   traefik:
-    image: traefik:latest
+    build:
+      context: ./traefik
+      args:
+        - TRAEFIK_USER=${TRAEFIK_USER}
+        - TRAEFIK_PASSWORD=${TRAEFIK_PASSWORD}
+        - PASSWORD_FILE_PATH=/auth/usersfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command:
-      - "--api.insecure=true" # Only because port 8000 is local (127.0.0.1) and not exposed to the internet
+      - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
+      - "--api.debug=true"
     ports:
       - 80:80
-      - 8080:8080 # Warning : should never be exposed publicly
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.nicolas-delahaie.fr`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth@docker"
+      - "traefik.http.middlewares.auth.basicauth.usersFile=/auth/usersfile"
+
 volumes:
   portainer_data:
