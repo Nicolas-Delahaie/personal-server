@@ -6,45 +6,16 @@ Explications de la mise en place d'un serveur perso et codes divers. Dans mon ca
 
 Pour lancer le projet, créer un fichier `.env` avec les variables suivantes :
 
-1. `DOMAIN` : hôte
-2. `TRAEFIK_USER` : utilisateur pour l'authentification de traefik
-3. `TRAEFIK_PASSWORD` : mot de passe pour l'authentification de traefik
+1. `HOSTNAME`
+2. `PORTAINER_ADMIN_PASSWORD`
+3. `TRAEFIK_USER`
+4. `TRAEFIK_PASSWORD`
 
 Ensuite, exécuter :
 
 ```bash
 docker compose up -d --build
 ```
-
-## Configuration de Portainer
-
-Le premier lancement de Portainer ne doit surtout pas être fait en public. En effet, celui-ci a absolument besoins d'être lancé en local au premier lancement pour configurer les identifiants depuis l'interface.
-
-Pour ce faire :
-
-1. Être sur le même réseau physique que le Shuttle
-2. Modifier le service "portainer" dans `compose.yml`:
-
-   1. Ouvrir temporairement un port local :
-
-      ```yml
-      ports:
-        - 127.0.0.1:80:9000
-      ```
-
-   2. Désactiver temporairement Traefik :
-
-      ```yml
-      labels:
-        - "traefik.enable=false"
-      ```
-
-3. `docker compose up portainer`
-4. Configurer le mot de passe via l'interface http.
-5. Annuler les modifications du `compose.yml`.
-6. Le compte admin est configuré !
-
-Tant que le volume partagé Docker n'est pas supprimé, les identifiants seront gardés, alors aucuns soucis à se faire aux redémarrages et rebuilds des conteneurs.
 
 ## Développement
 

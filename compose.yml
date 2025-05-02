@@ -8,19 +8,21 @@ services:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.glances.rule=Host(`glances.${DOMAIN}`)"
+      - "traefik.http.routers.glances.rule=Host(`glances.${HOSTNAME}`)"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.entrypoints=web"
       - "traefik.http.routers.glances.middlewares=auth@docker"
 
   portainer:
-    image: portainer/portainer-ce
+    build:
+      context: ./portainer
+      args:
+        - PORTAINER_ADMIN_PASSWORD=${PORTAINER_ADMIN_PASSWORD}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN}`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${HOSTNAME}`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.entrypoints=web"
 
@@ -47,6 +49,3 @@ services:
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@docker"
       - "traefik.http.middlewares.auth.basicauth.usersFile=/auth/usersfile"
-
-volumes:
-  portainer_data:
