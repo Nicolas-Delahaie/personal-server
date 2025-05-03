@@ -50,5 +50,36 @@ services:
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@docker"
       - "traefik.http.middlewares.auth.basicauth.usersFile=/auth/usersfile"
+  odoo:
+    image: odoo:18
+    depends_on:
+      - odoo-db
+    environment:
+      - HOST=odoo-db
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+    volumes:
+      - odoo_addons:/mnt/extra-addons
+      - odoo_config:/etc/odoo
+      - odoo_web_data:/var/lib/odoo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.odoo.rule=Host(`nicolas-delahaie.fr`)"
+      - "traefik.http.services.odoo.loadbalancer.server.port=8069"
+      - "traefik.http.routers.odoo.entrypoints=web"
+
+  odoo-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=${ODOO_DATABASE_NAME}
+      - POSTGRES_USER=${ODOO_DB_USER}
+      - POSTGRES_PASSWORD=${ODOO_DB_PASSWORD}
+    volumes:
+      - odoo_datas:/var/lib/postgresql/data
+
 volumes:
   portainer_data:
+  odoo_datas:
+  odoo_web_data:
+  odoo_config:
+  odoo_addons:
