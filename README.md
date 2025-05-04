@@ -13,7 +13,6 @@ Pour lancer le projet, créer un fichier `.env` avec les variables suivantes :
 5. `ODOO_DB_USER`
 6. `ODOO_DB_PASSWORD`
 7. `ODOO_DATABASE_NAME`
-8. `ODOO_DEFAULT_ADMIN_PASSWD`
 
 ## Configuration de Odoo
 
@@ -27,20 +26,22 @@ Le premier lancement nécessite une manipulation pour initialiser et sécuriser 
    labels:
      - "traefik.http.routers.odoo.middlewares=auth@docker"
    command: >
-     -i base,calendar,account
+     -d ${ODOO_DATABASE_NAME}
+     -i base
      --load-language=fr_FR
      --without-demo=all
    ```
 
-2. `docker compose up traefik odoo --build`
-3. Attendre que l'initialisation ait terminé (logs du conteneur se stoppent)
-4. Modifier identifiants :
+2. Dans le fichier `odoo/odoo.conf`, configurer le mot de passe maître `admin_passwd`
+3. `docker compose up traefik odoo --build`
+4. Attendre que l'initialisation ait terminé (logs du conteneur se stoppent)
+5. Modifier identifiants :
    1. Photo de profil en haut à droite
    2. "Préférences"
    3. Section "sécurité du compte"
    4. "Modifier le mot de passe"
-5. Remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
-6. `docker compose up traefik odoo -d`
+6. Remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
+7. `docker compose up traefik odoo -d`
 
 ### Restauration de sauvegarde
 
