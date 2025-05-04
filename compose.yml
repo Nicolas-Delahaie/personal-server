@@ -47,11 +47,13 @@ services:
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@file"
   odoo:
-    image: odoo:18
+    build:
+      context: ./odoo
+      args:
+        - ODOO_MASTER_PASSWORD=${ODOO_MASTER_PASSWORD}
+        - ODOO_DATABASE_NAME=${ODOO_DATABASE_NAME}
     depends_on:
       - odoo-db
-    command: >
-      -d ${ODOO_DATABASE_NAME}
     environment:
       - HOST=odoo-db
       - USER=${ODOO_DB_USER}
@@ -59,7 +61,6 @@ services:
     volumes:
       - odoo_addons:/mnt/extra-addons
       - odoo_web_data:/var/lib/odoo
-      - ./odoo/odoo.conf:/etc/odoo/odoo.conf:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.odoo.rule=Host(`odoo.${HOSTNAME}`)"
