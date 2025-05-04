@@ -45,7 +45,7 @@ services:
       - 80:80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.nicolas-delahaie.fr`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${HOSTNAME}`)"
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@docker"
@@ -67,7 +67,7 @@ services:
       - odoo_web_data:/var/lib/odoo
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.odoo.rule=Host(`nicolas-delahaie.fr`)"
+      - "traefik.http.routers.odoo.rule=Host(`${HOSTNAME}`)"
       - "traefik.http.services.odoo.loadbalancer.server.port=8069"
       - "traefik.http.routers.odoo.entrypoints=web"
 
