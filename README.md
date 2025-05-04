@@ -13,7 +13,7 @@ Pour lancer le projet, créer un fichier `.env` avec les variables suivantes :
 5. `ODOO_DB_USER`
 6. `ODOO_DB_PASSWORD`
 7. `ODOO_DATABASE_NAME`
-8. `ODOO_DEFAULT_ADMIN_PASSWD`
+8. `ODOO_MASTER_PASSWORD`
 
 ## Configuration de Odoo
 
