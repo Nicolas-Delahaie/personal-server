@@ -11,7 +11,7 @@ services:
       - "traefik.http.routers.glances.rule=Host(`glances.${HOSTNAME}`)"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.entrypoints=web"
-      - "traefik.http.routers.glances.middlewares=auth@docker"
+      - "traefik.http.routers.glances.middlewares=auth@file"
 
   portainer:
     build:
@@ -36,11 +36,8 @@ services:
         - PASSWORD_FILE_PATH=/auth/usersfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command:
-      - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      - "--api.debug=true"
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/dynamic_conf.yml:/etc/traefik/dynamic_conf.yml:ro
     ports:
       - 80:80
     labels:
@@ -48,8 +45,7 @@ services:
       - "traefik.http.routers.traefik.rule=Host(`traefik.${HOSTNAME}`)"
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=auth@docker"
-      - "traefik.http.middlewares.auth.basicauth.usersFile=/auth/usersfile"
+      - "traefik.http.routers.traefik.middlewares=auth@file"
   odoo:
     build:
       context: ./odoo

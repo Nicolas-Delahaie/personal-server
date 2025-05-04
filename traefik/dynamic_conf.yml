@@ -1,0 +1,9 @@
+http:
+  middlewares:
+    auth:
+      basicAuth:
+        usersFile: "/auth/usersfile"
+
+    # redirect-to-https:
+    #   redirectScheme:
+    #     scheme: https
