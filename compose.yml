@@ -62,7 +62,7 @@ services:
       - ./odoo/odoo.conf:/etc/odoo/odoo.conf:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.odoo.rule=Host(`${HOSTNAME}`)"
+      - "traefik.http.routers.odoo.rule=Host(`odoo.${HOSTNAME}`)"
       - "traefik.http.services.odoo.loadbalancer.server.port=8069"
       - "traefik.http.routers.odoo.entrypoints=web"
 
