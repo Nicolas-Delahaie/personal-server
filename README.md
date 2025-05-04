@@ -29,7 +29,7 @@ Le premier lancement nécessite une manipulation pour initialiser et sécuriser 
    command: >
      -i base,calendar,account
      --load-language=fr_FR
-     #  --without-demo=all
+     --without-demo=all
    ```
 
 2. `docker compose up traefik odoo --build`

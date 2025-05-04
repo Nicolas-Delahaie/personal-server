@@ -54,7 +54,7 @@ services:
     build:
       context: ./odoo
       args:
-        - DEFAULT_ADMIN_PASSWD=${ODOO_DEFAULT_ADMIN_PASSWD}
+        - ODOO_MASTER_PASSWORD=${ODOO_MASTER_PASSWORD}
         - ODOO_DATABASE_NAME=${ODOO_DATABASE_NAME}
     depends_on:
       - odoo-db
