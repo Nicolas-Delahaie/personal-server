@@ -51,7 +51,11 @@ services:
       - "traefik.http.routers.traefik.middlewares=auth@docker"
       - "traefik.http.middlewares.auth.basicauth.usersFile=/auth/usersfile"
   odoo:
-    image: odoo:18
+    build:
+      context: ./odoo
+      args:
+        - DEFAULT_ADMIN_PASSWD=${ODOO_DEFAULT_ADMIN_PASSWD}
+        - ODOO_DATABASE_NAME=${ODOO_DATABASE_NAME}
     depends_on:
       - odoo-db
     environment:
@@ -60,7 +64,6 @@ services:
       - PASSWORD=${ODOO_DB_PASSWORD}
     volumes:
       - odoo_addons:/mnt/extra-addons
-      - odoo_config:/etc/odoo
       - odoo_web_data:/var/lib/odoo
     labels:
       - "traefik.enable=true"
@@ -81,5 +84,4 @@ volumes:
   portainer_data:
   odoo_datas:
   odoo_web_data:
-  odoo_config:
   odoo_addons:

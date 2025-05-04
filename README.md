@@ -13,32 +13,34 @@ Pour lancer le projet, créer un fichier `.env` avec les variables suivantes :
 5. `ODOO_DB_USER`
 6. `ODOO_DB_PASSWORD`
 7. `ODOO_DATABASE_NAME`
+8. `ODOO_DEFAULT_ADMIN_PASSWD`
 
 ## Configuration de Odoo
 
 ### Application vierge
 
-1. Commenter/retirer services.odoo.labels
-2. Ajouter dans service odoo :
+Le premier lancement nécessite une manipulation pour initialiser et sécuriser la base de données. Cette étape est cruciale car elle rend public le site uniquement lorsque les identifiants ne sont plus admin:admin.
+
+1. Ajouter dans le service odoo :
 
    ```yml
-   ports:
-     - "8069:8069"
+   labels:
+     - "traefik.http.routers.odoo.middlewares=auth@docker"
    command: >
-     -d ${ODOO_DATABASE_NAME}
-     -i base,calendar
-     --without-demo=all
+     -i base,calendar,account
+     --load-language=fr_FR
+     #  --without-demo=all
    ```
 
-3. `docker compose up odoo -d`
-4. Attendre que la page finisse de charger
-5. Se connecter sur `shuttle.local:8069` (directement sur le shuttle dans le réseau local)
-6. Configurer identifiants
-   1. "Manage databases"
-   2. "Set Master Password" pour configurer le mot de passe maitre, et le stocker. Celui est essentiel pour modifier la base de données plus tard.
-   3. Connecter en tant qu'admin
-   4. Changer le mot de passe d'admin en local sur 8069
-7. remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
+2. `docker compose up traefik odoo --build`
+3. Attendre que l'initialisation ait terminé (logs du conteneur se stoppent)
+4. Modifier identifiants :
+   1. Photo de profil en haut à droite
+   2. "Préférences"
+   3. Section "sécurité du compte"
+   4. "Modifier le mot de passe"
+5. Remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
+6. `docker compose up traefik odoo -d`
 
 ### Restauration de sauvegarde
 
