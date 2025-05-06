@@ -58,6 +58,8 @@ services:
       - HOST=odoo-db
       - USER=${ODOO_DB_USER}
       - PASSWORD=${ODOO_DB_PASSWORD}
+    profiles:
+      - odoo
     volumes:
       - odoo_addons:/mnt/extra-addons
       - odoo_web_data:/var/lib/odoo
@@ -69,6 +71,8 @@ services:
 
   odoo-db:
     image: postgres
+    profiles:
+      - odoo
     environment:
       - POSTGRES_DB=${ODOO_DATABASE_NAME}
       - POSTGRES_USER=${ODOO_DB_USER}
