@@ -36,8 +36,6 @@ services:
         - PASSWORD_FILE_PATH=/auth/usersfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./traefik/dynamic_conf.yml:/etc/traefik/dynamic_conf.yml:ro
     ports:
       - 80:80
     labels:
