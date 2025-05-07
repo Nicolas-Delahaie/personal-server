@@ -63,6 +63,8 @@ services:
     volumes:
       - odoo_addons:/mnt/extra-addons
       - odoo_web_data:/var/lib/odoo
+    networks:
+      - odoo-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.odoo.rule=Host(`odoo.${HOSTNAME}`)"
@@ -79,9 +81,14 @@ services:
       - POSTGRES_PASSWORD=${ODOO_DB_PASSWORD}
     volumes:
       - odoo_datas:/var/lib/postgresql/data
-
+    networks:
+      - odoo-network
+      
 volumes:
   portainer_data:
   odoo_datas:
   odoo_web_data:
   odoo_addons:
+
+networks:
+  odoo-network:
