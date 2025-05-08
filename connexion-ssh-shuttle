@@ -76,16 +76,7 @@ La 2e solution consiste à créer un sous réseau grâce à un serveur DHCP (dns
 
 ## Configuration SSH
 
-Le Shuttle étant accessible via SSH depuis l'extérieur, on se doit de le protéger. Pour ce faire :
-
-1. Installation du service fail2ban (pour protéger du brut force) : `sudo apt install fail2ban`
-2. Surcharger la configuration SSH : `sudo nano /etc/ssh/sshd_config.d/custom-config.conf`
-3. Copier dans celui-ci le fichier `configs/ssh.conf`
-4. Redémarrer le service SSH :
-
-   ```bash
-   sudo systemctl restart sshd
-   ```
+La configuration du SSH est trouvable [ici](docs/ssh-config.md)
 
 ## Configuration réseau externe (DNS et Freebox)
 
