@@ -1,28 +1,33 @@
-La 2e solution consiste à créer un sous réseau grâce à un serveur DHCP (dnsmasq) hébergé sur le mac. Ce serveur a pour but d'écouter les connexions entrantes sur un périphérique défini et d'adresser une adresse dynamiquement dans une plage définie à l'appareil le demandant.
+# Configuration de **dnsmasq**
+
+Dnsmasq est un serveur DNS et DHCP léger, souvent utilisé pour gérer les adresses IP sur un réseau local. Dans notre cas, il est utilisé pour deux choses :
+
+- **DHCP** : attribuer dynamiquement une adresse au Shuttle, afin de pouvoir s'y connecter de manière locale pour du débogage.
+- **DNS local** : rediriger tous les sous domaines locaux de localhost vers lui-même. Cela permet de tester l'application en local, dans les mêmes conditions, avant d'envoyer en production sur le Shuttle. Celui-ci possède déjà cette redirection, mais au niveau du DNS global.
+
+## Configuration du DHCP
 
 1. **Identifier l'interface Ethernet du Mac**
 
    - Lire l’adresse MAC directement sur l’adaptateur Ethernet utilisé.
    - Utiliser `ip a` pour retrouver l’interface associée et repérer son adresse IPv4 (champ `inet`) correspondant à cette adresse MAC.
 
-2. **Configurer dnsmasq sur le Mac**
+2. **Configurer dnsmasq sur Mac**
 
    - Installation : `brew install dnsmasq`
-   - Configuration `/opt/homebrew/etc/dnsmasq.conf` :
+   - Ajouter dans `/opt/homebrew/etc/dnsmasq.conf` :
 
      ```ini
-     # Nom de l'interface à écouter (identifiée précédemment)
-     interface=<nom_interface>
-     # Désactiver le DNS pour n'utiliser que le DHCP
-     port=0
-     # Configuration DHCP
+     # Permet de se déclarer comme unique serveur DHCP sur le réseau
      dhcp-authoritative
-     dhcp-range=192.168.10.50,192.168.10.150,255.255.255.0,24h
+     # Configure l'interface à écouter, la plage, le masque et la durée de bail
+     dhcp-range=en11,192.168.10.50,192.168.10.150,255.255.255.0,24h
      # Définir la passerelle par défaut (l'adresse IP du Mac)
-     dhcp-option=3,192.168.10.1
+     dhcp-option=en11,3,192.168.10.1
      ```
 
-   > Note : La plage 192.168.10.x est recommandée car réservée aux réseaux privés et peu utilisée par défaut, évitant ainsi les conflits.
+     > Attention, l'IP de départ de la plage doit être supérieure à l'IP statique du Mac
+     > Note : La plage 192.168.10.x est recommandée, car réservée aux réseaux privés et peu utilisée par défaut, évitant ainsi les conflits.
 
    - Redémarrer le service :
 
@@ -40,14 +45,22 @@ La 2e solution consiste à créer un sous réseau grâce à un serveur DHCP (dns
 
    - Configurer l'IP statique dans "Réglages" > "Réseau" > nom de l'adaptateur ethernet > "TCP/IP" > "Configurer IPv4" : Manuellement
    - Adresse IP : 192.168.10.1 (doit correspondre à la gateway définie dans dhcp-option)
+   - Masque : 255.255.255.0
 
 4. **Configurer le Shuttle comme client DHCP**
    - Activer le client DHCP sur l’interface réseau du Shuttle correspondant au port Ethernet utilisé.
    - Connecter le câble Ethernet entre le Mac et le Shuttle.
    - Une fois branché, le Shuttle devrait automatiquement demander une IP au Mac (via `dnsmasq`).
    - Les logs du `dnsmasq` en mode synchrone permettent de voir les requêtes DHCP entrantes et de diagnostiquer les éventuelles erreurs d’attribution.
+   - Se référer à la section "[débogage](#débogage)" pour plus de détails.
 
-## Deboggage
+## Débogage
 
-1. Rebrancher l’ethernet si les parametres du Mac sont modifiés (internet partagé, wifi changé)
-2. Vérifier sur le Mac dans Paramètres > Internet que la connexion apparaisse
+Ajouter les lignes suivantes dans le fichier de configuration `/opt/homebrew/etc/dnsmasq.conf` pour activer le débogage :
+
+```ini
+log-queries
+log-facility=/opt/homebrew/var/log/dnsmasq.log
+```
+
+On peut ensuite visualiser les logs avec `tail -f /opt/homebrew/var/log/dnsmasq.log` pour voir les requêtes DNS et DHCP en temps réel.
