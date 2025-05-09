@@ -1,6 +1,6 @@
 # Configuration SSH
 
-Le SSH (Secure Shell) est un protocole permettant de prendre le contrôle à distance du Shuttle de manière sécurisée. Il offre deux modes d'accès :
+Le SSH (Secure Shell) est un protocole permettant de prendre le contrôle à distance du serveur de manière sécurisée. Il offre deux modes d'accès :
 
 - En réseau local : connexion directe via l'adresse IP locale
 - Depuis l'extérieur : nécessite une redirection de port sur la box internet
@@ -22,7 +22,7 @@ Avant de désactiver l'authentification par mot de passe, il est essentiel de co
 ```bash
 # Sur votre machine locale
 ssh-keygen -t ed25519 -C "votre_email"  # Création de la clé
-ssh-copy-id user_name@shuttle           # Copie de la clé sur le serveur
+ssh-copy-id user_name@server           # Copie de la clé sur le serveur
 ```
 
 ## Sécurisation
@@ -52,7 +52,7 @@ Configuration sécurisée du serveur SSH :
 1. Accéder à l'interface de configuration de la box internet
 2. Dans la section NAT/PAT, ajouter une redirection :
    - Port externe : 22
-   - IP destination : IP locale du Shuttle
+   - IP destination : IP locale du serveur
    - Port interne : 22 (même que dans sshd_config)
 
 ## Simplification de la connexion
@@ -75,5 +75,5 @@ Pour se connecter sans préciser l'utilisateur à chaque fois, configurer le fic
 Désormais, la connexion se fait simplement avec :
 
 ```bash
-ssh shuttle.local
+ssh server.local
 ```

@@ -17,7 +17,7 @@ docker compose --profile odoo up -d --build
 
 ## Application vierge
 
-Le premier lancement nécessite une manipulation pour initialiser et sécuriser la base de données. Cette étape est cruciale car elle rend public le site uniquement lorsque les identifiants ne sont plus admin:admin.
+Le premier lancement nécessite une manipulation pour initialiser et sécuriser la base de données. Cette étape est cruciale car elle protège le site jusqu'à ce qu'il soit sécurisé (identifiants admin:admin modifiés).
 
 1. Ajouter dans le service odoo :
 
@@ -39,5 +39,3 @@ Le premier lancement nécessite une manipulation pour initialiser et sécuriser 
    4. "Modifier le mot de passe"
 5. Remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
 6. Relancer les conteneurs (compose up)
-
-## Restauration de sauvegarde

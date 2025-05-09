@@ -1,6 +1,6 @@
 # Services et configurations pour le serveur personnel
 
-Explications de la mise en place d'un serveur perso et codes divers. Dans mon cas, j'utilise un "Shuttle" (ordinateur compact) en Debian.
+Explications de la mise en place d'un serveur perso et codes divers. Dans mon cas, j'utilise un "Shuttle" (ordinateur compact) en Debian, mais cette configuration peut s'adapter à tout type de serveur.
 
 ## Installation
 
@@ -22,18 +22,24 @@ docker compose up -d --build
 
 Pour configurer Odoo, lire sa documentation [ici](odoo/README.md).
 
-## Configuration Shuttle
+## Configuration du serveur
 
-Pour configurer le Shuttle, lire la documentation [ici](./docs/server-setup.md).
+Pour configurer votre serveur (dans mon cas un Shuttle), lire la documentation [ici](./docs/server-setup.md).
 
 ## Conseils de développement
 
 ### Développement via SSH
 
-Pour les modifications nécessitant le relancement fréquent des conteneurs et des tests, je recommande de développer directement dans le shuttle, notamment via l'extension VSCode `ms-vscode-remote.remote-ssh`. Ensuite lorsque la modification fonctionne, copier coller et comiter en local. De cette manière, pas besoins de modifier-commit-push-pull-tester à chaque modification du code.
+Pour un développement efficace nécessitant des modifications et relances fréquentes :
 
-Je recommande aussi de faire attention à garder les modifications effectives sois en local, sois sur la Shuttle pour ne pas s'emmêler les pinceaux.
+1. Utilisez l'extension VSCode `ms-vscode-remote.remote-ssh` pour développer directement sur le serveur.
+2. Testez les modifications sur le serveur
+3. Une fois fonctionnelles, copiez-les en local et commitez
 
-### Configuration DNS local pour Traefik
+Cette approche évite le cycle répétitif modifier-commit-push-pull-tester.
 
-Pour le développement local avant la production, il est nécessaire de configurer le DNS local. La configuration est présente [ici](./docs/dnsmasq.md#configuration-du-dns).
+**Important** : Pour éviter toute confusion, gardez une séparation claire entre les modifications locales et celles sur le serveur.
+
+### Développement local
+
+Pour le développement local avant la production, il faut configurer un DNS local. La configuration est présente [ici](./docs/dnsmasq.md#configuration-du-dns).
