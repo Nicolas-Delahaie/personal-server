@@ -11,7 +11,9 @@ Bien que l'utilisation d'un VPN soit possible, le SSH a été choisi pour sa sim
 
 Installation de fail2ban pour bloquer les tentatives de connexion malveillantes :
 
-`sudo apt install fail2ban`
+```bash
+sudo apt install fail2ban
+```
 
 ## Création et enregistrement de la clé SSH
 
@@ -43,7 +45,7 @@ Configuration sécurisée du serveur SSH :
 
 2. Redémarrer le service SSH : `sudo systemctl restart sshd`
 3. Tester la connexion avec la clé SSH avant de désactiver l'authentification par mot de passe
-4. Une fois la connexion par clé confirmée, décommenter les deux dernières lignes et redémarrer SSH
+4. Une fois la connexion par clé confirmée, décomenter les deux dernières lignes et redémarrer SSH
 
 ## Configuration de la redirection de port
 
@@ -73,5 +75,5 @@ Pour se connecter sans préciser l'utilisateur à chaque fois, configurer le fic
 Désormais, la connexion se fait simplement avec :
 
 ```bash
-ssh shuttle
+ssh shuttle.local
 ```

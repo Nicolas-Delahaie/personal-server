@@ -1,14 +1,17 @@
-# Connexion SSH au Shutle
+# Configuration du Shuttle
 
-> Connexion entre shutle (mini ordi Debian) et mac via ethernet uniquement (pas d'internet)
+> Configuration Shuttle (mini ordi Debian) pour permettre son accès depuis l'extérieur via SSH ou via Ethernet en local.
 
 ## Prérequis
 
 1. Branchements doivent être bons (pas d’ethernet débranché)
-2. Activer le port réseau
-   1. Vérifier laquelle des carte est utilisée via `ip a`
-   2. Activer le port ethernet lié via `nmtui` (network-manager doit être installé)
-3. Configurer le hostname via nmtui
+2. Installer `network-manager` si pas déjà fait : `sudo apt install network-manager`
+3. Exécuter `sudo nmtui`
+   1. Configurer le hostname depuis "Définir le nom d'hôte du système"
+   2. Configurer la connexion ethernet
+      1. "Modifier une connexion"
+      2. Si rien dans "Ethernet", ajouter une connexion
+         1. Laisser les valeurs par défaut puis valider
 
 ## Configuration SSH
 
