@@ -34,4 +34,4 @@ Connecter le Shuttle à l'ordinateur via un câble Ethernet. Les deux appareils 
 
 ## Serveur DHCP sur hôte
 
-Pour configurer un serveur DHCP sur l'hôte, il existe notamment le service `dnsmasq`. Sa configuration est présente [ici](dnsmasq-configuration.md#configuration-du-dhcp).
+Pour configurer un serveur DHCP sur l'hôte, il existe notamment le service `dnsmasq`. Sa configuration est présente [ici](./dnsmasq.md#configuration-du-dhcp).

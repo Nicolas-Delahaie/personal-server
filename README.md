@@ -24,7 +24,7 @@ Pour configurer Odoo, lire sa documentation [ici](odoo/README.md).
 
 ## Configuration Shuttle
 
-Pour configurer le Shuttle, lire la documentation [ici](docs/shuttle-configuration.md).
+Pour configurer le Shuttle, lire la documentation [ici](./docs/server-setup.md).
 
 ## Conseils de développement
 
@@ -36,4 +36,4 @@ Je recommande aussi de faire attention à garder les modifications effectives so
 
 ### Configuration DNS local pour Traefik
 
-Pour le développement local avant la production, il est nécessaire de configurer le DNS local. La configuration est présente [ici](docs/dnsmasq-configuration.md#configuration-du-dns).
+Pour le développement local avant la production, il est nécessaire de configurer le DNS local. La configuration est présente [ici](./docs/dnsmasq.md#configuration-du-dns).
