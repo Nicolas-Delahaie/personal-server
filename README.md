@@ -7,9 +7,8 @@ Explications de la mise en place d'un serveur perso et codes divers. Dans mon ca
 Pour lancer le projet, créer un fichier `.env` avec les variables obligatoires suivantes :
 
 1. `HOSTNAME`
-2. `PORTAINER_ADMIN_PASSWORD`
-3. `TRAEFIK_USER`
-4. `TRAEFIK_PASSWORD`
+2. `TRAEFIK_USER`
+3. `TRAEFIK_PASSWORD`
 
 Ensuite, exécuter la commande suivante :
 
@@ -17,25 +16,11 @@ Ensuite, exécuter la commande suivante :
 docker compose up -d --build
 ```
 
+> Cela exécute les conteneurs minimums nécessaires au fonctionnement du projet. Si vous avez besoin de plus de services, il faut les activer dans le fichier `docker-compose.yml` en ajoutant le profile correspondant. Par exemple, pour activer le profile `odoo`, il faut ajouter `--profile odoo` à la commande ci-dessus.
+
 ## Odoo
 
 Pour configurer Odoo, lire sa documentation [ici](odoo/README.md).
-## Configuration de Portainer
-
-Le mot de passe de Portainer au premier lancement sera celui défini dans la variable `PORTAINER_ADMIN_PASSWORD`.
-
-En cas de modification de mot de passe, 2 possibilités :
-
-1. Au niveau du code :
-   1. Éteindre le conteneur, en supprimant ses données : `docker compose down portainer -v` (-v pour supprimer son volume)
-   2. Modifier la variable : `PORTAINER_ADMIN_PASSWORD`
-   3. Relancer : `docker compose up portainer -d --build`
-2. Sur l'interface graphique
-   1. `Admin` en haut à droite
-   2. `My account`
-   3. `Change user password`
-   4. Attention, avec cette méthode on perd la trace du nouveau mot de passe dans le code
-
 
 ## Conseils de développement
 
