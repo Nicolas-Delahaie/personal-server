@@ -4,46 +4,22 @@ Explications de la mise en place d'un serveur perso et codes divers. Dans mon ca
 
 ## Installation
 
-Pour lancer le projet, créer un fichier `.env` avec les variables suivantes :
+Pour lancer le projet, créer un fichier `.env` avec les variables obligatoires suivantes :
 
 1. `HOSTNAME`
 2. `PORTAINER_ADMIN_PASSWORD`
 3. `TRAEFIK_USER`
 4. `TRAEFIK_PASSWORD`
-5. `ODOO_DB_USER`
-6. `ODOO_DB_PASSWORD`
-7. `ODOO_DATABASE_NAME`
-8. `ODOO_MASTER_PASSWORD`
 
-## Configuration de Odoo
+Ensuite, exécuter la commande suivante :
 
-### Application vierge
+```bash
+docker compose up -d --build
+```
 
-Le premier lancement nécessite une manipulation pour initialiser et sécuriser la base de données. Cette étape est cruciale car elle rend public le site uniquement lorsque les identifiants ne sont plus admin:admin.
+## Odoo
 
-1. Ajouter dans le service odoo :
-
-   ```yml
-   labels:
-     - "traefik.http.routers.odoo.middlewares=auth@docker"
-   command: >
-     -i base,calendar,account
-     --load-language=fr_FR
-     --without-demo=all
-   ```
-
-2. `docker compose up traefik odoo --build`
-3. Attendre que l'initialisation ait terminé (logs du conteneur se stoppent)
-4. Modifier identifiants :
-   1. Photo de profil en haut à droite
-   2. "Préférences"
-   3. Section "sécurité du compte"
-   4. "Modifier le mot de passe"
-5. Remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
-6. `docker compose up traefik odoo -d`
-
-### Restauration de sauvegarde
-
+Pour configurer Odoo, lire sa documentation [ici](odoo/README.md).
 ## Configuration de Portainer
 
 Le mot de passe de Portainer au premier lancement sera celui défini dans la variable `PORTAINER_ADMIN_PASSWORD`.
