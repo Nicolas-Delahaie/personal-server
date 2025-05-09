@@ -65,6 +65,10 @@ En cas de modification de mot de passe, 2 possibilités :
 
 ### Développement via SSH
 
+Pour les modifications nécessitant le relancement fréquent des conteneurs et des tests, je recommande de développer directement dans le shuttle, notamment via l'extension VSCode `ms-vscode-remote.remote-ssh`. Ensuite lorsque la modification fonctionne, copier coller et comiter en local. De cette manière, pas besoins de modifier-commit-push-pull-tester à chaque modification du code.
+
+Je recommande aussi de faire attention à garder les modifications effectives sois en local, sois sur la Shuttle pour ne pas s'emmêler les pinceaux.
+
 ### Configuration DNS local pour Traefik
 
 Pour le développement local avant la production, il est nécessaire de configurer le DNS local. La configuration est présente [ici](docs/dnsmasq-configuration.md#configuration-du-dns).
