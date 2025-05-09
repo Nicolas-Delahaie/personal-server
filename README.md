@@ -22,6 +22,10 @@ docker compose up -d --build
 
 Pour configurer Odoo, lire sa documentation [ici](odoo/README.md).
 
+## Configuration Shuttle
+
+Pour configurer le Shuttle, lire la documentation [ici](docs/shuttle-configuration.md).
+
 ## Conseils de développement
 
 ### Développement via SSH
