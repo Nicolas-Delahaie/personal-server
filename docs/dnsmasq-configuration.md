@@ -1,11 +1,10 @@
 # Configuration de **dnsmasq**
 
-Dnsmasq est un serveur DNS et DHCP léger, souvent utilisé pour gérer les adresses IP sur un réseau local. Dans notre cas, il est utilisé pour deux choses :
-
-- **DHCP** : attribuer dynamiquement une adresse au Shuttle, afin de pouvoir s'y connecter de manière locale pour du débogage.
-- **DNS local** : rediriger tous les sous domaines locaux de localhost vers lui-même. Cela permet de tester l'application en local, dans les mêmes conditions, avant d'envoyer en production sur le Shuttle. Celui-ci possède déjà cette redirection, mais au niveau du DNS global.
+Dnsmasq est un serveur DNS et DHCP léger, souvent utilisé pour gérer les adresses IP sur un réseau local.
 
 ## Configuration du DHCP
+
+Ce serveur DNS sert à attribuer dynamiquement une adresse au Shuttle, afin de pouvoir s'y connecter de manière locale pour du débogage. Sans ce serveur, il faudrait configurer manuellement son adresse.
 
 1. **Identifier l'interface Ethernet du Mac**
 
@@ -53,6 +52,14 @@ Dnsmasq est un serveur DNS et DHCP léger, souvent utilisé pour gérer les adre
    - Une fois branché, le Shuttle devrait automatiquement demander une IP au Mac (via `dnsmasq`).
    - Les logs du `dnsmasq` en mode synchrone permettent de voir les requêtes DHCP entrantes et de diagnostiquer les éventuelles erreurs d’attribution.
    - Se référer à la section "[débogage](#débogage)" pour plus de détails.
+
+## Configuration du DNS
+
+Traefik génère des sous domaines pour chaque service. Cela fonctionne car au niveau du DNS global, tous les sous domaines redirigent vers la même IP. Cependant en localhost, il ne sait pas que \*.localhost doit être redirigé vers localhost.
+
+Le serveur DNS a pour but de rediriger tous les sous domaines locaux de localhost vers lui-même. Cela permet de tester l'application en local, dans les mêmes conditions, avant d'envoyer en production sur le Shuttle. Celui-ci possède déjà cette redirection, mais au niveau du DNS global.
+
+Autrement, il faudrait mapper les ports dans le docker compose pour utiliser les services sans passer par sous domaine.
 
 ## Débogage
 

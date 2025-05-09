@@ -60,14 +60,11 @@ En cas de modification de mot de passe, 2 possibilités :
    3. `Change user password`
    4. Attention, avec cette méthode on perd la trace du nouveau mot de passe dans le code
 
-## Développement
 
-Pour les modifications nécessitant le re lancement des conteneurs et des tests, je recommande de développer directement dans le shuttle, notamment via l'extension VSCode `ms-vscode-remote.remote-ssh`. Ensuite lorsque la modification fonctionne, copier coller et comiter en local. De cette manière, pas besoins de modifier-commit-push-pull-tester à chaque modification du code.
+## Conseils de développement
 
-Je recommande aussi de faire attention à garder les modifications effectives sois en local, sois sur la Shuttle pour ne pas s'emmêler les pinceaux.
+### Développement via SSH
 
-## Sous domaines Traefik
+### Configuration DNS local pour Traefik
 
-Traefik génère des sous domaines pour chaque service. Cela fonctionne car au niveau du DNS, tous les sous domaines redirigent vers la même IP. Cependant en localhost, il ne sait pas que \*.localhost doit être redirigé vers localhost.
-
-Ainsi, si on veut vérifier qu'un service fonctionne en local, il faut mapper son port temporairement.
+Pour le développement local avant la production, il est nécessaire de configurer le DNS local. La configuration est présente [ici](docs/dnsmasq-configuration.md#configuration-du-dns).

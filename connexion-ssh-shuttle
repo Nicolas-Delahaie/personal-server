@@ -27,3 +27,7 @@ La configuration de la connexion locale est trouvable [ici](docs/private-net-con
 Pour que le Shuttle soit accessible depuis l'extérieur, il est nécessaire de configurer la Freebox. On peut également configurer le nom de domaine pour qu'il pointe vers l'IP publique de la Freebox, pour ne pas avoir à se souvenir de l'IP publique.
 
 La configuration est présente [ici](docs/dns-ports-configuration.md#configuration-des-ports).
+
+## Configuration DNS local pour Traefik
+
+Pour le développement local avant la production, il est nécessaire de configurer le DNS local. La configuration est présente [ici](docs/dnsmasq-configuration.md#configuration-du-dns).
