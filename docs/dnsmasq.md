@@ -22,7 +22,7 @@ Ce serveur DNS attribue dynamiquement une adresse au serveur, pour pouvoir s'y c
 
 1. **Configurer dnsmasq sur la machine hôte**
 
-   - Ajouter dans `/opt/homebrew/etc/dnsmasq.conf` (sur MacOS) :
+   - Ajouter dans `/opt/homebrew/etc/dnsmasq.conf` (chemin sur MacOS) :
 
      ```ini
      # Permet de se déclarer comme unique serveur DHCP sur le réseau
@@ -31,6 +31,8 @@ Ce serveur DNS attribue dynamiquement une adresse au serveur, pour pouvoir s'y c
      dhcp-range=192.168.10.50,192.168.10.150,255.255.255.0,24h
      # Définir la passerelle par défaut (l'adresse IP de la machine hôte)
      dhcp-option=3,192.168.10.1
+     # Réponses DNS limitées aux réseaux locaux
+     local-service
      ```
 
      > Attention, l'IP de départ de la plage doit être supérieure à l'IP statique de la machine hôte.  
@@ -75,7 +77,25 @@ Le serveur DNS a pour but de rediriger tous les sous domaines locaux de localhos
 
 Autrement, il faudrait mapper les ports dans le docker compose pour utiliser les services sans passer par sous domaine.
 
+```bash
+address=/.localhost/127.0.0.1
+```
+
+```bash
+sudo mkdir -p /etc/resolver
+echo "nameserver 127.0.0.1" \
+ | sudo tee /etc/resolver/localhost
+
+sudo nano /opt/homebrew/etc/dnsmasq.conf
+sudo nano /etc/resolv.conf
+sudo nano /etc/resolver/localhost
+ls /etc/resolver
+etc/resolv.conf se genere automatiquement en fonction du réseau utilisé
+```
+
 ## Débogage
+
+### Logging
 
 Ajouter les lignes suivantes dans le fichier de configuration `/opt/homebrew/etc/dnsmasq.conf` pour activer le débogage :
 
@@ -88,4 +108,47 @@ On peut ensuite visualiser les requêtes DNS et DHCP en temps réel avec :
 
 ```bash
 tail -f /opt/homebrew/var/log/dnsmasq.log
+```
+
+Attention, le fichier de log ne contiendra pas l'erreur en cas d'erreur de lancement de dnsmasq (mauvaise config, etc). Pour visioner l'erreur :
+
+```bash
+ sudo log stream --style syslog --predicate 'process == "dnsmasq"'
+```
+
+On peut s'assurer que dnsmasq écoute bien sur le port 53 avec :
+
+```bash
+sudo lsof -i UDP:53 -i TCP:53
+```
+
+### Requêtes DNS
+
+```bash
+dig <domain> +short
+dig @127.0.0.1 <domain> +short
+dig +trace <domain> # tracer la chaîne DNS
+nslookup <domain>
+```
+
+### Infos sur le résolveur (exemple macOS)
+
+```bash
+scutil --dns
+scutil --resolver localhost
+dscacheutil -q host -a name <domain>
+```
+
+### Vidage du cache DNS (exemple macOS)
+
+```bash
+sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder
+```
+
+### Tests de connectivité HTTP/ICMP
+
+```bash
+ping -c1 test.localhost
+curl -I --no-keepalive http://<service>.localhost
 ```
