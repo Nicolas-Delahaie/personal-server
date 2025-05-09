@@ -1,4 +1,4 @@
-# Configuration du DNS et des redirections de ports
+# Configuration box internet et DNS
 
 Cette configuration s'applique à la Freebox, mais peut être adaptée à d'autres box internet.
 
@@ -23,6 +23,8 @@ Sur l'intranet de la boxe (<http://mafreebox.freebox.fr> chez Free), rediriger l
 - 22 (SSH)
 - 80 (HTTP)
 - 443 (HTTPS)
+
+Cela permet d'accéder au serveur depuis l'extérieur via SSH ou un navigateur web.
 
 ## Configuration du DNS
 
