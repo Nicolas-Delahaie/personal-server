@@ -33,5 +33,6 @@ Sur <http://mafreebox.freebox.fr> :
      1. 8.8.8.8 (Google)
      2. 1.1.1.1 (Cloudflare)
 
-   > Le nom de domaine sera alors directement résolu via Google, sans passer par le système de la boxe qui est inadapté au développement.  
-   > Pour vérifier la propagation DNS : utiliser <www.whatsmydns.net>. Il permet de voir la destination en temps réel d'un IP, sans la latence de la mise à jour du cache des DNS intermédiaires.
+   > Le nom de domaine sera alors directement résolu via Google, sans passer par le système de la boxe qui est inadapté au développement.
+
+> Documentation de deboggage DNS :
