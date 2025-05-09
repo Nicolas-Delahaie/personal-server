@@ -1,17 +1,27 @@
 # Configuration du serveur
 
-> Configuration du serveur (dans cet exemple, un Shuttle sous Debian) pour permettre son accès depuis l'extérieur via SSH ou via Ethernet en local.
+Configuration du serveur (dans cet exemple, un Shuttle sous Debian) pour permettre son accès depuis l'extérieur via SSH ou via Ethernet en local.
 
 ## Prérequis
 
-1. Branchements doivent être bons (pas d'Ethernet débranché)
-2. Installer `network-manager` si pas déjà fait : `sudo apt install network-manager`
-3. Exécuter `sudo nmtui`
-   1. Configurer le hostname depuis "Définir le nom d'hôte du système"
-   2. Configurer la connexion ethernet
-      1. "Modifier une connexion"
-      2. Si rien dans "Ethernet", ajouter une connexion
-         1. Laisser les valeurs par défaut puis valider
+1. Vérifier les branchements (Ethernet correctement connecté)
+2. Installer `network-manager` si nécessaire :
+
+   ```bash
+   sudo apt install network-manager
+   ```
+
+3. Configurer le réseau :
+
+   ```bash
+   sudo nmtui
+   ```
+
+   1. Définir le nom d'hôte du système
+   2. Configurer la connexion ethernet :
+      - Sélectionner "Modifier une connexion"
+      - Si aucune connexion n'existe sous "Ethernet", en ajouter une
+      - Conserver les valeurs par défaut et valider
 
 ## Configuration de l'accès
 

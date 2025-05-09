@@ -1,11 +1,11 @@
 # Configuration SSH
 
-Le SSH (Secure Shell) est un protocole permettant de prendre le contrôle à distance du serveur de manière sécurisée. Il offre deux modes d'accès :
+Le SSH (Secure Shell) est un protocole permettant le contrôle à distance sécurisé du serveur. Deux modes d'accès disponibles :
 
-- En réseau local : connexion directe via l'adresse IP locale
-- Depuis l'extérieur : nécessite une redirection de port sur la box internet
+- Réseau local : connexion directe via l'adresse IP locale
+- Accès externe : nécessite une redirection de port sur la box internet
 
-Bien que l'utilisation d'un VPN soit possible, le SSH a été choisi pour sa simplicité de mise en place. Cependant, comme le service est exposé à Internet, il est essentiel de le sécuriser correctement pour prévenir tout accès non autorisé.
+Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa simplicité de mise en place. L'exposition du service à Internet nécessite une sécurisation appropriée.
 
 ## Protection contre les attaques par force brute
 
@@ -15,21 +15,29 @@ Installation de fail2ban pour bloquer les tentatives de connexion malveillantes 
 sudo apt install fail2ban
 ```
 
-## Création et enregistrement de la clé SSH
+## Configuration des clés SSH
 
-Avant de désactiver l'authentification par mot de passe, il est essentiel de configurer une clé SSH :
+1. Générer une clé SSH sur la machine locale :
 
-```bash
-# Sur votre machine locale
-ssh-keygen -t ed25519 -C "votre_email"  # Création de la clé
-ssh-copy-id user_name@server           # Copie de la clé sur le serveur
-```
+   ```bash
+   ssh-keygen -t ed25519 -C "email"
+   ```
 
-## Sécurisation
+2. Copier la clé sur le serveur :
 
-Configuration sécurisée du serveur SSH :
+   ```bash
+   ssh-copy-id user_name@server
+   ```
 
-1. Surcharger la configuration SSH : `sudo nano /etc/ssh/sshd_config.d/custom-config.conf` avec le contenu suivant :
+## Sécurisation du serveur
+
+1. Modifier la configuration SSH :
+
+   ```bash
+   sudo nano /etc/ssh/sshd_config.d/custom-config.conf
+   ```
+
+2. Ajouter les paramètres de sécurité :
 
    ```conf
    PermitRootLogin no
@@ -43,23 +51,20 @@ Configuration sécurisée du serveur SSH :
    ChallengeResponseAuthentication no
    ```
 
-2. Redémarrer le service SSH : `sudo systemctl restart sshd`
-3. Tester la connexion avec la clé SSH avant de désactiver l'authentification par mot de passe
-4. Une fois la connexion par clé confirmée, décomenter les deux dernières lignes et redémarrer SSH
+3. Redémarrer le service SSH :
 
-## Configuration de la redirection de port
+   ```bash
+   sudo systemctl restart sshd
+   ```
 
-1. Accéder à l'interface de configuration de la box internet
-2. Dans la section NAT/PAT, ajouter une redirection :
-   - Port externe : 22
-   - IP destination : IP locale du serveur
-   - Port interne : 22 (même que dans sshd_config)
+4. Tester la connexion par clé
+5. Après validation de la connexion, dé-commenter les deux dernières lignes et redémarrer SSH
 
 ## Simplification de la connexion
 
-Pour se connecter sans préciser l'utilisateur à chaque fois, configurer le fichier SSH local :
+Pour éviter de spécifier l'utilisateur à chaque connexion :
 
-1. Créer ou éditer le fichier de configuration :
+1. Créer ou modifier le fichier de configuration SSH :
 
    ```bash
    nano ~/.ssh/config
@@ -68,12 +73,16 @@ Pour se connecter sans préciser l'utilisateur à chaque fois, configurer le fic
 2. Ajouter la configuration :
 
    ```conf
-    Host shuttle shuttle.local nicolas-delahaie.fr 64.64.31.31
-        User patate
+   Host shuttle shuttle.local nicolas-delahaie.fr 64.64.31.31
+       User patate
    ```
 
-Désormais, la connexion se fait simplement avec :
+La connexion devient alors possible via :
 
 ```bash
 ssh server.local
 ```
+
+## Configuration du routeur
+
+Une fois le SSH configuré, il est nécessaire de rediriger le port 22 de la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports).

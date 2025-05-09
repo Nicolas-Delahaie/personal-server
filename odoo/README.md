@@ -2,14 +2,14 @@
 
 ## Variables d'environnement
 
-Dans le fichier `.env`, il faut ajouter les variables suivantes :
+Ajouter les variables suivantes dans le fichier `.env` :
 
 1. `ODOO_DB_USER`
-1. `ODOO_DB_PASSWORD`
-1. `ODOO_DATABASE_NAME`
-1. `ODOO_MASTER_PASSWORD`
+2. `ODOO_DB_PASSWORD`
+3. `ODOO_DATABASE_NAME`
+4. `ODOO_MASTER_PASSWORD`
 
-Si première utilisation, absolument suivre la partie **Application vierge**. Sinon, lancer Odoo normalement. Pour ce faire, lancer Odoo en précisant le profile au lancement :
+Pour une première utilisation, suivre impérativement la partie **Application vierge**. Ensuite, lancer Odoo en précisant le profile souhaité:
 
 ```bash
 docker compose --profile odoo up -d --build
@@ -17,7 +17,7 @@ docker compose --profile odoo up -d --build
 
 ## Application vierge
 
-Le premier lancement nécessite une manipulation pour initialiser et sécuriser la base de données. Cette étape est cruciale car elle protège le site jusqu'à ce qu'il soit sécurisé (identifiants admin:admin modifiés).
+Le premier lancement nécessite une initialisation pour sécuriser la base de données. Cette étape est cruciale car elle protège le site jusqu'à la modification des identifiants par défaut (admin:admin).
 
 1. Ajouter dans le service odoo :
 
@@ -31,11 +31,11 @@ Le premier lancement nécessite une manipulation pour initialiser et sécuriser 
    ```
 
 2. Lancer les conteneurs (compose up)
-3. Attendre que l'initialisation ait terminé (logs du conteneur se stoppent)
-4. Modifier identifiants :
-   1. Photo de profil en haut à droite
-   2. "Préférences"
-   3. Section "sécurité du compte"
-   4. "Modifier le mot de passe"
-5. Remettre le fichier à l'origine pour exposer publiquement le site et désactiver l'initialisation
+3. Attendre la fin de l'initialisation (arrêt des logs du conteneur)
+4. Modifier les identifiants :
+   1. Cliquer sur la photo de profil en haut à droite
+   2. Accéder aux "Préférences"
+   3. Ouvrir la section "sécurité du compte"
+   4. Modifier le mot de passe
+5. Restaurer le fichier d'origine pour exposer publiquement le site et désactiver l'initialisation
 6. Relancer les conteneurs (compose up)

@@ -1,55 +1,54 @@
 # Configuration box internet et DNS
 
-Cette configuration s'applique à la Freebox, mais peut être adaptée à d'autres box internet.
+Cette configuration s'applique à la Freebox mais peut être adaptée à d'autres box internet.
 
 ## Configuration IP fixe
 
-Pour router le serveur sur internet, il est nécessaire d'avoir une adresse IP fixe. Cela permet de s'assurer que l'adresse IP publique ne change pas, ce qui est essentiel pour la redirection des ports et la configuration DNS.
+Une adresse IP fixe est nécessaire pour router le serveur sur internet. Cela assure la stabilité de l'adresse IP publique, essentielle pour la redirection des ports et la configuration DNS.
 
-1. Obtenir une IP fixe :
+1. Obtention d'une IP fixe :
 
    - Se connecter sur <https://adsl.free.fr>
-   - Aller dans "Ma Freebox"
-   - "Demander une adresse IP fixe V4 full-stack"
+   - Accéder à "Ma Freebox"
+   - Sélectionner "Demander une adresse IP fixe V4 full-stack"
 
-2. Vérifier l'IP publique :
-   - Aller dans "État de la Freebox"
+2. Récupération de l'IP publique :
+   - Consulter "État de la Freebox"
    - Noter l'adresse IPv4 publique
 
 ## Redirection des ports
 
-Sur l'intranet de la boxe (<http://mafreebox.freebox.fr> chez Free), rediriger les ports suivants vers l'IP locale du serveur :
+Sur l'intranet de la box (<http://mafreebox.freebox.fr> chez Free), configurer la redirection des ports suivants vers l'IP locale du serveur :
 
 - 22 (SSH)
 - 80 (HTTP)
 - 443 (HTTPS)
 
-Cela permet d'accéder au serveur depuis l'extérieur via SSH ou un navigateur web.
+Cette configuration permet l'accès au serveur depuis l'extérieur via SSH ou navigateur web.
 
 ## Configuration du DNS
 
 1. Configuration OVH :
-
-   - Pointer le domaine vers l'IP publique de la box internet
-   - Ajouter l'enregistrement wildcard : `*.<domaine> A <ip_publique>`
+   - Configurer le domaine vers l'IP publique de la box
+   - Ajouter l'enregistrement wildcard pour rediriger les sous domaines : `*.<domaine> A <ip_publique>`
 
 ## Nom de domaine local
 
-On peut configurer son nom de domaine sur la box, pour qu'elle résolve directement le nom de domaine vers l'IP locale du serveur, sans passer par internet.
+Pour résoudre le nom de domaine directement vers l'IP locale du serveur sans passer par internet, configurer le nom de domaine sur la box.
 
-Sur le Freebox, aller dans "Paramètres de la Freebox > "Nom de domaine" > Ajouter un domaine".
+Sur la Freebox : Paramètres de la Freebox > "Nom de domaine" > Ajouter un domaine.
 
 ## Débogage
 
 ### Bypass DNS cache
 
-Pour vérifier la propagation DNS : utiliser <www.whatsmydns.net>. Il permet de voir la destination en temps réel d'un IP, sans la latence de la mise à jour du cache des DNS intermédiaires.
+Pour vérifier la propagation DNS : utiliser <www.whatsmydns.net>. Cet outil affiche la destination en temps réel d'une IP, sans la latence du cache DNS.
 
-Sinon, pour que la propagation soit plus rapide (pour ignorer le caching DNS de la box) :
+Pour accélérer la propagation (ignorer le cache DNS de la box) :
 
-- Sur MacOS, aller dans "Paramètres de la box > DHCP > DNS"
+- Dans "Paramètres de la box > DHCP > DNS"
 - Ajouter en début de liste :
   1. 8.8.8.8 (Google)
   2. 1.1.1.1 (Cloudflare)
 
-> Le nom de domaine sera alors directement résolu via Google, sans passer par le système de la box qui est inadapté au développement.
+> Le nom de domaine sera ainsi résolu directement via Google, évitant le système de cache de la box peu adapté au développement.

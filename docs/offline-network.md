@@ -1,37 +1,37 @@
 # Configuration d'un réseau privé
 
-Grâce à cette configuration, il est possible de se connecter au serveur grâce à un simple câble ethernet, sans avoir besoin de passer par la box internet. Cela permet de le déboguer sans dépendre de la connexion internet.
+Cette configuration permet la connexion au serveur via un simple câble ethernet, sans dépendre de la box internet. Idéal pour le débogage en mode local.
 
 ## Partage internet
 
-Consiste à partager la connexion internet de la machine hôte au serveur, afin de le lier au même réseau. Cependant cette solution ne permet pas une réelle isolation en réseau local exclusif.
+Cette méthode permet de partager la connexion internet de la machine hôte au serveur. Note : cette solution ne permet pas une réelle isolation en réseau local exclusif.
 
-Sur la machine hôte :
+Configuration sur la machine hôte (sur MacOS) :
 
-1. Sur MacOS : Paramètres > Partage Internet
-2. Source : connexion internet à partager (ex: wifi)
-3. Destination : port utilisé pour l'ethernet
+1. Accéder aux Paramètres > Partage Internet
+2. Sélectionner la source : connexion internet à partager (ex: wifi)
+3. Définir la destination : port Ethernet utilisé
 
 ## Protocole APIPA
 
-Lorsque aucun protocole DHCP n'est configuré, il est possible de se connecter au serveur via le protocole APIPA (Automatic Private IP Addressing). Ce protocole permet d'attribuer automatiquement une adresse IP à un appareil lorsqu'il ne peut pas obtenir d'adresse IP via DHCP. Cela fonctionne sur les réseaux locaux.
+En l'absence de protocole DHCP, le protocole APIPA (Automatic Private IP Addressing) permet une connexion automatique. Ce protocole attribue automatiquement une adresse IP lorsqu'aucun serveur DHCP n'est disponible.
 
-Sur le serveur :
+Configuration sur le serveur :
 
-1. `sudo nmtui`
-2. "Modifier une connexion"
+1. Exécuter `sudo nmtui`
+2. Sélectionner "Modifier une connexion"
 3. Choisir l'interface Ethernet
-4. Configurer IPV4 : "Lien local" (APIPA)
+4. Configurer IPV4 en "Lien local" (APIPA)
 
-Sur la machine hôte (déjà configuré par défaut) :
+Configuration sur la machine hôte (généralement déjà active par défaut) :
 
-1. Sur MacOS : Paramètres > Réseau
-2. Choisir l'interface Ethernet
-3. Détails > TCP/IP
-4. S'assurer que IPV4 est en "via DHCP" (pour qu'il cherche le serveur DHCP inexistant et tombe en APIPA)
+1. Accéder à Paramètres > Réseau
+2. Sélectionner l'interface Ethernet
+3. Dans Détails > TCP/IP
+4. Configurer IPV4 en "via DHCP" (pour déclencher APIPA en l'absence de serveur DHCP)
 
-Connecter le serveur à la machine hôte via un câble Ethernet. Les deux appareils devraient s'auto-attribuer une adresse IP dans la plage 169.254.x.x. La connexion deviendra alors active.
+Une fois le câble Ethernet connecté, les appareils s'attribuent automatiquement une adresse IP dans la plage 169.254.x.x et établissent la connexion.
 
 ## Serveur DHCP sur hôte
 
-Pour configurer un serveur DHCP sur la machine hôte, il existe notamment le service `dnsmasq`. Sa configuration est présente [ici](./dnsmasq.md#configuration-du-dhcp).
+Pour configurer un serveur DHCP sur la machine hôte avec `dnsmasq`, suivre la documentation [ici](./dnsmasq.md#configuration-du-dhcp).

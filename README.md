@@ -1,45 +1,45 @@
 # Services et configurations pour le serveur personnel
 
-Explications de la mise en place d'un serveur perso et codes divers. Dans mon cas, j'utilise un "Shuttle" (ordinateur compact) en Debian, mais cette configuration peut s'adapter à tout type de serveur.
+Explications de la mise en place d'un serveur personnel et codes divers. Cette configuration, bien que basée sur un "Shuttle" (ordinateur compact) sous Debian, peut s'adapter à tout type de serveur.
 
 ## Installation
 
-Pour lancer le projet, créer un fichier `.env` avec les variables obligatoires suivantes :
+1. Créer un fichier `.env` avec les variables obligatoires suivantes :
 
-1. `HOSTNAME`
-2. `TRAEFIK_USER`
-3. `TRAEFIK_PASSWORD`
+   - `HOSTNAME`
+   - `TRAEFIK_USER`
+   - `TRAEFIK_PASSWORD`
 
-Ensuite, exécuter la commande suivante :
+2. Exécuter la commande suivante :
 
-```bash
-docker compose up -d --build
-```
+   ```bash
+   docker compose up -d --build
+   ```
 
-> Cela exécute les conteneurs minimums nécessaires au fonctionnement du projet. Si vous avez besoin de plus de services, il faut les activer dans le fichier `docker-compose.yml` en ajoutant le profile correspondant. Par exemple, pour activer le profile `odoo`, il faut ajouter `--profile odoo` à la commande ci-dessus.
+> Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `odoo`, ajouter `--profile odoo`.
 
 ## Odoo
 
-Pour configurer Odoo, lire sa documentation [ici](odoo/README.md).
+Consulter la documentation Odoo [ici](odoo/README.md).
 
 ## Configuration du serveur
 
-Pour configurer votre serveur (dans mon cas un Shuttle), lire la documentation [ici](./docs/server-setup.md).
+Pour la configuration du serveur, suivre la documentation [ici](./docs/server-setup.md).
 
-## Conseils de développement
+## Méthodes de développement
 
 ### Développement via SSH
 
-Pour un développement efficace nécessitant des modifications et relances fréquentes :
+Pour un développement efficace avec modifications et relances fréquentes :
 
-1. Utilisez l'extension VSCode `ms-vscode-remote.remote-ssh` pour développer directement sur le serveur.
-2. Testez les modifications sur le serveur
-3. Une fois fonctionnelles, copiez-les en local et commitez
+1. Installer l'extension VSCode `ms-vscode-remote.remote-ssh` pour développer directement sur le serveur
+2. Tester les modifications sur le serveur
+3. Après validation, copier en local et commiter
 
 Cette approche évite le cycle répétitif modifier-commit-push-pull-tester.
 
-**Important** : Pour éviter toute confusion, gardez une séparation claire entre les modifications locales et celles sur le serveur.
+**Important** : Maintenir une séparation claire entre les modifications locales et celles sur le serveur.
 
 ### Développement local
 
-Pour le développement local avant la production, il faut configurer un DNS local. La configuration est présente [ici](./docs/dnsmasq.md#configuration-du-dns).
+Pour le développement local avant la production, configurer un DNS local selon la documentation [ici](./docs/dnsmasq.md#configuration-du-dns).
