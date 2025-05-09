@@ -1,4 +1,10 @@
-### 1. Configuration IP fixe
+# Configuration du DNS et des redirections de ports
+
+Cette configuration s'applique à la Freebox, mais peut être adaptée à d'autres box internet.
+
+## Configuration IP fixe
+
+Pour router le Shuttle sur internet, il est nécessaire d'avoir une adresse IP fixe. Cela permet de s'assurer que l'adresse IP publique ne change pas, ce qui est essentiel pour la redirection des ports et la configuration DNS.
 
 1. Obtenir une IP fixe :
 
@@ -10,16 +16,15 @@
    - Aller dans "État de la Freebox"
    - Noter l'adresse IPv4 publique
 
-### 2. Redirection des ports
+## Redirection des ports
 
-Sur <http://mafreebox.freebox.fr> :
+Sur l'intranet de la boxe (<http://mafreebox.freebox.fr> chez Free), rediriger les ports suivants vers l'IP locale du Shuttle :
 
-- Rediriger les ports suivants vers l'IP locale du Shuttle :
-  - 22 (SSH)
-  - 80 (HTTP)
-  - 443 (HTTPS)
+- 22 (SSH)
+- 80 (HTTP)
+- 443 (HTTPS)
 
-### 3. Configuration DNS
+## Configuration du DNS
 
 1. Configuration OVH :
 
@@ -34,5 +39,3 @@ Sur <http://mafreebox.freebox.fr> :
      2. 1.1.1.1 (Cloudflare)
 
    > Le nom de domaine sera alors directement résolu via Google, sans passer par le système de la boxe qui est inadapté au développement.
-
-> Documentation de deboggage DNS :
