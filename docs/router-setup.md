@@ -31,11 +31,23 @@ Sur l'intranet de la boxe (<http://mafreebox.freebox.fr> chez Free), rediriger l
    - Pointer le domaine vers l'IP publique de la box internet
    - Ajouter l'enregistrement wildcard : `*.<domaine> A <ip_publique>`
 
-2. Optimisation DNS (pour que la propagation soit plus rapide, à cause du caching DNS de la box) :
+## Nom de domaine local
 
-   - Aller dans "Paramètres de la box > DHCP > DNS"
-   - Ajouter en début de liste :
-     1. 8.8.8.8 (Google)
-     2. 1.1.1.1 (Cloudflare)
+On peut configurer son nom de domaine sur la box, pour qu'elle résolve directement le nom de domaine vers l'IP locale du serveur, sans passer par internet.
 
-   > Le nom de domaine sera alors directement résolu via Google, sans passer par le système de la box qui est inadapté au développement.
+Sur le Freebox, aller dans "Paramètres de la Freebox > "Nom de domaine" > Ajouter un domaine".
+
+## Débogage
+
+### Bypass DNS cache
+
+Pour vérifier la propagation DNS : utiliser <www.whatsmydns.net>. Il permet de voir la destination en temps réel d'un IP, sans la latence de la mise à jour du cache des DNS intermédiaires.
+
+Sinon, pour que la propagation soit plus rapide (pour ignorer le caching DNS de la box) :
+
+- Sur MacOS, aller dans "Paramètres de la box > DHCP > DNS"
+- Ajouter en début de liste :
+  1. 8.8.8.8 (Google)
+  2. 1.1.1.1 (Cloudflare)
+
+> Le nom de domaine sera alors directement résolu via Google, sans passer par le système de la box qui est inadapté au développement.
