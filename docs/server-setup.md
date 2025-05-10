@@ -18,10 +18,10 @@ Configuration du serveur (dans cet exemple, un Shuttle sous Debian) pour permett
    ```
 
    1. Définir le nom d'hôte du système
-   2. Configurer la connexion ethernet :
-      - Sélectionner "Modifier une connexion"
-      - Si aucune connexion n'existe sous "Ethernet", en ajouter une
-      - Conserver les valeurs par défaut et valider
+   2. Configurer la connexion Ethernet :
+      - Sélectionner "Modifier une connexion".
+      - Si aucune connexion n'existe sous "Ethernet", en ajouter une.
+      - Conserver les valeurs par défaut et valider.
 
 ## Configuration de l'accès
 

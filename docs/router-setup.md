@@ -10,7 +10,7 @@ Une adresse IP fixe est nécessaire pour router le serveur sur internet. Cela as
 
    - Se connecter sur <https://adsl.free.fr>
    - Accéder à "Ma Freebox"
-   - Sélectionner "Demander une adresse IP fixe V4 full-stack"
+   - Sélectionner "Demander une adresse IP fixe V4 "full-stack"
 
 2. Récupération de l'IP publique :
    - Consulter "État de la Freebox"
@@ -40,7 +40,7 @@ Sur la Freebox : Paramètres de la Freebox > "Nom de domaine" > Ajouter un domai
 
 ## Débogage
 
-### Bypass DNS cache
+### Bypass le cache DNS
 
 Pour vérifier la propagation DNS : utiliser <www.whatsmydns.net>. Cet outil affiche la destination en temps réel d'une IP, sans la latence du cache DNS.
 

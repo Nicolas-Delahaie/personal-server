@@ -57,25 +57,17 @@ sudo apt install fail2ban
    sudo systemctl restart sshd
    ```
 
-4. Tester la connexion par clé
-5. Après validation de la connexion, dé-commenter les deux dernières lignes et redémarrer SSH
+4. Tester la connexion par clé avec `ssh user_name@server.local`.
+5. Après validation de la connexion, dé-commenter les deux dernières lignes et redémarrer SSH.
 
 ## Simplification de la connexion
 
-Pour éviter de spécifier l'utilisateur à chaque connexion :
+Pour éviter de spécifier l'utilisateur à chaque connexion, ajouter au fichier `~/.ssh/config` :
 
-1. Créer ou modifier le fichier de configuration SSH :
-
-   ```bash
-   nano ~/.ssh/config
-   ```
-
-2. Ajouter la configuration :
-
-   ```conf
-   Host shuttle shuttle.local nicolas-delahaie.fr 64.64.31.31
-       User patate
-   ```
+```conf
+Host shuttle shuttle.local nicolas-delahaie.fr 64.64.31.31
+      User user_name
+```
 
 La connexion devient alors possible via :
 
@@ -83,6 +75,6 @@ La connexion devient alors possible via :
 ssh server.local
 ```
 
-## Configuration du routeur
+## Redirection du port 22
 
-Une fois le SSH configuré, il est nécessaire de rediriger le port 22 de la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports).
+Une fois le SSH configuré, il est nécessaire de rediriger le port 22 de la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports) et s'assurer que les règles de pare-feu permettent l'accès au port 22.
