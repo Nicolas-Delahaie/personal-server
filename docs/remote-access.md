@@ -40,6 +40,7 @@ sudo apt install fail2ban
 2. Ajouter les paramètres de sécurité :
 
    ```conf
+   LoginGraceTime 1m
    PermitRootLogin no
    MaxAuthTries 3
    PubkeyAuthentication yes
