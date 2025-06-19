@@ -27,6 +27,16 @@ services:
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.entrypoints=web"
 
+  home-assistant:
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./home-assistant/config:/config
+      - /run/dbus:/run/dbus:ro
+    network_mode: host # Only for Linux, incompatible with Traefik but allows MDNS discovery
+    restart: unless-stopped
+    privileged: true
+
   traefik:
     build:
       context: ./traefik
@@ -81,7 +91,7 @@ services:
       - odoo_datas:/var/lib/postgresql/data
     networks:
       - odoo-network
-      
+
 volumes:
   portainer_data:
   odoo_datas:
