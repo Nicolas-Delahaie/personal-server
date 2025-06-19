@@ -27,7 +27,7 @@ services:
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.entrypoints=web"
 
-  home-assistant:
+  ha:
     image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
       - /etc/localtime:/etc/localtime:ro
