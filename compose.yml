@@ -12,6 +12,8 @@ services:
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.entrypoints=web"
       - "traefik.http.routers.glances.middlewares=auth@file"
+    pid: host
+    
 
   portainer:
     build:

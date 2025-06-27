@@ -1,4 +1,3 @@
-
 # Loads default set of integrations. Do not remove.
 default_config:
 
@@ -9,3 +8,11 @@ frontend:
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+http:
+  ssl_certificate: /config/certs/fullchain.pem
+  ssl_key: /config/certs/privkey.pem
+
+homeassistant:
+  external_url: "https://nicolas-delahaie.fr:8123"
+  internal_url: "https://nicolas-delahaie.fr:8123"

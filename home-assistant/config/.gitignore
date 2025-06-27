@@ -53,3 +53,5 @@ dlib_unknown_faces
 .pc-session
 google*.deb
 .homekit.state
+certs
+home-assistant_v2.db*
