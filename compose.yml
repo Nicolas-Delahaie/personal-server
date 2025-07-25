@@ -20,6 +20,7 @@ services:
       context: ./portainer
       args:
         - PORTAINER_ADMIN_PASSWORD=${PORTAINER_ADMIN_PASSWORD}
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -50,6 +51,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 80:80
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`traefik.${HOSTNAME}`)"
