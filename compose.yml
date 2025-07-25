@@ -31,7 +31,7 @@ services:
       - "traefik.http.routers.portainer.entrypoints=web"
 
   ha:
-    image: "ghcr.io/home-assistant/home-assistant:stable"
+    image: "ghcr.io/home-assistant/home-assistant:2025.7"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./home-assistant/config:/config
