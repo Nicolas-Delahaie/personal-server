@@ -4,12 +4,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
 ## Installation
 
-1. Créer un fichier `.env` avec les variables obligatoires suivantes :
-
-   - `HOSTNAME`
-   - `TRAEFIK_USER`
-   - `TRAEFIK_PASSWORD`
-
+1. Créer un fichier `.env` avec les variables obligatoires nécessaires au docker compose (utilisées via `${}`)
 2. Exécuter la commande suivante :
 
    ```bash
