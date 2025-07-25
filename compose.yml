@@ -13,7 +13,6 @@ services:
       - "traefik.http.routers.glances.entrypoints=web"
       - "traefik.http.routers.glances.middlewares=auth@file"
     pid: host
-    
 
   portainer:
     build:
@@ -35,10 +34,13 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./home-assistant/config:/config
-      - /run/dbus:/run/dbus:ro
     network_mode: host # Only for Linux, incompatible with Traefik but allows MDNS discovery
     restart: unless-stopped
     privileged: true
+    devices:
+      - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
+    profiles:
+      - ha
 
   traefik:
     build:
@@ -58,6 +60,7 @@ services:
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@file"
+
   odoo:
     build:
       context: ./odoo
