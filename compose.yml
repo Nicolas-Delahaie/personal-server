@@ -51,6 +51,7 @@ services:
         - PASSWORD_FILE_PATH=/auth/usersfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/conf:/etc/traefik/
     ports:
       - 80:80
     restart: unless-stopped
