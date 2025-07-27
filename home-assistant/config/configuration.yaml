@@ -10,9 +10,10 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 http:
-  ssl_certificate: /config/certs/fullchain.pem
-  ssl_key: /config/certs/privkey.pem
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.21.0.0/16 # Searchable with docker network ls and docker network inspect
 
-homeassistant:
-  external_url: "https://nicolas-delahaie.fr:8123"
-  internal_url: "https://nicolas-delahaie.fr:8123"
+# homeassistant:
+#   external_url: "https://nicolas-delahaie.fr:8123"
+#   internal_url: "https://nicolas-delahaie.fr:8123"

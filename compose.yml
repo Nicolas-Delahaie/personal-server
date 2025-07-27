@@ -15,11 +15,13 @@ services:
     networks:
       - default
       - odoo-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@file"
-      
+
   glances:
     image: nicolargo/glances
     volumes:
@@ -54,6 +56,9 @@ services:
     network_mode: host # Only for Linux, incompatible with Traefik but allows MDNS discovery
     restart: unless-stopped
     privileged: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.ha.loadbalancer.server.url=http://host.docker.internal:8123"
     devices:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
     profiles:
