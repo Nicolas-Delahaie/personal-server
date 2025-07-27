@@ -14,6 +14,8 @@ http:
   trusted_proxies:
     - !env_var LOCAL_IP
 
-# homeassistant:
-#   external_url: "https://nicolas-delahaie.fr:8123"
-#   internal_url: "https://nicolas-delahaie.fr:8123"
+homeassistant:
+  external_url: "http://ha.nicolas-delahaie.fr"
+  internal_url: "http://ha.nicolas-delahaie.fr"
+
+zha_toolkit:
