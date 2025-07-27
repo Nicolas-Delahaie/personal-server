@@ -1,4 +1,25 @@
 services:
+  traefik:
+    build:
+      context: ./traefik
+      args:
+        - TRAEFIK_USER=${TRAEFIK_USER}
+        - TRAEFIK_PASSWORD=${TRAEFIK_PASSWORD}
+        - PASSWORD_FILE_PATH=/auth/usersfile
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/conf:/etc/traefik/
+    ports:
+      - 80:80
+    restart: unless-stopped
+    networks:
+      - default
+      - odoo-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth@file"
+      
   glances:
     image: nicolargo/glances
     volumes:
@@ -37,27 +58,6 @@ services:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
     profiles:
       - ha
-
-  traefik:
-    build:
-      context: ./traefik
-      args:
-        - TRAEFIK_USER=${TRAEFIK_USER}
-        - TRAEFIK_PASSWORD=${TRAEFIK_PASSWORD}
-        - PASSWORD_FILE_PATH=/auth/usersfile
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/conf:/etc/traefik/
-    ports:
-      - 80:80
-    restart: unless-stopped
-    networks:
-      - default
-      - odoo-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=auth@file"
 
   odoo:
     build:
