@@ -38,3 +38,8 @@ Cette approche évite le cycle répétitif modifier-commit-push-pull-tester.
 ### Développement local
 
 Pour le développement local avant la production, configurer un DNS local selon la documentation [ici](./docs/dnsmasq.md#configuration-du-dns).
+
+IP fixe pour redirection : Il faut créer un Bail DHCP static. De cette manière, le shuttle reste en DHCP puis renouveller le bail avec `sudo dhclient <interface_reseau>`
+
+_Trouver les DP :_
+https://eu.platform.tuya.com/cloud/explorer?id=p17506739271773c3pm8&groupId=group-1633641501546254380&interfaceId=1633017088845021199

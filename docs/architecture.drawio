@@ -1,0 +1,197 @@
+<mxfile host="65bd71144e">
+    <diagram id="ShFuXKwHiYA4iHBj3_Y6" name="Page-1">
+        <mxGraphModel dx="761" dy="433" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="23" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;https, SSH&lt;/span&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="77" target="58" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="630" y="125" as="targetPoint"/>
+                        <mxPoint x="630" y="400" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="https, SSH" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;elbow=vertical;" parent="1" source="25" target="77" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="490" y="406.2686567164179" as="sourcePoint"/>
+                        <mxPoint x="570" y="415" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="130" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="25" target="129" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Serveur" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="310" width="210" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="76" target="59" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="590" y="615" as="targetPoint"/>
+                        <mxPoint x="590" y="880" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;IPV4 Fixe&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="37" vertex="1" connectable="0">
+                    <mxGeometry x="-0.3573" relative="1" as="geometry">
+                        <mxPoint x="11" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Bail statique&lt;/font&gt;" style="endArrow=none;html=1;elbow=vertical;" parent="1" source="40" target="76" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="490" y="766.2686567164179" as="sourcePoint"/>
+                        <mxPoint x="600" y="848" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="Serveur" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="700" width="210" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="93" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;bridge&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="43" target="40" edge="1">
+                    <mxGeometry x="-0.0061" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="50" value="DHCP" style="text;html=1;align=right;verticalAlign=bottom;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="890" width="50" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="&lt;font style=&quot;font-size: 7px;&quot;&gt;filaire&lt;/font&gt;" style="html=1;horizontal=1;endArrow=none;endFill=0;elbow=horizontal;" parent="1" source="40" target="57" edge="1">
+                    <mxGeometry x="-0.1724" y="5" relative="1" as="geometry">
+                        <mxPoint x="443" y="775" as="sourcePoint"/>
+                        <mxPoint x="513" y="670" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="58" value="Client externe" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="395" width="70" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" value="Client externe" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="835" width="70" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="550" y="745" width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="Client local" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" parent="61" vertex="1">
+                    <mxGeometry width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" style="edgeStyle=none;html=1;" parent="61" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="40" y="76" as="sourcePoint"/>
+                        <mxPoint x="40" y="76" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="60" value="serveur DHCP&lt;div&gt;(dnsmasq)&lt;/div&gt;" style="text;html=1;align=right;verticalAlign=bottom;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;" parent="61" vertex="1">
+                    <mxGeometry y="30" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="260" y="950" width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="Appareils Zigbee" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" parent="65" vertex="1">
+                    <mxGeometry width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="67" style="edgeStyle=none;html=1;" parent="65" target="66" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="62.5" y="60" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="69" style="html=1;elbow=vertical;endArrow=none;endFill=0;" parent="1" source="66" target="40" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="360" y="950" width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="Appareils wifi" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" parent="70" vertex="1">
+                    <mxGeometry width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" style="edgeStyle=none;html=1;" parent="70" source="73" target="71" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="DHCP" style="text;html=1;align=right;verticalAlign=bottom;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;" parent="70" vertex="1">
+                    <mxGeometry x="30" y="40" width="50" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="71" target="76" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="720" y="785" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="76" value="Routeur" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="830" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="77" value="Routeur" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="390" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="88" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;host mode&lt;/font&gt;" style="edgeStyle=none;html=1;endSize=7;endArrow=none;endFill=0;" parent="1" source="131" target="40" edge="1">
+                    <mxGeometry x="0.0002" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="99" value="" style="group;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="250" y="350" width="170" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Socket docker" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=none;" parent="99" vertex="1">
+                    <mxGeometry width="170" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="112" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="99" source="104" target="107" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="104" value="SERVICES" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="99" vertex="1">
+                    <mxGeometry x="20" y="79.29142857142857" width="70" height="27.857142857142858" as="geometry"/>
+                </mxCell>
+                <mxCell id="125" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;socket&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;dashed=1;" parent="99" source="107" target="24" edge="1">
+                    <mxGeometry x="-0.1662" y="8" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="107" value="Traefik" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="99" vertex="1">
+                    <mxGeometry x="20" y="42.14142857142856" width="50" height="27.857142857142858" as="geometry"/>
+                </mxCell>
+                <mxCell id="120" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="99" source="118" target="107" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="118" value="HA proxy" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="99" vertex="1">
+                    <mxGeometry x="100" y="70.00142857142858" width="36" height="37.142857142857146" as="geometry"/>
+                </mxCell>
+                <mxCell id="102" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="98" target="25" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="106" value="&lt;span style=&quot;color: rgb(63, 63, 63); font-size: 6px;&quot;&gt;host mode&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="102" vertex="1" connectable="0">
+                    <mxGeometry x="0.0011" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="109" value="&lt;font style=&quot;font-size: 7px;&quot;&gt;https&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="107" target="25" edge="1">
+                    <mxGeometry x="0.1755" y="6" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="98" value="HA" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="355" y="490" width="26" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="119" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="98" target="118" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="121" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;mappings&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="104" target="25" edge="1">
+                    <mxGeometry x="-0.0487" y="-7" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="129" value="Client local" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="555" y="480" width="70" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="131" value="HA" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="839" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="133" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="255" y="740" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="Docker network" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=none;" parent="133" vertex="1">
+                    <mxGeometry width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="85" value="Services" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="133" vertex="1">
+                    <mxGeometry x="10" y="37" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="135" value="Architecture réseau" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="670" width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="137" value="Architecture logicielle" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="280" width="140" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
