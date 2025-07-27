@@ -7,10 +7,7 @@ services:
     environment:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.glances.rule=Host(`glances.${HOSTNAME}`)"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
-      - "traefik.http.routers.glances.entrypoints=web"
       - "traefik.http.routers.glances.middlewares=auth@file"
     pid: host
 
@@ -24,10 +21,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.${HOSTNAME}`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-      - "traefik.http.routers.portainer.entrypoints=web"
 
   ha:
     image: "ghcr.io/home-assistant/home-assistant:2025.7"
@@ -55,10 +49,10 @@ services:
     ports:
       - 80:80
     restart: unless-stopped
+    networks:
+      - default
+      - odoo-network
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${HOSTNAME}`)"
-      - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@file"
 
@@ -82,10 +76,7 @@ services:
     networks:
       - odoo-network
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.odoo.rule=Host(`odoo.${HOSTNAME}`)"
       - "traefik.http.services.odoo.loadbalancer.server.port=8069"
-      - "traefik.http.routers.odoo.entrypoints=web"
 
   odoo-db:
     image: postgres
