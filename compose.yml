@@ -7,6 +7,7 @@ services:
     environment:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
+      - "traefik.enable=true"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.middlewares=auth@file"
     pid: host
@@ -21,6 +22,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     labels:
+      - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
   ha:
@@ -53,6 +55,7 @@ services:
       - default
       - odoo-network
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@file"
 
@@ -76,6 +79,7 @@ services:
     networks:
       - odoo-network
     labels:
+      - "traefik.enable=true"
       - "traefik.http.services.odoo.loadbalancer.server.port=8069"
 
   odoo-db:

@@ -6,7 +6,7 @@ entryPoints:
 
 providers:
   docker:
-    exposedByDefault: true
+    exposedByDefault: false
     defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.nicolas-delahaie.fr`)' # STATIC !
   file:
     filename: /etc/traefik/dynamic_conf.yml
