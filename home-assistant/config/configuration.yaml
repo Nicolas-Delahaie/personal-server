@@ -12,7 +12,7 @@ scene: !include scenes.yaml
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.21.0.0/16 # Searchable with docker network ls and docker network inspect
+    - !env_var LOCAL_IP
 
 # homeassistant:
 #   external_url: "https://nicolas-delahaie.fr:8123"
