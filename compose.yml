@@ -37,6 +37,8 @@ services:
       - "traefik.http.routers.glances.middlewares=auth@file"
       - "traefik.http.routers.glances.tls.certresolver=letsencrypt"
     pid: host
+    profiles:
+      - monitoring
 
   portainer:
     build:
@@ -51,6 +53,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
+    profiles:
+      - monitoring
 
   ha:
     image: "ghcr.io/home-assistant/home-assistant:2025.7"
@@ -68,8 +72,6 @@ services:
       - "traefik.http.routers.ha.tls.certresolver=letsencrypt"
     devices:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
-    profiles:
-      - ha
 
 volumes:
   traefik_certs:
