@@ -16,7 +16,6 @@ services:
     restart: unless-stopped
     networks:
       - default
-      - odoo-network
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
