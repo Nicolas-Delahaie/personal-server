@@ -72,52 +72,11 @@ services:
     profiles:
       - ha
 
-  odoo:
-    build:
-      context: ./odoo
-      args:
-        - ODOO_MASTER_PASSWORD=${ODOO_MASTER_PASSWORD}
-        - ODOO_DATABASE_NAME=${ODOO_DATABASE_NAME}
-    depends_on:
-      - odoo-db
-    environment:
-      - HOST=odoo-db
-      - USER=${ODOO_DB_USER}
-      - PASSWORD=${ODOO_DB_PASSWORD}
-    profiles:
-      - odoo
-    volumes:
-      - odoo_addons:/mnt/extra-addons
-      - odoo_web_data:/var/lib/odoo
-    networks:
-      - odoo-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.odoo.loadbalancer.server.port=8069"
-      - "traefik.http.routers.odoo.tls.certresolver=letsencrypt"
-
-  odoo-db:
-    image: postgres
-    profiles:
-      - odoo
-    environment:
-      - POSTGRES_DB=${ODOO_DATABASE_NAME}
-      - POSTGRES_USER=${ODOO_DB_USER}
-      - POSTGRES_PASSWORD=${ODOO_DB_PASSWORD}
-    volumes:
-      - odoo_datas:/var/lib/postgresql/data
-    networks:
-      - odoo-network
-
 volumes:
   traefik_certs:
   portainer_data:
-  odoo_datas:
-  odoo_web_data:
-  odoo_addons:
 
 networks:
-  odoo-network:
   default:
     driver: bridge
     ipam:
