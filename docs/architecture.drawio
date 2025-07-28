@@ -1,16 +1,17 @@
 <mxfile host="65bd71144e">
     <diagram id="ShFuXKwHiYA4iHBj3_Y6" name="Page-1">
-        <mxGraphModel dx="761" dy="433" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="608" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="23" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;https, SSH&lt;/span&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="77" target="58" edge="1">
-                    <mxGeometry relative="1" as="geometry">
+                <mxCell id="23" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;HTTP,HTTPS,&lt;/font&gt;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;SSH&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="77" target="58" edge="1">
+                    <mxGeometry x="0.0085" relative="1" as="geometry">
                         <mxPoint x="630" y="125" as="targetPoint"/>
                         <mxPoint x="630" y="400" as="sourcePoint"/>
+                        <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="20" value="https, SSH" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;elbow=vertical;" parent="1" source="25" target="77" edge="1">
+                <mxCell id="20" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;HTTP,HTTPS,&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;SSH&lt;/font&gt;&lt;/div&gt;" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;elbow=vertical;" parent="1" source="25" target="77" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="490" y="406.2686567164179" as="sourcePoint"/>
                         <mxPoint x="570" y="415" as="targetPoint"/>
@@ -124,27 +125,21 @@
                     <mxGeometry x="250" y="350" width="170" height="130" as="geometry"/>
                 </mxCell>
                 <mxCell id="24" value="Socket docker" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=none;" parent="99" vertex="1">
-                    <mxGeometry width="170" height="130" as="geometry"/>
+                    <mxGeometry y="40" width="170" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="112" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="99" source="104" target="107" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="104" value="SERVICES" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="99" vertex="1">
-                    <mxGeometry x="20" y="79.29142857142857" width="70" height="27.857142857142858" as="geometry"/>
+                    <mxGeometry x="94" y="78.93142857142857" width="70" height="27.857142857142858" as="geometry"/>
                 </mxCell>
-                <mxCell id="125" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;socket&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;dashed=1;" parent="99" source="107" target="24" edge="1">
+                <mxCell id="125" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;socket&lt;/font&gt;" style="html=1;endArrow=none;endFill=0;dashed=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="99" source="107" target="24" edge="1">
                     <mxGeometry x="-0.1662" y="8" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="107" value="Traefik" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="99" vertex="1">
-                    <mxGeometry x="20" y="42.14142857142856" width="50" height="27.857142857142858" as="geometry"/>
-                </mxCell>
-                <mxCell id="120" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="99" source="118" target="107" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="118" value="HA proxy" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="99" vertex="1">
-                    <mxGeometry x="100" y="70.00142857142858" width="36" height="37.142857142857146" as="geometry"/>
+                    <mxGeometry x="30" y="78.93142857142857" width="50" height="27.857142857142858" as="geometry"/>
                 </mxCell>
                 <mxCell id="102" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="98" target="25" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -154,19 +149,21 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="109" value="&lt;font style=&quot;font-size: 7px;&quot;&gt;https&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="107" target="25" edge="1">
-                    <mxGeometry x="0.1755" y="6" relative="1" as="geometry">
+                <mxCell id="109" value="&lt;font style=&quot;font-size: 7px;&quot;&gt;https, http&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="107" target="25" edge="1">
+                    <mxGeometry x="0.0232" y="1" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="98" value="HA" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="1" vertex="1">
-                    <mxGeometry x="355" y="490" width="26" height="30" as="geometry"/>
+                    <mxGeometry x="292" y="490" width="26" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="119" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="98" target="118" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="119" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="98" target="107" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="368" y="457.1442857142856" as="targetPoint"/>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="121" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;mappings&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="104" target="25" edge="1">
-                    <mxGeometry x="-0.0487" y="-7" relative="1" as="geometry">
+                <mxCell id="121" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;mappings&lt;/font&gt;" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="104" target="25" edge="1">
+                    <mxGeometry x="-0.0534" y="-7" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
@@ -179,17 +176,23 @@
                 <mxCell id="133" value="" style="group" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="255" y="740" width="160" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="Docker network" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=none;" parent="133" vertex="1">
+                <mxCell id="43" value="Default docker network" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=none;" parent="133" vertex="1">
                     <mxGeometry width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="85" value="Services" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="133" vertex="1">
                     <mxGeometry x="10" y="37" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="140" value="Traefik" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;" parent="133" vertex="1">
+                    <mxGeometry x="65" y="37" width="50" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="135" value="Architecture réseau" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="230" y="670" width="130" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="137" value="Architecture logicielle" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="230" y="280" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="141" style="edgeStyle=none;html=1;" parent="1" source="140" target="131" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
