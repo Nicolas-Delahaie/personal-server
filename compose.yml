@@ -7,10 +7,12 @@ services:
         - TRAEFIK_PASSWORD=${TRAEFIK_PASSWORD}
         - PASSWORD_FILE_PATH=/auth/usersfile
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/conf:/etc/traefik/
+      - traefik_certs:/acme
     ports:
       - 80:80
+      - 443:443
     restart: unless-stopped
     networks:
       - default
@@ -21,6 +23,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth@file"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
 
   glances:
     image: nicolargo/glances
@@ -33,6 +36,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.middlewares=auth@file"
+      - "traefik.http.routers.glances.tls.certresolver=letsencrypt"
     pid: host
 
   portainer:
@@ -47,6 +51,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
 
   ha:
     image: "ghcr.io/home-assistant/home-assistant:2025.7"
@@ -61,6 +66,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.ha.loadbalancer.server.url=http://host.docker.internal:8123"
+      - "traefik.http.routers.ha.tls.certresolver=letsencrypt"
     devices:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
     profiles:
@@ -88,6 +94,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.odoo.loadbalancer.server.port=8069"
+      - "traefik.http.routers.odoo.tls.certresolver=letsencrypt"
 
   odoo-db:
     image: postgres
@@ -103,6 +110,7 @@ services:
       - odoo-network
 
 volumes:
+  traefik_certs:
   portainer_data:
   odoo_datas:
   odoo_web_data:

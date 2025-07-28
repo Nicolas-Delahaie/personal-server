@@ -3,7 +3,3 @@ http:
     auth:
       basicAuth:
         usersFile: "/auth/usersfile"
-
-    # redirect-to-https:
-    #   redirectScheme:
-    #     scheme: https

@@ -2,10 +2,15 @@ api:
   dashboard: true
 
 entryPoints:
+  websecure:
+    address: ":443"
   web:
     address: ":80"
-  # websecure:
-  #   address: ":443"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
 
 providers:
   docker:
@@ -19,10 +24,10 @@ accessLog:
   filters:
     statusCodes: ["400-599"]
 
-# certificatesResolvers:
-#   letsencrypt:
-#     acme:
-#       email: you@example.com
-#       storage: /etc/traefik/acme.json
-#       httpChallenge:
-#         entryPoint: web
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: nico601.delahaie@gmail.com
+      storage: /acme/acme.json
+      httpChallenge:
+        entryPoint: web
