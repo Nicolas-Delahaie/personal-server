@@ -15,7 +15,7 @@ http:
     - !env_var LOCAL_IP
 
 homeassistant:
-  external_url: "http://ha.nicolas-delahaie.fr"
-  internal_url: "http://ha.nicolas-delahaie.fr"
+  external_url: "https://ha.nicolas-delahaie.fr"
+  internal_url: "https://ha.nicolas-delahaie.fr"
 
 zha_toolkit:
