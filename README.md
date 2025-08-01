@@ -13,10 +13,6 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
 > Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `odoo`, ajouter `--profile odoo`.
 
-## Odoo
-
-Consulter la documentation Odoo [ici](odoo/README.md).
-
 ## Configuration du serveur
 
 Pour la configuration du serveur, suivre la documentation [ici](./docs/server-setup.md).
