@@ -63,7 +63,6 @@ services:
       - ./home-assistant/config:/config
     network_mode: host # Only for Linux, incompatible with Traefik but allows MDNS discovery
     restart: unless-stopped
-    privileged: true
     environment:
       - LOCAL_IP=${LOCAL_IP}
     labels:
