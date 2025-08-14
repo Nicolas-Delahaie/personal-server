@@ -1,4 +1,4 @@
 /.env
 .DS_Store
-/home-assistant/config/*
-!/home-assistant/config/configuration.yaml
+/ha/config/*
+!/ha/config/configuration.yaml

@@ -60,7 +60,7 @@ services:
     image: "ghcr.io/home-assistant/home-assistant:2025.7"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./home-assistant/config:/config
+      - ./ha/config:/config
     network_mode: host # Only for Linux, incompatible with Traefik but allows MDNS discovery
     restart: unless-stopped
     environment:
