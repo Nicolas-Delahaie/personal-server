@@ -1,5 +1,4 @@
-.env
+/.env
 .DS_Store
-Journal_machine.md
-home-assistant/config/*
-!home-assistant/config/configuration.yaml
+/home-assistant/config/*
+!/home-assistant/config/configuration.yaml
