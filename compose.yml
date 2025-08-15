@@ -80,6 +80,8 @@ services:
     environment:
       - SIGNUPS_ALLOWED=false
       - DOMAIN=https://vw.${DOMAIN}
+      - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
+      - ADMIN_SESSION_LIFETIME=10
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
