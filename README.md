@@ -4,7 +4,16 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
 ## Installation
 
-1. Créer un fichier `.env` avec les variables obligatoires nécessaires au docker compose (utilisées via `${}`)
+1. Configurer les variables d'environnement
+
+   1. Générer le fichier vierge :
+
+      ```bash
+      sh generate_env_file.sh
+      ```
+
+   2. Completer le fichier généré avec les variables d'environnement nécessaires
+
 2. Exécuter la commande suivante :
 
    ```bash
