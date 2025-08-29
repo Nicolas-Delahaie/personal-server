@@ -1,15 +1,10 @@
 services:
   traefik:
-    build:
-      context: ./traefik
-      args:
-        - TRAEFIK_USER=${TRAEFIK_USER}
-        - TRAEFIK_PASSWORD=${TRAEFIK_PASSWORD}
-        - PASSWORD_FILE_PATH=/auth/usersfile
+    image: traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/conf:/etc/traefik/
-      - traefik_certs:/acme
+      - ./traefik/traefik_certs:/acme
     ports:
       - 80:80
       - 443:443
@@ -18,8 +13,9 @@ services:
       - "host.docker.internal:host-gateway"
     labels:
       - "traefik.enable=true"
+      - "traefik.http.middlewares.auth.basicAuth.users=${TRAEFIK_ADMIN_TOKEN}"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=auth@file"
+      - "traefik.http.routers.traefik.middlewares=auth"
       - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
 
   glances:
@@ -32,7 +28,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.glances.loadbalancer.server.port=61208"
-      - "traefik.http.routers.glances.middlewares=auth@file"
+      - "traefik.http.routers.glances.middlewares=auth"
       - "traefik.http.routers.glances.tls.certresolver=letsencrypt"
     pid: host
     profiles:
@@ -84,7 +80,6 @@ services:
       - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
 
 volumes:
-  traefik_certs:
   vw_datas:
   portainer_data:
 

@@ -12,7 +12,11 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       sh generate_env_file.sh
       ```
 
-   2. Completer le fichier généré avec les variables d'environnement nécessaires
+   2. Completer le fichier généré avec les variables d'environnement nécessaires. Pour générer les mots de passes hashés, exécuter :
+
+      ```bash
+      htpasswd -nbB <USER> <PASSWORD>
+      ```
 
 2. Exécuter la commande suivante :
 
@@ -20,7 +24,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
    docker compose up -d --build
    ```
 
-> Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `odoo`, ajouter `--profile odoo`.
+> Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `odoo`, ajouter `--profile monitoring`.
 
 ## Configuration du serveur
 
