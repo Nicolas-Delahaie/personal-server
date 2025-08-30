@@ -4,7 +4,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/conf:/etc/traefik/
-      - ./traefik/traefik_certs:/acme
+      - traefik_certs:/acme
     ports:
       - 80:80
       - 443:443
@@ -106,6 +106,7 @@ services:
 volumes:
   vw_data:
   portainer_data:
+  traefik_certs:
 
 networks:
   default:
