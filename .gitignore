@@ -1,6 +1,9 @@
 /.env
 .DS_Store
+
 /ha/config/*
 !/ha/config/configuration.yaml
 
 /traefik/traefik_certs
+
+/z2m/datas

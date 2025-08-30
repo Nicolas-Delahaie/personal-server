@@ -54,7 +54,7 @@ services:
     image: "ghcr.io/home-assistant/home-assistant:2025.7"
     volumes:
       - ./ha/config:/config
-    network_mode: host # Only for Linux, incompatible with Traefik but allows MDNS discovery
+    network_mode: host # Only for Linux, usefull for MDNS discovery
     restart: unless-stopped
     environment:
       - LOCAL_IP=${LOCAL_IP}
@@ -62,8 +62,31 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.ha.loadbalancer.server.url=http://host.docker.internal:8123"
       - "traefik.http.routers.ha.tls.certresolver=letsencrypt"
+    depends_on:
+      - z2m
+
+  z2m:
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - ./z2m/data:/app/data
     devices:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.z2m.middlewares=auth"
+      - "traefik.http.routers.z2m.tls.certresolver=letsencrypt"
+      - "traefik.http.services.z2m.loadbalancer.server.port=8080"
+    depends_on:
+      - mosquitto
+
+  mosquitto:
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 127.0.0.1:1883:1883
 
   vw:
     image: vaultwarden/server:1.34.3
