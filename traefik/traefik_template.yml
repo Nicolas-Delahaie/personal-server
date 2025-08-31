@@ -149,7 +149,7 @@ providers:
     # Optional
     # Default: "Host(`{{ normalize .Name }}`)"
     #
-    defaultRule: Host(`{{ index .Labels "com.docker.compose.service" }}.nicolas-delahaie.fr`) # STATIC !
+    defaultRule: Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN}`)
 
     # Expose containers by default in traefik
     #
@@ -158,14 +158,14 @@ providers:
     #
     exposedByDefault: false
 
-  file:
-    filename: /etc/traefik/dynamic_conf.yml
-    watch: true
+  # file:
+  #   filename: /etc/traefik/dynamic_conf.yml
+  #   watch: true
 
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: nico601.delahaie@gmail.com
+      email: ${LETSENCRYPT_EMAIL}
       storage: /acme/acme.json
       httpChallenge:
         entryPoint: web

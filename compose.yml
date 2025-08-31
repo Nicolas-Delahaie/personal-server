@@ -1,10 +1,13 @@
 services:
   traefik:
-    image: traefik
+    build: ./traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/conf:/etc/traefik/
+      - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml
       - traefik_certs:/acme
+    environment:
+      - DOMAIN
+      - LETSENCRYPT_EMAIL
     ports:
       - 80:80
       - 443:443
@@ -98,6 +101,7 @@ services:
       - DOMAIN=https://vw.${DOMAIN}
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
       - ADMIN_SESSION_LIFETIME=10
+      - LOG_LEVEL=debug
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=80"
