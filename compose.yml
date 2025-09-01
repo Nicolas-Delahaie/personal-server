@@ -1,9 +1,10 @@
 services:
   traefik:
-    build: ./traefik
+    image: traefik:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml
+      - ./traefik/entrypoint.sh:/entrypoint.sh
       - traefik_certs:/acme
     environment:
       - LOG_LEVEL={LOG_LEVEL}

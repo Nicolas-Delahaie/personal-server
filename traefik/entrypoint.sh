@@ -1,22 +1,20 @@
 #!/bin/sh
-set -e
+set -eu
 
-TEMPLATE_FILE="/etc/traefik/traefik_template.yml"
-TARGET_FILE="/etc/traefik/traefik.yml"
-envsubst < $TEMPLATE_FILE > $TARGET_FILE
+template="/etc/traefik/traefik_template.yml"
+output="/etc/traefik/traefik.yml"
 
-# first arg is `-f` or `--some-option`
-if [ "${1#-}" != "$1" ]; then
-    set -- traefik "$@"
-fi
-
-# if our command is a valid Traefik subcommand, let's invoke it through Traefik instead
-# (this allows for "docker run traefik version", etc)
-if traefik "$1" --help >/dev/null 2>&1
-then
-    set -- traefik "$@"
+vars=$(grep -oE '\$\{[A-Za-z_][A-Za-z0-9_]*\}' "$template" | sed 's/[${}]//g' | sort -u)
+if [ -z "$vars" ]; then
+    cp "$template" "$output"
 else
-    echo "= '$1' is not a Traefik command: assuming shell execution." 1>&2
+    set --
+    for v in $vars; do
+        val=$(printenv "$v") || { echo "Missing env: $v" >&2; exit 1; }
+        esc=$(printf '%s' "$val" | sed 's/[\\&|]/\\&/g')
+        set -- "$@" -e "s|\\\${$v}|$esc|g"
+    done
+    sed "$@" "$template" > "$output"
 fi
 
-exec "$@"
+exec traefik
