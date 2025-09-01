@@ -6,6 +6,7 @@ services:
       - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml
       - traefik_certs:/acme
     environment:
+      - LOG_LEVEL={LOG_LEVEL}
       - DOMAIN
       - LETSENCRYPT_EMAIL
     ports:
@@ -75,6 +76,8 @@ services:
       - ./z2m/data:/app/data
     devices:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
+    environment:
+      - ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL=${LOG_LEVEL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.z2m.middlewares=auth"
@@ -101,7 +104,7 @@ services:
       - DOMAIN=https://vw.${DOMAIN}
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
       - ADMIN_SESSION_LIFETIME=10
-      - LOG_LEVEL=debug
+      - LOG_LEVEL=${LOG_LEVEL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=80"
