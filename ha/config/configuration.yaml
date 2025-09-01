@@ -15,8 +15,8 @@ http:
     - !env_var LOCAL_IP
 
 homeassistant:
-  external_url: "https://ha.nicolas-delahaie.fr"
-  internal_url: "https://ha.nicolas-delahaie.fr"
+  external_url: !env_var EXTERNAL_URL
+  internal_url: !env_var EXTERNAL_URL
 
 logger:
   logs:

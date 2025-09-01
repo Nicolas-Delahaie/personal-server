@@ -60,6 +60,7 @@ services:
     network_mode: host # Only for Linux, usefull for MDNS discovery
     environment:
       - LOCAL_IP
+      - EXTERNAL_URL=https://ha.${DOMAIN}
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.ha.loadbalancer.server.url=http://host.docker.internal:8123"
