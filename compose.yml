@@ -7,7 +7,7 @@ services:
       - ./traefik/entrypoint.sh:/entrypoint.sh
       - traefik_certs:/acme
     environment:
-      - LOG_LEVEL
+      - LOG_LEVEL=info # Increasing logs (default is warning)
       - DOMAIN
       - LETSENCRYPT_EMAIL
     ports:
@@ -75,7 +75,7 @@ services:
     devices:
       - /dev/serial/by-id/${ZIGBEE_USB}:/dev/ttyUSB0
     environment:
-      - ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL=${LOG_LEVEL}
+      - ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL=warning # Decreasing logs (default is info)
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.z2m.middlewares=auth"
@@ -101,7 +101,7 @@ services:
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
       - ADMIN_SESSION_LIFETIME=10
       - DISABLE_2FA_REMEMBER=true
-      - LOG_LEVEL
+      - LOG_LEVEL=info
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.vw.loadbalancer.server.port=80"
