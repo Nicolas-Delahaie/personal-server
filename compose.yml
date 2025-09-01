@@ -7,7 +7,7 @@ services:
       - ./traefik/entrypoint.sh:/entrypoint.sh
       - traefik_certs:/acme
     environment:
-      - LOG_LEVEL={LOG_LEVEL}
+      - LOG_LEVEL
       - DOMAIN
       - LETSENCRYPT_EMAIL
     ports:
@@ -42,7 +42,7 @@ services:
     build:
       context: ./portainer
       args:
-        - PORTAINER_ADMIN_PASSWORD=${PORTAINER_ADMIN_PASSWORD}
+        - PORTAINER_ADMIN_PASSWORD
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -59,7 +59,7 @@ services:
       - ./ha/config:/config
     network_mode: host # Only for Linux, usefull for MDNS discovery
     environment:
-      - LOCAL_IP=${LOCAL_IP}
+      - LOCAL_IP
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.ha.loadbalancer.server.url=http://host.docker.internal:8123"
@@ -100,7 +100,7 @@ services:
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
       - ADMIN_SESSION_LIFETIME=10
       - DISABLE_2FA_REMEMBER=true
-      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_LEVEL
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=80"
