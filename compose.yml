@@ -103,8 +103,8 @@ services:
       - LOG_LEVEL
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.portainer.loadbalancer.server.port=80"
-      - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
+      - "traefik.http.services.vw.loadbalancer.server.port=80"
+      - "traefik.http.routers.vw.tls.certresolver=letsencrypt"
 
 volumes:
   vw_data:
