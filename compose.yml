@@ -32,7 +32,6 @@ services:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.glances.loadbalancer.server.port=61208"
       - "traefik.http.routers.glances.middlewares=auth"
       - "traefik.http.routers.glances.tls.certresolver=letsencrypt"
     pid: host
@@ -105,7 +104,6 @@ services:
       - LOG_LEVEL=info
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.vw.loadbalancer.server.port=80"
       - "traefik.http.routers.vw.tls.certresolver=letsencrypt"
 
 volumes:
