@@ -8,6 +8,7 @@ services:
       - traefik_certs:/acme
     environment:
       - LOG_LEVEL=info # Increasing logs (default is warning)
+      - DEBUG_MODE=false
       - DOMAIN
       - LETSENCRYPT_EMAIL
     ports:

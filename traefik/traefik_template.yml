@@ -113,10 +113,10 @@ api:
   # Enabled Dashboard
   #
   # Optional
-  # Default: true
+  # Default: false
   #
-  dashboard: true # Si non present, api est desactive...
-
+  dashboard: true
+  debug: ${DEBUG_MODE}
 ################################################################
 # Ping configuration
 ################################################################
