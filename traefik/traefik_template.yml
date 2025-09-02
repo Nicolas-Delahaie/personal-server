@@ -117,6 +117,7 @@ api:
   #
   dashboard: true
   debug: ${DEBUG_MODE}
+  disabledashboardad: true
 ################################################################
 # Ping configuration
 ################################################################
