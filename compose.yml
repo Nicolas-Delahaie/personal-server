@@ -103,6 +103,7 @@ services:
       - ADMIN_SESSION_LIFETIME=10
       - DISABLE_2FA_REMEMBER=true
       - LOG_LEVEL=info
+      - PASSWORD_HINTS_ALLOWED=false
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vw.tls.certresolver=letsencrypt"
