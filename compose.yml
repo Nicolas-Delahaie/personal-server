@@ -98,6 +98,7 @@ services:
     environment:
       - SIGNUPS_ALLOWED=false
       - DOMAIN=https://vw.${DOMAIN}
+      - INVITATIONS_ALLOWED=false
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
       - ADMIN_SESSION_LIFETIME=10
       - DISABLE_2FA_REMEMBER=true
