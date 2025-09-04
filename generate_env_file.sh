@@ -20,7 +20,15 @@ echo "Extracting variables from $FILE to $ENV_FILE..."
 
 variables=$(grep -oE '\$\{[^}]+\}' "$FILE" | sed 's/\${\([^}]*\)}/\1/' | sort -u)
 
-if [ -z "$variables" ]; then
+# Capture variables from YAML lists
+yaml_list_vars=$(grep -oE '^[[:space:]]*-[[:space:]]*[A-Z_][A-Z0-9_]*[[:space:]]*$' "$FILE" \
+  | sed -E 's/^[[:space:]]*-[[:space:]]*([A-Z_][A-Z0-9_]*)[[:space:]]*$/\1/' \
+  | sort -u)
+
+# Merge both sources
+all_vars=$(printf "%s\n%s\n" "$variables" "$yaml_list_vars" | sed '/^$/d' | sort -u)
+
+if [ -z "$all_vars" ]; then
     echo "No variables found in $FILE"
     exit 1
 fi
@@ -32,12 +40,12 @@ cat > "$ENV_FILE" << EOF
 
 EOF
 
-echo "$variables" | while read -r var; do
+echo "$all_vars" | while read -r var; do
     echo "${var}=" >> "$ENV_FILE"
     echo "- $var"
 done
 
-count=$(echo "$variables" | wc -l)
+count=$(echo "$all_vars" | wc -l)
 echo ""
 echo "Success: $count unique variable(s) added to $ENV_FILE"
 echo "Edit $ENV_FILE now to set the values"
