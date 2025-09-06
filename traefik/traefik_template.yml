@@ -32,6 +32,7 @@ entryPoints:
         entryPoint:
           to: websecure
           scheme: https
+          permanent: true
 
 ################################################################
 # Traefik logs configuration
