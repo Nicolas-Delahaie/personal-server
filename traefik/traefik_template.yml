@@ -160,9 +160,10 @@ providers:
     #
     exposedByDefault: false
 
-  # file:
-  #   filename: /etc/traefik/dynamic_conf.yml
-  #   watch: true
+  file:
+    debugloggeneratedtemplate: ${DEBUG_MODE}
+    filename: ${TRAEFIK_DYNAMIC_CONF}
+    watch: true
 
 certificatesResolvers:
   letsencrypt:
