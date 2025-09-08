@@ -3,9 +3,9 @@ services:
     image: traefik:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml
-      - ./traefik/traefik_dynamic.yml:${TRAEFIK_DYNAMIC_CONF}
-      - ./traefik/entrypoint.sh:/entrypoint.sh
+      - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml:ro
+      - ./traefik/traefik_dynamic.yml:${TRAEFIK_DYNAMIC_CONF}:ro
+      - ./traefik/entrypoint.sh:/entrypoint.sh:ro
       - traefik_certs:/acme
     environment:
       - LOG_LEVEL=info # Increasing logs (default is warning)
@@ -28,7 +28,7 @@ services:
   glances:
     image: nicolargo/glances
     volumes:
-      - ./glances/glances.conf:/glances/conf/glances.conf
+      - ./glances/glances.conf:/glances/conf/glances.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
@@ -89,7 +89,7 @@ services:
   mosquitto:
     image: eclipse-mosquitto
     volumes:
-      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     ports:
       - 127.0.0.1:1883:1883
 
