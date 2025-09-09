@@ -33,6 +33,8 @@ entryPoints:
           to: websecure
           scheme: https
           permanent: true
+  wg:
+    address: :51820/udp
 
 ################################################################
 # Traefik logs configuration
