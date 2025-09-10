@@ -24,7 +24,7 @@ global:
 entryPoints:
   websecure:
     address: :443
-
+    asDefault: true
   web:
     address: :80
     http:
