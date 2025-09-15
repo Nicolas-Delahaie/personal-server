@@ -92,7 +92,7 @@ services:
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     ports:
-      - 127.0.0.1:1883:1883
+      - 127.0.0.1:1883:1883 # Necessary for HA, which is not on the same networj
 
   vw:
     image: vaultwarden/server:1.34.3
