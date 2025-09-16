@@ -61,6 +61,9 @@ services:
     volumes:
       - ./ha/config:/config
     network_mode: host # Only for Linux, usefull for MDNS discovery
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     environment:
       - LOCAL_IP
       - EXTERNAL_URL=https://ha.${DOMAIN}
