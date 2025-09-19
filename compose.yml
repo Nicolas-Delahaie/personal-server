@@ -16,7 +16,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 51820:51820/udp
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
@@ -135,11 +134,10 @@ services:
     volumes:
       - ./wg/config:/config
       - /lib/modules:/lib/modules #optional
+    ports:
+      - 51820:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
-    labels:
-      - "traefik.enable=true"
-      - "traefik.udp.routers.wg.entrypoints=wg"
 
 volumes:
   vw_data:
