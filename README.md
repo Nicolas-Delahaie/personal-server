@@ -12,11 +12,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       cp .env.template .env
       ```
 
-   2. Completer le fichier généré avec les variables d'environnement nécessaires. Pour générer les mots de passes hashés, exécuter :
-
-      ```bash
-      htpasswd -nbB <USER> <PASSWORD>
-      ```
+   2. Completer le fichier généré avec les variables d'environnement nécessaires.
 
 2. Exécuter la commande suivante :
 
