@@ -35,7 +35,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.glances.middlewares: auth
-      traefik.http.routers.glances.tls.certresolver: letsencrypt
     pid: host
     profiles:
       - monitoring
@@ -51,7 +50,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.portainer.loadbalancer.server.port: 9000
-      traefik.http.routers.portainer.tls.certresolver: letsencrypt
     profiles:
       - monitoring
 
@@ -69,7 +67,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.ha.loadbalancer.server.url: http://host.docker.internal:8123
-      traefik.http.routers.ha.tls.certresolver: letsencrypt
     depends_on:
       - z2m
 
@@ -84,7 +81,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.z2m.middlewares: auth
-      traefik.http.routers.z2m.tls.certresolver: letsencrypt
       traefik.http.services.z2m.loadbalancer.server.port: 8080
     depends_on:
       - mosquitto
@@ -111,7 +107,6 @@ services:
       - PASSWORD_HINTS_ALLOWED=false
     labels:
       traefik.enable: true
-      traefik.http.routers.vw.tls.certresolver: letsencrypt
       traefik.http.routers.vw.middlewares: secure-headers@file
 
 volumes:
