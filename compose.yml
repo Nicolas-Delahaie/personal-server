@@ -21,9 +21,14 @@ services:
     labels:
       traefik.enable: true
       traefik.http.middlewares.auth.basicAuth.users: ${TRAEFIK_ADMIN_TOKEN}
+      traefik.http.middlewares.errp-redirect.errors.status: 400-599
+      traefik.http.middlewares.errp-redirect.errors.service: errp
+      traefik.http.middlewares.errp-redirect.errors.query: /{status}.html
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.middlewares: auth
-      traefik.http.routers.traefik.tls.certresolver: letsencrypt
+      traefik.http.routers.traefik.middlewares: auth,errp-redirect
+    depends_on:
+      errp:
+        condition: service_healthy
 
   glances:
     image: nicolargo/glances
@@ -108,6 +113,17 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.vw.middlewares: secure-headers@file
+
+  errp:
+    image: ghcr.io/tarampampam/error-pages:latest
+    environment:
+      TEMPLATE_NAME: cats #cats,win98,shuffle,connection
+    labels:
+      traefik.enable: true
+      traefik.http.services.errp.loadbalancer.server.port: 8080
+      # Fallback router
+      traefik.http.routers.errp.rule: HostRegexp(`.+`)
+      traefik.http.routers.errp.priority: 10
 
 volumes:
   vw_data:
