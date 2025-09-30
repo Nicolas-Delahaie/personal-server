@@ -21,11 +21,8 @@ services:
     labels:
       traefik.enable: true
       traefik.http.middlewares.auth.basicAuth.users: ${TRAEFIK_ADMIN_TOKEN}
-      traefik.http.middlewares.errp-redirect.errors.status: 400-599
-      traefik.http.middlewares.errp-redirect.errors.service: errp
-      traefik.http.middlewares.errp-redirect.errors.query: /{status}.html
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.middlewares: auth,errp-redirect
+      traefik.http.routers.traefik.middlewares: auth,errp-redirect@file
     depends_on:
       errp:
         condition: service_healthy
