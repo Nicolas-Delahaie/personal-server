@@ -22,7 +22,7 @@ services:
       traefik.enable: true
       traefik.http.middlewares.auth.basicAuth.users: ${TRAEFIK_ADMIN_TOKEN}
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.middlewares: auth,errp-redirect@file
+      traefik.http.routers.traefik.middlewares: auth
     depends_on:
       errp:
         condition: service_healthy
