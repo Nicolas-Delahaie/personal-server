@@ -177,5 +177,5 @@ certificatesResolvers:
     acme:
       email: ${LETSENCRYPT_EMAIL}
       storage: /acme/acme.json
-      httpChallenge:
-        entryPoint: web
+      dnsChallenge:
+        provider: ovh

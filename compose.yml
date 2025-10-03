@@ -13,6 +13,10 @@ services:
       - DOMAIN
       - LETSENCRYPT_EMAIL
       - TRAEFIK_DYNAMIC_CONF
+      - OVH_ENDPOINT=ovh-eu
+      - OVH_APPLICATION_KEY
+      - OVH_APPLICATION_SECRET
+      - OVH_CONSUMER_KEY
     ports:
       - 80:80
       - 443:443
