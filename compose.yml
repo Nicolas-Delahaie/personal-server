@@ -125,6 +125,9 @@ services:
       # Fallback router
       traefik.http.routers.errp.rule: HostRegexp(`.+`)
       traefik.http.routers.errp.priority: 10
+      traefik.http.routers.errp.tls.certResolver: letsencrypt
+      traefik.http.routers.errp.tls.domains[0].main: "${DOMAIN}"
+      traefik.http.routers.errp.tls.domains[0].sans: "*.${DOMAIN}"
 
 volumes:
   vw_data:
