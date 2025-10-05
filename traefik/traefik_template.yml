@@ -175,6 +175,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # URL de staging (pour tests)
       email: ${LETSENCRYPT_EMAIL}
       storage: /acme/acme.json
       dnsChallenge:
