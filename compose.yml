@@ -27,6 +27,9 @@ services:
       traefik.http.middlewares.auth.basicAuth.users: ${TRAEFIK_ADMIN_TOKEN}
       traefik.http.routers.traefik.service: api@internal
       traefik.http.routers.traefik.middlewares: auth
+      traefik.http.routers.traefik.tls.certResolver: letsencrypt
+      traefik.http.routers.traefik.tls.domains[0].main: "${DOMAIN}"
+      traefik.http.routers.traefik.tls.domains[0].sans: "*.${DOMAIN}"
     depends_on:
       errp:
         condition: service_healthy
@@ -125,9 +128,6 @@ services:
       # Fallback router
       traefik.http.routers.errp.rule: HostRegexp(`.+`)
       traefik.http.routers.errp.priority: 10
-      traefik.http.routers.errp.tls.certResolver: letsencrypt
-      traefik.http.routers.errp.tls.domains[0].main: "${DOMAIN}"
-      traefik.http.routers.errp.tls.domains[0].sans: "*.${DOMAIN}"
 
 volumes:
   vw_data:
