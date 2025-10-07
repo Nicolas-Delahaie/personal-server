@@ -57,6 +57,7 @@ log:
   # Default: "ERROR"
   #
   level: ${LOG_LEVEL}
+  filePath: ${LOG_FILE}
 
 # Sets the filepath for the traefik log. If not specified, stdout will be used.
 # Intermediate directories are created if necessary.
@@ -84,8 +85,7 @@ log:
 # Optional
 #
 accessLog:
-  filters:
-    statusCodes: ["400-599"]
+  filePath: ${ACCESS_LOG_FILE}
 
   # Sets the file path for the access log. If not specified, stdout will be used.
   # Intermediate directories are created if necessary.

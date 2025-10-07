@@ -5,6 +5,8 @@
 /ha/config/*
 !/ha/config/configuration.yaml
 
-/z2m/data
+/traefik/logs
 
 /wg
+
+/z2m/data

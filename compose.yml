@@ -6,6 +6,7 @@ services:
       - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml:ro
       - ./traefik/traefik_dynamic.yml:${TRAEFIK_DYNAMIC_CONF}:ro
       - ./traefik/entrypoint.sh:/entrypoint.sh:ro
+      - ./traefik/logs:/logs
       - traefik_certs:/acme
     environment:
       - LOG_LEVEL=info # Increasing logs (default is warning)
