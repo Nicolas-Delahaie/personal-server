@@ -29,8 +29,6 @@ entryPoints:
       tls:
         certResolver: letsencrypt
         options: default
-      middlewares:
-        - errp-redirect@file
 
   web:
     address: :80

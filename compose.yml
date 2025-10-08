@@ -27,7 +27,7 @@ services:
       traefik.enable: true
       traefik.http.middlewares.auth.basicAuth.users: ${TRAEFIK_ADMIN_TOKEN}
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.middlewares: auth
+      traefik.http.routers.traefik.middlewares: auth,errp-redirect@file
       traefik.http.routers.traefik.tls.certResolver: letsencrypt
       traefik.http.routers.traefik.tls.domains[0].main: "${DOMAIN}"
       traefik.http.routers.traefik.tls.domains[0].sans: "*.${DOMAIN}"
@@ -44,7 +44,7 @@ services:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
       traefik.enable: true
-      traefik.http.routers.glances.middlewares: auth
+      traefik.http.routers.glances.middlewares: auth,errp-redirect@file
     pid: host
     profiles:
       - monitoring
@@ -60,6 +60,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.portainer.loadbalancer.server.port: 9000
+      traefik.http.routers.portainer.middlewares: errp-redirect@file
     profiles:
       - monitoring
 
@@ -77,6 +78,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.ha.loadbalancer.server.url: http://host.docker.internal:8123
+      traefik.http.routers.ha.middlewares: errp-redirect@file
     depends_on:
       - z2m
 
@@ -90,7 +92,7 @@ services:
       - ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL=warning # Decreasing logs (default is info)
     labels:
       traefik.enable: true
-      traefik.http.routers.z2m.middlewares: auth
+      traefik.http.routers.z2m.middlewares: auth,errp-redirect@file
       traefik.http.services.z2m.loadbalancer.server.port: 8080
     depends_on:
       - mosquitto
@@ -122,13 +124,14 @@ services:
   errp:
     image: ghcr.io/tarampampam/error-pages:latest
     environment:
-      TEMPLATE_NAME: cats #cats,win98,shuffle,connection
+      TEMPLATE_NAME: win98 #cats,win98,shuffle,connection
     labels:
       traefik.enable: true
-      traefik.http.services.errp.loadbalancer.server.port: 8080
       # Fallback router
+      traefik.http.routers.errp.middlewares: errp-redirect@file
       traefik.http.routers.errp.rule: HostRegexp(`.+`)
       traefik.http.routers.errp.priority: 10
+      traefik.http.services.errp.loadbalancer.server.port: 8080
 
 volumes:
   vw_data:

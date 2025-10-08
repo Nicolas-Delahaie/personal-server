@@ -7,8 +7,6 @@ http:
         permissionsPolicy: camera=(), microphone=(), geolocation=(), payment=()
     errp-redirect:
       errors:
-        status:
-          - "400"
-          - "402-599"
+        status: "400-599"
         service: errp@docker
         query: /{status}.html
