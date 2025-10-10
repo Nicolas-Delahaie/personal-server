@@ -108,15 +108,11 @@ services:
     image: vaultwarden/server:latest
     volumes:
       - vw_data:/data
+    env_file: ./vw/.env
     environment:
-      - SIGNUPS_ALLOWED=false
+      # Only dynamic variables here
       - DOMAIN=https://vw.${DOMAIN}
-      - INVITATIONS_ALLOWED=false
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
-      - ADMIN_SESSION_LIFETIME=10
-      - DISABLE_2FA_REMEMBER=true
-      - LOG_LEVEL=info
-      - PASSWORD_HINTS_ALLOWED=false
     labels:
       traefik.enable: true
       traefik.http.routers.vw.middlewares: secure-headers@file
@@ -127,8 +123,8 @@ services:
       TEMPLATE_NAME: win98 #cats,win98,shuffle,connection
     labels:
       traefik.enable: true
-      # Fallback router
       traefik.http.routers.errp.middlewares: errp-redirect@file
+      # Fallback router
       traefik.http.routers.errp.rule: HostRegexp(`.+`)
       traefik.http.routers.errp.priority: 10
       traefik.http.services.errp.loadbalancer.server.port: 8080
