@@ -113,6 +113,8 @@ services:
       # Only dynamic variables here
       - DOMAIN=https://vw.${DOMAIN}
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
+    healthcheck:
+      start_period: 5s
     labels:
       traefik.enable: true
       traefik.http.routers.vw.middlewares: secure-headers@file
