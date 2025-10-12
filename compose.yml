@@ -110,9 +110,11 @@ services:
       - vw_data:/data
     env_file: ./vw/.env
     environment:
-      # Only dynamic variables here
+      # Static configuration here : /vw/.env
       - DOMAIN=https://vw.${DOMAIN}
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
+      - PUSH_INSTALLATION_ID
+      - PUSH_INSTALLATION_KEY
     healthcheck:
       start_period: 5s
     labels:
