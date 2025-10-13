@@ -50,10 +50,7 @@ services:
       - monitoring
 
   portainer:
-    build:
-      context: ./portainer
-      args:
-        - PORTAINER_ADMIN_PASSWORD
+    image: portainer/portainer-ce:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -61,6 +58,7 @@ services:
       traefik.enable: true
       traefik.http.services.portainer.loadbalancer.server.port: 9000
       traefik.http.routers.portainer.middlewares: errp-redirect@file
+    command: ["--admin-password", "${PORTAINER_ADMIN_PASSWORD}"]
     profiles:
       - monitoring
 
