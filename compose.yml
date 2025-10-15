@@ -63,10 +63,12 @@ services:
       - monitoring
 
   ha:
-    image: "ghcr.io/home-assistant/home-assistant:latest"
+    build: ./ha
     volumes:
       - ./ha/config:/config
     network_mode: host # Only for Linux, usefull for MDNS discovery
+    devices:
+      - /dev/serial/by-id/${SIMCOM_AT_USB}:/dev/ttyUSB1
     cap_add:
       - NET_ADMIN
       - NET_RAW
