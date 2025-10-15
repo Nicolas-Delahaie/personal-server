@@ -23,6 +23,13 @@ Configuration du serveur (dans cet exemple, un Shuttle sous Debian) pour permett
       - Si aucune connexion n'existe sous "Ethernet", en ajouter une.
       - Conserver les valeurs par défaut et valider.
 
+4. Désactiver ModemManager (pour éviter les conflits avec le modem 4G).
+
+   ```bash
+   sudo systemctl disable --now ModemManager
+   sudo systemctl mask ModemManager
+   ```
+
 ## Configuration de l'accès
 
 Le serveur nécessite plusieurs configurations pour être pleinement opérationnel :
