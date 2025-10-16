@@ -9,11 +9,6 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
-sensor:
-  - platform: serial
-    serial_port: /dev/ttyUSB1
-    baudrate: 115200
-
 http:
   use_x_forwarded_for: true
   trusted_proxies:
