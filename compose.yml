@@ -63,7 +63,7 @@ services:
       - monitoring
 
   ha:
-    build: ./ha
+    image: ghcr.io/home-assistant/home-assistant:latest
     volumes:
       - ./ha/config:/config
     network_mode: host # Only for Linux, usefull for MDNS discovery

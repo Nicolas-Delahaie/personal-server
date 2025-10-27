@@ -30,6 +30,12 @@ Configuration du serveur (dans cet exemple, un Shuttle sous Debian) pour permett
    sudo systemctl mask ModemManager
    ```
 
+5. Installation de picocom (pour déboguer et communiquer avec un modem 4G en AT) :
+
+   ```bash
+   sudo apt-get install picocom
+   ```
+
 ## Configuration de l'accès
 
 Le serveur nécessite plusieurs configurations pour être pleinement opérationnel :
