@@ -154,9 +154,12 @@ services:
         tmpfs:
           size: 1000000000
     ports:
-      - "8971:8971"
-      - "127.0.0.1:8555:8555/tcp" # WebRTC over tcp
-      - "127.0.0.1:8555:8555/udp" # WebRTC over udp
+      - "127.0.0.1:8555:8555/tcp" # WebRTC TCP
+      - "127.0.0.1:8555:8555/udp" # WebRTC UDP
+    labels:
+      traefik.enable: true
+      traefik.http.routers.frigate.middlewares: auth
+      traefik.http.services.frigate.loadbalancer.server.port: 8971
 
 volumes:
   vw_data:
