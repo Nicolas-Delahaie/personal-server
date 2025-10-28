@@ -21,3 +21,11 @@ homeassistant:
 logger:
   logs:
     py.warnings: error
+
+alarm_control_panel:
+  - platform: manual
+    arming_states:
+      - armed_away
+    code_arm_required: false
+    arming_time: 0
+    delay_time: 0
