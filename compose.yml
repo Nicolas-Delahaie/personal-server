@@ -144,8 +144,7 @@ services:
     image: ghcr.io/blakeblackshear/frigate:stable
     stop_grace_period: 30s # Frigate is long to quit
     shm_size: "256mb"
-    devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128 # For intel
+    privileged: true # Necessary for GPU acceleration
     volumes:
       - ./frigate/config:/config
       - ./frigate/media:/media/frigate
