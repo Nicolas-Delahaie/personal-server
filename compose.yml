@@ -159,6 +159,10 @@ services:
       traefik.enable: true
       traefik.http.routers.frigate.middlewares: errp-redirect@file
       traefik.http.services.frigate.loadbalancer.server.port: 8971
+    environment:
+      - FRIGATE_RTSP_USER=${RTSP_USER}
+      - FRIGATE_RTSP_PASSWORD=${RTSP_PASSWORD}
+      - FRIGATE_RTSP_IP=${RTSP_IP}
 
 volumes:
   vw_data:
