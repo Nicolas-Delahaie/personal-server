@@ -21,6 +21,9 @@ cameras:
           roles:
             - record
             - audio
+            
+audio:
+  enabled: true
 
 detect:
   enabled: true
