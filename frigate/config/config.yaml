@@ -8,17 +8,21 @@ mqtt:
 tls:
   enabled: false
 
+go2rtc:
+  streams:
+    cam1:
+      - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@{FRIGATE_RTSP_IP}/stream1 # 1080p
+      - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@{FRIGATE_RTSP_IP}/stream2 # 720p
+
 cameras:
   cam1:
     enabled: true
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@{FRIGATE_RTSP_IP}/stream2 # 720p
+        - path: rtsp://127.0.0.1:8554/cam1
           roles:
             - detect
-        - path: rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@{FRIGATE_RTSP_IP}/stream1 # 1080p
-          roles:
             - record
             - audio
             
