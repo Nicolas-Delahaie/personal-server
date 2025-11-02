@@ -154,6 +154,7 @@ services:
           size: 1000000000
     ports:
       - "127.0.0.1:5000:5000" # Dangerous internal API
+      - "127.0.0.1:8554:8554" # go2rtc
       - "127.0.0.1:8555:8555" # WebRTC TCP
       - "127.0.0.1:8555:8555/udp" # WebRTC UDP
     labels:
@@ -164,6 +165,8 @@ services:
       - FRIGATE_RTSP_USER=${RTSP_USER}
       - FRIGATE_RTSP_PASSWORD=${RTSP_PASSWORD}
       - FRIGATE_RTSP_IP=${RTSP_IP}
+    depends_on:
+      - mosquitto
 
 volumes:
   vw_data:
