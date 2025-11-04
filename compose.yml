@@ -7,6 +7,7 @@ services:
       - ./traefik/traefik_dynamic.yml:${TRAEFIK_DYNAMIC_CONF}:ro
       - ./traefik/entrypoint.sh:/entrypoint.sh:ro
       - ./traefik/logs:/logs
+      - /etc/localtime:/etc/localtime:ro
       - traefik_certs:/acme
     environment:
       - LOG_LEVEL=info # Increasing logs (default is warning)
@@ -40,6 +41,7 @@ services:
     volumes:
       - ./glances/glances.conf:/glances/conf/glances.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - GLANCES_OPT=-C /glances/conf/glances.conf -w
     labels:
@@ -65,6 +67,7 @@ services:
   ha:
     image: ghcr.io/home-assistant/home-assistant:latest
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./ha/config:/config
     network_mode: host # Only for Linux, usefull for MDNS discovery
     cap_add:
@@ -99,6 +102,7 @@ services:
     image: eclipse-mosquitto
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 127.0.0.1:1883:1883 # Necessary for HA, which is not on the same network
 
@@ -106,6 +110,7 @@ services:
     image: vaultwarden/server:latest
     volumes:
       - vw_data:/data
+      - /etc/localtime:/etc/localtime:ro
     env_file: ./vw/.env # Static configuration
     environment: # Dynamic configuration
       - DOMAIN=https://vw.${DOMAIN}
