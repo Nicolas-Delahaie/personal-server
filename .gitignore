@@ -12,3 +12,5 @@
 /frigate/config/*
 !/frigate/config/config.yaml
 /frigate/media/
+
+/grdf/log
