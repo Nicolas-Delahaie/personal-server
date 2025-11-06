@@ -80,7 +80,7 @@ services:
       traefik.http.services.ha.loadbalancer.server.url: http://host.docker.internal:8123
       traefik.http.routers.ha.middlewares: errp-redirect@file
     depends_on:
-      - z2m
+      - mosquitto
 
   z2m:
     image: koenkk/zigbee2mqtt
@@ -102,7 +102,7 @@ services:
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     ports:
-      - 127.0.0.1:1883:1883 # Necessary for HA, which is not on the same networj
+      - 127.0.0.1:1883:1883 # Necessary for HA, which is not on the same network
 
   vw:
     image: vaultwarden/server:latest
