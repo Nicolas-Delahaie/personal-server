@@ -150,6 +150,8 @@ services:
     stop_grace_period: 30s # Frigate is long to quit
     shm_size: "256mb"
     privileged: true # Necessary for GPU acceleration
+    extra_hosts:
+      - "camera-1:${CAM1_IP}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frigate/config:/config
@@ -168,9 +170,8 @@ services:
       traefik.http.routers.frigate.middlewares: errp-redirect@file
       traefik.http.services.frigate.loadbalancer.server.port: 8971
     environment:
-      - FRIGATE_RTSP_USER=${RTSP_USER}
-      - FRIGATE_RTSP_PASSWORD=${RTSP_PASSWORD}
-      - FRIGATE_RTSP_IP=${RTSP_IP}
+      - FRIGATE_CAM1_USER=${CAM1_USER}
+      - FRIGATE_CAM1_PASSWORD=${CAM1_PASSWORD}
     depends_on:
       - mosquitto
 
