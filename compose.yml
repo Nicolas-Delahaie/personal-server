@@ -67,8 +67,6 @@ services:
     volumes:
       - ./ha/config:/config
     network_mode: host # Only for Linux, usefull for MDNS discovery
-    devices:
-      - /dev/serial/by-id/${SIMCOM_AT_USB}:/dev/ttyUSB1
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -132,6 +130,15 @@ services:
       traefik.http.routers.errp.rule: HostRegexp(`.+`)
       traefik.http.routers.errp.priority: 10
       traefik.http.services.errp.loadbalancer.server.port: 8080
+
+  simcom:
+    build: ./simcom
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+    devices:
+      - /dev/serial/by-id/${SIMCOM_DONGLE}:/dev/ttyUSB1
+    depends_on:
+      - mosquitto
 
 volumes:
   vw_data:
