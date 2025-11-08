@@ -135,6 +135,7 @@ services:
     build: ./simcom
     volumes:
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - ./simcom/src:/app
     devices:
       - /dev/serial/by-id/${SIMCOM_DONGLE}:/dev/ttyUSB1
     depends_on:
