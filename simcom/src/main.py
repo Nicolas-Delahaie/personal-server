@@ -4,24 +4,12 @@ Ce script se connecte au bus système D-Bus, trouve le premier modem via
 ModemManager et expose les interfaces en MQTT
 """
 import asyncio
-import logging
 from pathlib import Path
 from dbus_next.aio import MessageBus
 from dbus_next.constants import BusType
 
 LOG_FILE = Path(__file__).resolve().parent / "sms.log"
 MM_BUS = "org.freedesktop.ModemManager1"
-
-def setup_logging():
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(message)s",
-        handlers=[
-            logging.FileHandler(LOG_FILE, encoding="utf-8"),
-            logging.StreamHandler(),
-        ],
-    )
-
 
 async def fetch_and_log_sms():
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
@@ -38,10 +26,10 @@ async def fetch_and_log_sms():
             break
 
     if not modem_path:
-        logging.error("Aucun modem trouvé")
+        print("Aucun modem trouvé")
         return
 
-    logging.info(f"Modem trouvé : {modem_path}")
+    print(f"Modem trouvé : {modem_path}")
 
     modem_introspection = await bus.introspect(MM_BUS, modem_path)
     modem_proxy = bus.get_proxy_object(MM_BUS, modem_path, modem_introspection)
@@ -49,10 +37,10 @@ async def fetch_and_log_sms():
 
     sms_paths = await messaging.call_list()
     if not sms_paths:
-        logging.info("Aucun SMS trouvé.")
+        print("Aucun SMS trouvé.")
         return
 
-    logging.info(f"{len(sms_paths)} SMS trouvé(s). Enregistrement dans {LOG_FILE}")
+    print(f"{len(sms_paths)} SMS trouvé(s). Enregistrement dans {LOG_FILE}")
     for sms_path in sms_paths:
         try:
             sms_introspection = await bus.introspect(MM_BUS, sms_path)
@@ -65,22 +53,21 @@ async def fetch_and_log_sms():
             text = props.get("Text").value if "Text" in props else ""
             timestamp = props.get("Timestamp").value if "Timestamp" in props else "(?)"
 
-            logging.info("--- SMS reçu ---")
-            logging.info(f"De: {number}")
-            logging.info(f"Date: {timestamp}")
-            logging.info(f"Texte: {text}")
+            print("--- SMS reçu ---")
+            print(f"De: {number}")
+            print(f"Date: {timestamp}")
+            print(f"Texte: {text}")
         except Exception as e:
-            logging.exception(f"Erreur lors de la lecture du SMS {sms_path}: {e}")
+            print(f"Erreur lors de la lecture du SMS {sms_path}: {e}")
 
     # After processing all SMS, disconnect the bus so asyncio can finish cleanly
     await bus.wait_for_disconnect()
 
 
 async def main():
-    setup_logging()
-    logging.info("Démarrage (dbus-next)")
+    print("Démarrage (dbus-next)")
     await fetch_and_log_sms()
-    logging.info("Terminé. Fermeture.")
+    print("Terminé. Fermeture.")
 
 
 if __name__ == "__main__":
