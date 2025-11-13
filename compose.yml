@@ -176,7 +176,7 @@ services:
       - mosquitto
 
   grdf:
-    image: ssenart/gazpar2mqtt:latest
+    image: ssenart/gazpar2mqtt:0.2.3b1
     volumes:
       - ./grdf/log:/app/log
     environment:
@@ -184,8 +184,6 @@ services:
       - GRDF_PASSWORD
       - GRDF_PCE_IDENTIFIER
       - MQTT_BROKER=mosquitto
-      - MQTT_USERNAME=_
-      - MQTT_PASSWORD=_
     depends_on:
       - mosquitto
 
