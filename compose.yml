@@ -106,9 +106,8 @@ services:
     image: vaultwarden/server:latest
     volumes:
       - vw_data:/data
-    env_file: ./vw/.env
-    environment:
-      # Static configuration here : /vw/.env
+    env_file: ./vw/.env # Static configuration
+    environment: # Dynamic configuration
       - DOMAIN=https://vw.${DOMAIN}
       - ADMIN_TOKEN=${VW_ADMIN_TOKEN}
       - PUSH_INSTALLATION_ID
@@ -142,33 +141,24 @@ services:
       - mosquitto
 
   frigate:
-    container_name: frigate
-    privileged: true # this may not be necessary for all setups
-    restart: unless-stopped
-    stop_grace_period: 30s # allow enough time to shut down the various services
     image: ghcr.io/blakeblackshear/frigate:stable
-    shm_size: "512mb" # update for your cameras based on calculation above
+    privileged: true
+    stop_grace_period: 30s # Frigate is long to quit
+    shm_size: "256mb"
     devices:
-      - /dev/bus/usb:/dev/bus/usb # Passes the USB Coral, needs to be modified for other versions
-      - /dev/apex_0:/dev/apex_0 # Passes a PCIe Coral, follow driver instructions here https://github.com/jnicolson/gasket-builder
-      - /dev/video11:/dev/video11 # For Raspberry Pi 4B
-      - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
+      - /dev/dri/renderD128:/dev/dri/renderD128 # For intel
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /path/to/your/config:/config
-      - /path/to/your/storage:/media/frigate
+      - ./frigate/config:/config
+      - ./frigate/media:/media/frigate
       - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
         target: /tmp/cache
         tmpfs:
           size: 1000000000
     ports:
       - "8971:8971"
-      # - "5000:5000" # Internal unauthenticated access. Expose carefully.
-      - "8554:8554" # RTSP feeds
-      - "8555:8555/tcp" # WebRTC over tcp
-      - "8555:8555/udp" # WebRTC over udp
-    environment:
-      FRIGATE_RTSP_PASSWORD: "password"
+      - "127.0.0.1:8555:8555/tcp" # WebRTC over tcp
+      - "127.0.0.1:8555:8555/udp" # WebRTC over udp
 
 volumes:
   vw_data:
