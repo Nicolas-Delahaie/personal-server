@@ -157,7 +157,7 @@ services:
       - "127.0.0.1:8555:8555/udp" # WebRTC UDP
     labels:
       traefik.enable: true
-      traefik.http.routers.frigate.middlewares: auth
+      traefik.http.routers.frigate.middlewares: errp-redirect@file
       traefik.http.services.frigate.loadbalancer.server.port: 8971
 
 volumes:
