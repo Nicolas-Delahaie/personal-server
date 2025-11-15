@@ -1,11 +1,13 @@
 # https://docs.frigate.video/configuration/reference/
 
+version: 0.16-0
+
 mqtt:
-  enabled: True
   host: mosquitto
 
 tls:
   enabled: false
+
 cameras:
   cam1:
     enabled: true
@@ -19,17 +21,30 @@ cameras:
           roles:
             - record
             - audio
+
 detect:
   enabled: true
   width: 960
   height: 540
-version: 0.16-0
+
 record:
   enabled: true
   retain:
     days: 10
     mode: motion
+
 snapshots:
   enabled: true
   timestamp: true
   bounding_box: true
+
+detectors:
+  cpu1:
+    type: openvino
+
+model:
+  width: 300
+  height: 300
+  input_pixel_format: bgr
+  path: /openvino-model/ssdlite_mobilenet_v2.xml
+  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
