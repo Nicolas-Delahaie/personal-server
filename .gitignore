@@ -9,5 +9,6 @@
 
 /z2m/data
 
-/frigate/config
-/frigate/media
+/frigate/config/*
+!/frigate/config/config.yaml
+/frigate/media/
