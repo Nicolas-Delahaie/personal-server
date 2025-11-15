@@ -1,5 +1,9 @@
+# https://docs.frigate.video/configuration/reference/
+
 mqtt:
-  enabled: false
+  enabled: True
+  host: mosquitto
+
 tls:
   enabled: false
 cameras:
