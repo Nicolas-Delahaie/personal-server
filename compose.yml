@@ -142,13 +142,11 @@ services:
 
   frigate:
     image: ghcr.io/blakeblackshear/frigate:stable
-    privileged: true
     stop_grace_period: 30s # Frigate is long to quit
     shm_size: "256mb"
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128 # For intel
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - ./frigate/config:/config
       - ./frigate/media:/media/frigate
       - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
