@@ -20,6 +20,18 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
    docker compose up -d --build
    ```
 
+3. Configurer le service Frigate
+
+   1. Reintialiser le password admin généré automatiquement (visible dans les logs via `docker compose logs frigate`).
+   2. Modifier la configuration `frigate/config/config.yaml` et désactiver le TLS pour Traefik :
+
+      ```yaml
+      tls: # For reverse proxy
+        enabled: false
+      ```
+
+   3. Configurer entièrement le fichier de config Frigate en suivant la documentation officielle [ici]().
+
 > Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `portainer`, ajouter `--profile monitoring`.
 
 ## Configuration du serveur
