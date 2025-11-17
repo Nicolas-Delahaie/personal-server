@@ -20,9 +20,11 @@ cameras:
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://127.0.0.1:8554/cam1
+        - path: rtsp://127.0.0.1:8554/cam1?sub
           roles:
             - detect
+        - path: rtsp://127.0.0.1:8554/cam1?main
+          roles:
             - record
             - audio
     onvif:
