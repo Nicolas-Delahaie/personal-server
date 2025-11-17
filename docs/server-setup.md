@@ -54,3 +54,21 @@ Pour un accès direct au serveur, indépendant de la connexion internet
 
 Pour l'accès depuis internet (configuration DNS et redirection de ports)  
 ➜ [Configuration du routeur et DNS](./router-setup.md)
+
+## Méthodes de développement
+
+### Développement via SSH
+
+Pour un développement efficace avec modifications et relances fréquentes :
+
+1. Installer l'extension VSCode `ms-vscode-remote.remote-ssh` pour développer directement sur le serveur
+2. Tester les modifications sur le serveur
+3. Après validation, copier en local et commiter
+
+Cette approche évite le cycle répétitif modifier-commit-push-pull-tester.
+
+**Important** : Maintenir une séparation claire entre les modifications locales et celles sur le serveur.
+
+### Développement local
+
+Pour le développement local avant la production, configurer un DNS local selon la documentation [ici](./docs/dnsmasq.md#configuration-du-dns).
