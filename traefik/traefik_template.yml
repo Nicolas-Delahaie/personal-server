@@ -84,6 +84,7 @@ log:
 #
 accessLog:
   filePath: ${ACCESS_LOG_FILE}
+  format: json
 
   # Sets the file path for the access log. If not specified, stdout will be used.
   # Intermediate directories are created if necessary.
@@ -91,14 +92,14 @@ accessLog:
   # Optional
   # Default: os.Stdout
   #
-#  filePath: /path/to/log/log.txt
+  #  filePath: /path/to/log/log.txt
 
-# Format is either "json" or "common".
-#
-# Optional
-# Default: "common"
-#
-#  format: json
+  # Format is either "json" or "common".
+  #
+  # Optional
+  # Default: "common"
+  #
+  #  format: json
 
 ################################################################
 # API and dashboard configuration
