@@ -25,7 +25,12 @@ cameras:
             - detect
             - record
             - audio
-            
+    zones:
+      zone_interdite:
+        coordinates: 0.294,0.012,0.305,0.601,0.553,0.888,1,0.884,1,1,0,1,0,0
+        inertia: 2
+        loitering_time: 0
+
 audio:
   enabled: true
 
