@@ -23,7 +23,7 @@ services:
       - 80:80
       - 443:443
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host:host-gateway"
     labels:
       traefik.enable: true
       traefik.http.middlewares.auth.basicAuth.users: ${TRAEFIK_ADMIN_TOKEN}
@@ -78,7 +78,7 @@ services:
       - EXTERNAL_URL=https://ha.${DOMAIN}
     labels:
       traefik.enable: true
-      traefik.http.services.ha.loadbalancer.server.url: http://host.docker.internal:8123
+      traefik.http.services.ha.loadbalancer.server.url: http://host:8123
       traefik.http.routers.ha.middlewares: errp-redirect@file
     depends_on:
       - mosquitto
