@@ -49,7 +49,7 @@ services:
       traefik.http.routers.glances.middlewares: auth,errp-redirect@file
     pid: host
     profiles:
-      - monitoring
+      - monit
 
   portainer:
     image: portainer/portainer-ce:latest
@@ -62,7 +62,7 @@ services:
       traefik.http.routers.portainer.middlewares: errp-redirect@file
     command: ["--admin-password", "${PORTAINER_ADMIN_PASSWORD}"]
     profiles:
-      - monitoring
+      - monit
 
   ha:
     image: ghcr.io/home-assistant/home-assistant:latest
