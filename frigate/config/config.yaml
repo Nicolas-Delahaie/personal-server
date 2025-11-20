@@ -11,11 +11,11 @@ tls:
 go2rtc:
   streams:
     cam1:
-      - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@{FRIGATE_RTSP_IP}/stream1 # 1080p
-      - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@{FRIGATE_RTSP_IP}/stream2 # 720p
+      - rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1/stream1 # 1080p
+      - rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1/stream2 # 720p
 
 cameras:
-  cam1:
+  cam1: # Tapo C200
     enabled: true
     ffmpeg:
       hwaccel_args: preset-vaapi
@@ -25,11 +25,11 @@ cameras:
             - detect
             - record
             - audio
-    zones:
-      zone_interdite:
-        coordinates: 0.294,0.012,0.305,0.601,0.553,0.888,1,0.884,1,1,0,1,0,0
-        inertia: 2
-        loitering_time: 0
+    onvif:
+      host: camera-1
+      port: 2020
+      user: "{FRIGATE_CAM1_USER}"
+      password: "{FRIGATE_CAM1_PASSWORD}"
 
 audio:
   enabled: true
