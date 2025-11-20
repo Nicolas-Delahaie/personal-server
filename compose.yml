@@ -126,7 +126,7 @@ services:
   errp:
     image: ghcr.io/tarampampam/error-pages:latest
     environment:
-      TEMPLATE_NAME: win98 #cats,win98,shuffle,connection
+      - TEMPLATE_NAME=win98 #cats,win98,shuffle,connection
     labels:
       traefik.enable: true
       traefik.http.routers.errp.middlewares: errp-redirect@file
@@ -160,7 +160,7 @@ services:
           size: 1000000000
     ports:
       - "127.0.0.1:5000:5000" # Dangerous internal API
-      - "127.0.0.1:8554:8554" # go2rtc
+      - "127.0.0.1:8554:8554" # RTSP from go2rtc
       - "127.0.0.1:8555:8555" # WebRTC TCP
       - "127.0.0.1:8555:8555/udp" # WebRTC UDP
     labels:
