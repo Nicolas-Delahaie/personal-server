@@ -146,6 +146,7 @@ services:
     shm_size: "256mb"
     privileged: true # Necessary for GPU acceleration
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./frigate/config:/config
       - ./frigate/media:/media/frigate
       - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
