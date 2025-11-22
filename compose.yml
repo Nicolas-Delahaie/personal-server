@@ -214,7 +214,7 @@ services:
       - ./traefik/logs:/logs/traefik:ro
       - /var/log/journal:/run/log/journal:ro
     environment:
-      - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik Dominic-Wagner/vaultwarden crowdsecurity/home-assistant crowdsecurity/sshd
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/sshd
 
 volumes:
   vw_data:
