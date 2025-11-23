@@ -176,7 +176,7 @@ services:
       - mosquitto
 
   grdf:
-    image: ssenart/gazpar2mqtt:0.2.3b1
+    image: ssenart/gazpar2mqtt:latest
     volumes:
       - ./grdf/log:/app/log
     environment:
