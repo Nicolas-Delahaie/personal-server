@@ -15,3 +15,7 @@
 /frigate/media/
 
 /grdf/log
+
+/cs/config/*
+!/cs/config/acquis.yaml
+!/cs/config/profiles.yaml
