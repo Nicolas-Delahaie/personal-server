@@ -37,13 +37,13 @@ services:
         condition: service_healthy
 
   glances:
-    image: nicolargo/glances
+    image: nicolargo/glances:latest
     volumes:
-      - ./glances/glances.conf:/glances/conf/glances.conf:ro
+      - ./glances/glances.conf:/etc/glances/glances.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - GLANCES_OPT=-C /glances/conf/glances.conf -w
+      - GLANCES_OPT=-w
     labels:
       traefik.enable: true
       traefik.http.routers.glances.middlewares: auth,errp-redirect@file
