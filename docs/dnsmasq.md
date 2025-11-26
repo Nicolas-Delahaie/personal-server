@@ -10,10 +10,10 @@ Sur la machine hôte (exemple avec Homebrew sur macOS) :
 brew install dnsmasq
 ```
 
-Une configuration par défaut de `dnsmasq` est disponible dans `configs/dnsmasq-example.conf`. Pour l'utiliser comme base :
+Une configuration par défaut de `dnsmasq` est disponible dans `host_configs/dnsmasq-example.conf`. Pour l'utiliser comme base :
 
 ```bash
-cp configs/dnsmasq-example.conf /opt/homebrew/etc/dnsmasq.conf
+cp host_configs/dnsmasq-example.conf /opt/homebrew/etc/dnsmasq.conf
 ```
 
 ## Configuration du DHCP
