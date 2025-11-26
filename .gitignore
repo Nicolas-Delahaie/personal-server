@@ -4,7 +4,6 @@
 
 /ha/config/*
 !/ha/config/configuration.yaml
-!/ha/config/mqtt_sensors.yaml
 
 /traefik/logs
 
