@@ -78,4 +78,4 @@ ssh server.local
 
 ## Redirection du port 22
 
-Une fois le SSH configuré, il est nécessaire de rediriger le port 22 de la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports) et s'assurer que les règles de pare-feu permettent l'accès au port 22.
+Une fois le SSH configuré, il est nécessaire de rediriger le port 22 du serveur sur la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports) et s'assurer que les règles de pare-feu permettent l'accès au port 22.

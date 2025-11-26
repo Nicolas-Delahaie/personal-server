@@ -37,23 +37,3 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 ## Configuration du serveur
 
 Pour la configuration du serveur, suivre la documentation [ici](./docs/server-setup.md).
-
-## Méthodes de développement
-
-### Développement via SSH
-
-Pour un développement efficace avec modifications et relances fréquentes :
-
-1. Installer l'extension VSCode `ms-vscode-remote.remote-ssh` pour développer directement sur le serveur
-2. Tester les modifications sur le serveur
-3. Après validation, copier en local et commiter
-
-Cette approche évite le cycle répétitif modifier-commit-push-pull-tester.
-
-**Important** : Maintenir une séparation claire entre les modifications locales et celles sur le serveur.
-
-### Développement local
-
-Pour le développement local avant la production, configurer un DNS local selon la documentation [ici](./docs/dnsmasq.md#configuration-du-dns).
-
-IP fixe pour redirection : Il faut créer un Bail DHCP static. De cette manière, le shuttle reste en DHCP puis renouveller le bail avec `sudo dhclient <interface_reseau>`

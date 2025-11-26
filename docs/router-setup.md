@@ -26,6 +26,8 @@ Sur l'intranet de la box (<http://mafreebox.freebox.fr> chez Free), configurer l
 
 Cette configuration permet l'accès au serveur depuis l'extérieur via SSH ou navigateur web.
 
+> Il est préférable de créer un bail DHCP statique pour le serveur afin de garantir que l'IP locale ne change pas et la redirection se fait bien. Le bail doit se créer à partir de l'interface de la box. Pour renouveler le bail après sa définition statique au niveau de la box, exécuter `sudo dhclient <interface_reseau>`.
+
 ## Configuration du DNS
 
 1. Configuration OVH :
