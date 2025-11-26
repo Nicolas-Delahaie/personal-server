@@ -30,5 +30,4 @@ alarm_control_panel:
     arming_time: 0
     delay_time: 0
 
-mqtt:
-  sensor: !include mqtt_sensors.yaml
+mqtt: !include mqtt_sensors.yaml
