@@ -27,6 +27,12 @@ cameras:
           roles:
             - record
             - audio
+    objects:
+      filters:
+        person:
+          min_score: 0.3
+          threshold: 0.5
+
     onvif:
       host: camera-1
       port: 2020
