@@ -37,19 +37,14 @@ services:
         condition: service_healthy
 
   glances:
-    image: nicolargo/glances:latest
+    image: nicolargo/glances:latest-full
     volumes:
       - ./glances/glances.conf:/etc/glances/glances.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - GLANCES_OPT=-w
-    labels:
-      traefik.enable: true
-      traefik.http.routers.glances.middlewares: auth,errp-redirect@file
+      - GLANCES_OPT=--export mqtt
     pid: host
-    profiles:
-      - monit
 
   portainer:
     image: portainer/portainer-ce:latest

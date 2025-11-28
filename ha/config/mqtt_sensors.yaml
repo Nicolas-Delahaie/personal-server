@@ -1,0 +1,62 @@
+- name: "Serveur CPU total"
+  state_topic: "glances/glances/cpu/total"
+  state_class: measurement
+  unit_of_measurement: "%"
+  unique_id: "glances_cpu_total"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"
+
+- name: "Serveur RAM %"
+  state_topic: "glances/glances/mem/percent"
+  state_class: measurement
+  unit_of_measurement: "%"
+  unique_id: "glances_ram_percent"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"
+
+- name: "Serveur Disque utilisé"
+  state_topic: "glances/glances/fs/_etc_hosts/percent"
+  state_class: measurement
+  unit_of_measurement: "%"
+  unique_id: "glances_disk_used"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"
+
+- name: "Disque Écriture"
+  state_topic: "glances/glances/diskio/sda/write_bytes_rate_per_sec"
+  state_class: measurement
+  unit_of_measurement: "bytes/s"
+  unique_id: "disk_write_bytes"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"
+
+- name: "Disque Lectures"
+  state_topic: "glances/glances/diskio/sda/read_bytes_rate_per_sec"
+  state_class: measurement
+  unit_of_measurement: "bytes/s"
+  unique_id: "disk_read_ops"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"
+
+- name: "CPU IOWAIT"
+  state_topic: "glances/glances/cpu/iowait"
+  state_class: measurement
+  unit_of_measurement: "%"
+  unique_id: "cpu_iowait"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"
+
+- name: "Load 1 minute"
+  state_topic: "glances/glances/load/min1"
+  state_class: measurement
+  unit_of_measurement: "load"
+  unique_id: "load_min1"
+  device:
+    name: "Serveur Shuttle"
+    identifiers: "glances_shuttle"

@@ -29,3 +29,6 @@ alarm_control_panel:
     code_arm_required: false
     arming_time: 0
     delay_time: 0
+
+mqtt:
+  sensor: !include mqtt_sensors.yaml
