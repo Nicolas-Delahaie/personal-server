@@ -3,7 +3,7 @@ services:
     image: traefik:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/traefik_template.yml:/etc/traefik/traefik_template.yml:ro
+      - ./traefik/traefik_static_template.yml:/etc/traefik/traefik_static_template.yml:ro
       - ./traefik/traefik_dynamic.yml:${TRAEFIK_DYNAMIC_CONF}:ro
       - ./traefik/entrypoint.sh:/entrypoint.sh:ro
       - ./traefik/logs:/logs
