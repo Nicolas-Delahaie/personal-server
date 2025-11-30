@@ -33,6 +33,8 @@ services:
       traefik.http.routers.traefik.tls.domains[0].main: "${DOMAIN}"
       traefik.http.routers.traefik.tls.domains[0].sans: "*.${DOMAIN}"
     depends_on:
+      cs:
+        condition: service_started
       errp:
         condition: service_healthy
 
@@ -203,12 +205,23 @@ services:
       - ./traefik/logs/:/var/log:ro
       - ./promtail/config.yml:/etc/promtail/config.yml:ro
 
+  cs:
+    image: crowdsecurity/crowdsec:latest-debian
+    volumes:
+      - crowdsec_data:/var/lib/crowdsec/data
+      - ./cs/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      # Logs
+      - ./traefik/logs:/logs/traefik:ro
+    environment:
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik Dominic-Wagner/vaultwarden crowdsecurity/home-assistant
+
 volumes:
   vw_data:
   portainer_data:
   traefik_certs:
   loki_data:
   grafana_data:
+  crowdsec_data:
 
 networks:
   default:
