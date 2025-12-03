@@ -1,3 +1,8 @@
+# FICHIER EN ATTENTE DE REFONTE COMPLÈTE : 
+# au lieu de créer un fichier en fonction des variables utilisées dans le compose, 
+# il devra regarder en pre-commit (Husky) que le fichier .env.template contienne bien toutes 
+# les variables utilisées dans le compose, et qu'aucune variable supplémentaire inutilisée existe. 
+
 #!/bin/bash
 FILE="compose.yml"
 ENV_FILE=".env"
