@@ -218,6 +218,9 @@ services:
       # Logs
       - ./traefik/logs:/logs/traefik:ro
       - /var/log/journal:/run/log/journal:ro
+    ports:
+      - 127.0.0.1:8080:8080 # For firewall bouncer decisions
+      - 127.0.0.1:6060:6060 # For firewall bouncer metrics
     environment:
       - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/sshd
 
