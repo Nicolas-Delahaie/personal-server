@@ -210,6 +210,7 @@ services:
     volumes:
       - crowdsec_data:/var/lib/crowdsec/data
       - ./cs/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ./cs/profiles.yaml:/etc/crowdsec/profiles.yaml:ro
       # Logs
       - ./traefik/logs:/logs/traefik:ro
       - /var/log/journal:/run/log/journal:ro
