@@ -7,14 +7,6 @@ Le SSH (Secure Shell) est un protocole permettant le contrôle à distance sécu
 
 Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa simplicité de mise en place. L'exposition du service à Internet nécessite une sécurisation appropriée.
 
-## Protection contre les attaques par force brute
-
-Installation de fail2ban pour bloquer les tentatives de connexion malveillantes :
-
-```bash
-sudo apt install fail2ban
-```
-
 ## Configuration des clés SSH
 
 1. Générer une clé SSH sur la machine locale :
