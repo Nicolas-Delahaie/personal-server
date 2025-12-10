@@ -19,3 +19,10 @@
 /frigate/media/
 
 /grdf/log
+
+/streaming/*
+!/streaming/qbt_config/
+/streaming/qbt_config/*
+!/streaming/qbt_config/qBittorrent/
+/streaming/qbt_config/qBittorrent/*
+!/streaming/qbt_config/qBittorrent/qBittorrent.conf

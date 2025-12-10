@@ -224,6 +224,42 @@ services:
     environment:
       - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/sshd
 
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./streaming/radarr_data:/config
+      - ./streaming/radarr_movies:/movies
+      - ./streaming/downloads:/downloads
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.middlewares: errp-redirect@file
+      traefik.http.services.radarr.loadbalancer.server.port: 7878
+    profiles:
+      - stream
+    depends_on:
+      - qbt
+
+  qbt:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - WEBUI_PORT=8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./streaming/qbt_config:/config
+      - ./streaming/downloads:/downloads
+    profiles:
+      - stream
+    labels:
+      traefik.enable: true
+      traefik.http.routers.qbt.middlewares: errp-redirect@file
+      traefik.http.services.qbt.loadbalancer.server.port: 8080
+
 volumes:
   vw_data:
   portainer_data:
