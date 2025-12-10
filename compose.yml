@@ -71,7 +71,7 @@ services:
       - NET_ADMIN
       - NET_RAW
     environment:
-      - LOCAL_IP
+      - SUBNET_IP
       - EXTERNAL_URL=https://ha.${DOMAIN}
     labels:
       traefik.enable: true
@@ -229,4 +229,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: ${LOCAL_IP}
+        - subnet: ${SUBNET_IP}
