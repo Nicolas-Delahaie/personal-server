@@ -231,9 +231,9 @@ services:
       - PGID=1000
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./streaming/radarr_data:/config
-      - ./streaming/radarr_movies:/movies
+      - ./streaming/movies:/movies
       - ./streaming/downloads:/downloads
+      - radarr_data:/config
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.middlewares: errp-redirect@file
@@ -251,8 +251,8 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./streaming/qbt_config:/config
       - ./streaming/downloads:/downloads
+      - qbt_config:/config
     profiles:
       - stream
     labels:
@@ -267,6 +267,8 @@ volumes:
   loki_data:
   grafana_data:
   crowdsec_data:
+  radarr_data:
+  qbt_config:
 
 networks:
   default:
