@@ -1,6 +1,11 @@
-/docs/architecture.drawio
 /.env
 .DS_Store
+
+/cs/config/*
+!/cs/config/acquis.yaml
+!/cs/config/profiles.yaml
+
+/docs/architecture.drawio
 
 /ha/config/*
 !/ha/config/configuration.yaml
@@ -14,7 +19,3 @@
 /frigate/media/
 
 /grdf/log
-
-/cs/config/*
-!/cs/config/acquis.yaml
-!/cs/config/profiles.yaml
