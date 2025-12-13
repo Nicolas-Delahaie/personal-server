@@ -1,0 +1,12 @@
+[Unit]
+Description=Serveur perso
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/home/nicolas/personal-server
+ExecStart=docker compose up -d --build
+
+[Install]
+WantedBy=multi-user.target
