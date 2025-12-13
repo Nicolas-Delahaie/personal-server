@@ -46,12 +46,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - GLANCES_OPT=-w
+    ports:
+      - "127.0.0.1:61208:61208" # For Home assistant Glances integration
     labels:
       traefik.enable: true
       traefik.http.routers.glances.middlewares: auth,errp-redirect@file
     pid: host
-    profiles:
-      - monit
 
   portainer:
     image: portainer/portainer-ce:latest
