@@ -242,13 +242,13 @@ services:
       - stream
     depends_on:
       - qbt
+      - prowlarr
 
   qbt:
     image: lscr.io/linuxserver/qbittorrent:latest
     environment:
       - PUID=1000
       - PGID=1000
-      - WEBUI_PORT=8080
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./streaming/downloads:/downloads
@@ -260,6 +260,21 @@ services:
       traefik.http.routers.qbt.middlewares: errp-redirect@file
       traefik.http.services.qbt.loadbalancer.server.port: 8080
 
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - prowlarr_config:/config
+    profiles:
+      - stream
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.middlewares: errp-redirect@file
+      traefik.http.services.prowlarr.loadbalancer.server.port: 9696
+
 volumes:
   vw_data:
   portainer_data:
@@ -269,6 +284,7 @@ volumes:
   crowdsec_data:
   radarr_data:
   qbt_config:
+  prowlarr_config:
 
 networks:
   default:
