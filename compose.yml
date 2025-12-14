@@ -46,11 +46,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - GLANCES_OPT=-w
-    ports:
-      - "127.0.0.1:61208:61208" # For Home assistant Glances integration
     labels:
       traefik.enable: true
       traefik.http.routers.glances.middlewares: auth,errp-redirect@file
+      traefik.http.services.glances.loadbalancer.server.url: http://host:61208
+    network_mode: host
     pid: host
 
   portainer:
@@ -137,15 +137,15 @@ services:
       traefik.http.routers.errp.priority: 10
       traefik.http.services.errp.loadbalancer.server.port: 8080
 
-  simcom:
-    build: ./simcom
-    volumes:
-      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
-      - ./simcom/src:/app
-    devices:
-      - /dev/serial/by-id/${SIMCOM_DONGLE}:/dev/ttyUSB1
-    depends_on:
-      - mosquitto
+  # simcom:
+  #   build: ./simcom
+  #   volumes:
+  #     - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+  #     - ./simcom/src:/app
+  #   devices:
+  #     - /dev/serial/by-id/${SIMCOM_DONGLE}:/dev/ttyUSB1
+  #   depends_on:
+  #     - mosquitto
 
   frigate:
     image: ghcr.io/blakeblackshear/frigate:stable
@@ -189,26 +189,26 @@ services:
     depends_on:
       - mosquitto
 
-  grafana:
-    image: grafana/grafana:latest
-    volumes:
-      - grafana_data:/var/lib/grafana
-    labels:
-      traefik.enable: true
-      traefik.http.routers.grafana.middlewares: errp-redirect@file
-      traefik.http.services.grafana.loadbalancer.server.port: 3000
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   labels:
+  #     traefik.enable: true
+  #     traefik.http.routers.grafana.middlewares: errp-redirect@file
+  #     traefik.http.services.grafana.loadbalancer.server.port: 3000
 
-  loki:
-    image: grafana/loki
-    volumes:
-      - loki_data:/loki
-      - ./loki/config.yaml:/etc/loki/local-config.yaml:ro
+  # loki:
+  #   image: grafana/loki
+  #   volumes:
+  #     - loki_data:/loki
+  #     - ./loki/config.yaml:/etc/loki/local-config.yaml:ro
 
-  promtail:
-    image: grafana/promtail:latest
-    volumes:
-      - ./traefik/logs/:/var/log:ro
-      - ./promtail/config.yml:/etc/promtail/config.yml:ro
+  # promtail:
+  #   image: grafana/promtail:latest
+  #   volumes:
+  #     - ./traefik/logs/:/var/log:ro
+  #     - ./promtail/config.yml:/etc/promtail/config.yml:ro
 
   cs:
     image: crowdsecurity/crowdsec:latest-debian
