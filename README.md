@@ -38,11 +38,11 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
    1. Connexion à l'interface distante de monitoring : <https://docs.crowdsec.net/u/getting_started/post_installation/console>
    2. Suivre la procédure (appairage de l'instance puis redémarrage)
 
-5. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer un service `systemctl` de lancement automatique :
+5. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
 
    ```bash
-   sudo cp host_configs/personal_server.service /etc/systemd/system/personal_server.service
-   sudo systemctl enable personal_server
+   sudo cp host_configs/personal-server.service /etc/systemd/system/
+   sudo systemctl enable personal-server
    ```
 
    > Grâce à ce service, les conteneurs se lanceront automatiquement au démarrage du serveur. Notamment en cas de coupure de courant. `restart=unless-stopped` a été mis de côté pour éviter les conteneurs qui se lancent en boucle
