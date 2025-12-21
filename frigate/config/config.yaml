@@ -14,6 +14,9 @@ go2rtc:
       - rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1/stream1 # 1080p
       - rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1/stream2 # 720p
 
+birdseye:
+  enabled: False
+
 cameras:
   cam1: # Tapo C200
     enabled: true
