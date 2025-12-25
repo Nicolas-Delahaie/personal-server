@@ -90,10 +90,13 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       2. Modifier l'utilisateur : Tools > Options > WebUI > Authentication
 
    2. Radarr :
+
       1. Accéder à la popup de configuration initiale
       2. Sélectionner `Authentication Required` à `Enabled`
       3. Définir l'utilisateur principal
       4. Configurer QBittorent comme client de téléchargement dans Settings > Download Clients. Sélectionner qBitorrent et saisir l'hôte `qbt`, l'utilisateur et le mot de passe définis précédemment.
+
+   3. Prowlarr : la configuration est libre
 
 ## Configuration du serveur
 
