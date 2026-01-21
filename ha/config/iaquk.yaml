@@ -1,0 +1,15 @@
+chambre:
+  name: "Chambre IAQ"
+  sources:
+    co2: sensor.detecteur_de_qualite_d_air_airgradient_one_dioxyde_de_carbone
+    humidity: sensor.detecteur_de_qualite_d_air_airgradient_one_humidite
+    pm:
+      - sensor.detecteur_de_qualite_d_air_airgradient_one_pm0_3
+      - sensor.detecteur_de_qualite_d_air_airgradient_one_pm1
+      - sensor.detecteur_de_qualite_d_air_airgradient_one_pm2_5
+      - sensor.detecteur_de_qualite_d_air_airgradient_one_pm10
+    temperature: sensor.detecteur_de_qualite_d_air_airgradient_one_temperature
+    voc_index: sensor.detecteur_de_qualite_d_air_airgradient_one_voc_index
+  sensors:
+    - iaq_level
+    - iaq_index
