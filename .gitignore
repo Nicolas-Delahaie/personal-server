@@ -2,21 +2,16 @@
 .DS_Store
 
 /cs/config/*
-!/cs/config/acquis.yaml
-!/cs/config/profiles.yaml
 
 /docs/architecture.drawio
 
 /ha/config/*
-!/ha/config/configuration.yaml
-!/ha/config/iaquk.yaml
 
 /traefik/logs
 
 /z2m/data
 
 /frigate/config/*
-!/frigate/config/config.yaml
 /frigate/media/
 
 /grdf/log
