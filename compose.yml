@@ -37,6 +37,12 @@ services:
       errp:
         condition: service_healthy
 
+  authelia:
+    image: authelia/authelia:latest
+    volumes:
+      - /authelia/configuration.yml:/config/configuration.yml
+      - /authelia/secrets:/secrets
+
   glances:
     image: nicolargo/glances:latest
     volumes:
