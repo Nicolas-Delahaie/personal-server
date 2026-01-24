@@ -5,7 +5,6 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 ## Installation
 
 1. Configurer les variables d'environnement
-
    1. Générer le fichier vierge :
 
       ```bash
@@ -25,9 +24,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 3. Frigate : se connecter avec le mot de passe admin généré automatiquement (visible dans les logs via `docker compose logs frigate`) et le modifier.
 
 4. CrowdSec :
-
    1. Blocage IP au niveau de l'hôte (Firewall Bouncer Crowdsec) :
-
       1. Installation :
 
          ```bash
@@ -62,11 +59,28 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
    2. (Optionnel) Configurer l'interface distance de monitoring (Console):
 
       > La Console de Crowdsec permet de visualiser les alertes et la santé de l'instance Crowdsec via une interface web externe.
-
       1. Authentification sur <https://docs.crowdsec.net/u/getting_started/post_installation/console>
       2. Suivre la procédure (appairage de l'instance puis redémarrage)
 
-5. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
+5. Authelia :
+   1. Créer le fichier contenant les utilisateurs Authelia (dont l'administrateur) :
+
+      ```bash
+      cat > ./authelia/config/users_database.yml << 'EOF'
+      users:
+         admin:
+            password: ""
+            displayname: "Admin"
+      EOF
+      ```
+
+   2. Générer le hash du mot de passe administrateur souhaité et le copier dans `user.admin.password` :
+
+      ```bash
+      docker run --rm -it authelia/authelia:latest authelia crypto hash generate argon2
+      ```
+
+6. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
 
    ```bash
    sudo cp host_configs/personal-server.service /etc/systemd/system/
@@ -75,12 +89,10 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
    > Grâce à ce service, les conteneurs se lanceront automatiquement au démarrage du serveur. Notamment en cas de coupure de courant. `restart=unless-stopped` a été désactivé pour faciliter le diagnostic des plantages et éviter les redémarrages en boucle.
 
-6. (Optionnel) Configuration des services de streaming (profile `movies`)
+7. (Optionnel) Configuration des services de streaming (profile `movies`)
 
    > Ces services doivent être configurés via l'interface (non configurable par variable d'environnement docker)
-
    1. QBitorrent :
-
       1. Se connecter grâce au mot de passe admin temporaire récupérable dans les logs :
 
          ```bash
@@ -90,7 +102,6 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       2. Modifier l'utilisateur : Tools > Options > WebUI > Authentication
 
    2. Radarr :
-
       1. Accéder à la popup de configuration initiale
       2. Sélectionner `Authentication Required` à `Enabled`
       3. Définir l'utilisateur principal

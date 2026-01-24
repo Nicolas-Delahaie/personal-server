@@ -21,7 +21,7 @@
 # certificates_directory: '/config/certificates/'
 
 ## The theme to display: light, dark, grey, auto.
-# theme: 'light'
+theme: "auto"
 
 ## Set the default 2FA method for new users and for when a user has a preferred method configured that has been
 ## disabled. This setting must be a method that is enabled.
@@ -31,7 +31,7 @@
 ##
 ## Server Configuration
 ##
-# server:
+server:
   ## The address for the Main server to listen on in the address common syntax.
   ## Formats:
   ##  - [<scheme>://]<hostname>[:<port>][/<path>]
@@ -94,7 +94,7 @@
 
   ## Server Endpoints configuration.
   ## This section is considered advanced and it SHOULD NOT be configured unless you've read the relevant documentation.
-  # endpoints:
+  endpoints:
     ## Enables the pprof endpoint.
     # enable_pprof: false
 
@@ -102,9 +102,9 @@
     # enable_expvars: false
 
     ## Configure the authz endpoints.
-    # authz:
-      # forward-auth:
-        # implementation: 'ForwardAuth'
+    authz:
+      forward-auth:
+        implementation: "ForwardAuth"
         # authn_strategies: []
       # ext-authz:
         # implementation: 'ExtAuthz'
@@ -322,10 +322,10 @@
 ## Identity Validation Configuration
 ##
 ## This configuration tunes the identity validation flows.
-identity_validation:
+# identity_validation:
 
   ## Reset Password flow. Adjusts how the reset password flow operates.
-  reset_password:
+  # reset_password:
     ## Maximum allowed time before the JWT is generated and when the user uses it in the duration common syntax.
     # jwt_lifespan: '5 minutes'
 
@@ -333,7 +333,7 @@ identity_validation:
     # jwt_algorithm: 'HS256'
 
     ## The secret key used to sign and verify the JWT.
-    jwt_secret: 'a_very_important_secret'
+    # jwt_secret: 'a_very_important_secret'
 
   ## Elevated Session flows. Adjusts the flow which require elevated sessions for example managing credentials, adding,
   ## removing, etc.
@@ -410,15 +410,15 @@ identity_validation:
 ## Used for verifying user passwords and retrieve information such as email address and groups users belong to.
 ##
 ## The available providers are: `file`, `ldap`. You must use only one of these providers.
-# authentication_backend:
+authentication_backend:
   ## Password Change Options.
-  # password_change:
+  password_change:
     ## Disable both the HTML element and the API for password change functionality.
-    # disable: false
+    disable: true
   ## Password Reset Options.
-  # password_reset:
+  password_reset:
     ## Disable both the HTML element and the API for reset password functionality.
-    # disable: false
+    disable: true
 
     ## External reset password url that redirects the user to an external reset portal. This disables the internal reset
     ## functionality.
@@ -606,8 +606,8 @@ identity_validation:
   ##
   ## Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
   ##
-  # file:
-    # path: '/config/users_database.yml'
+  file:
+    path: "/config/users_database.yml"
     # watch: false
     # search:
       # email: false
@@ -718,12 +718,15 @@ identity_validation:
 ##   is optional and matches any resource if not provided.
 ##
 ## Note: the order of the rules is important. The first policy matching (domain, resource, subject) applies.
-# access_control:
+access_control:
   ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   ## resource if there is no policy to be applied to the user.
-  # default_policy: 'deny'
+  default_policy: "one_factor"
 
-  # rules:
+  rules:
+    - domain: "*"
+      policy: deny # Useless for forward auth. Only here to hide warning in logs
+
     ## Rules applied to everyone
     # - domain: 'public.example.com'
     #   policy: 'bypass'
@@ -807,11 +810,13 @@ identity_validation:
 session:
   ## The secret to encrypt the session data. This is only used with Redis / Redis Sentinel.
   ## Secret can also be set using a secret: https://www.authelia.com/c/secrets
-  secret: 'insecure_session_secret'
 
   ## Cookies configures the list of allowed cookie domains for sessions to be created on.
   ## Undefined values will default to the values below.
-  # cookies:
+  cookies:
+    - domain: '{{ env "DOMAIN" }}'
+      authelia_url: 'https://authelia.{{ env "DOMAIN" }}'
+
   #   -
       ## The name of the session cookie.
       # name: 'authelia_session'
@@ -999,7 +1004,7 @@ session:
 ## Storage Provider Configuration
 ##
 ## The available providers are: `local`, `mysql`, `postgres`. You must use one and only one of these providers.
-# storage:
+storage:
   ## The encryption key that is used to encrypt sensitive information in the database. Must be a string with a minimum
   ## length of 20. Please see the docs if you configure this with an undesirable key and need to change it, you MUST use
   ## the CLI to change this in the database if you want to change it from a previously configured value.
@@ -1013,9 +1018,9 @@ session:
   ##
   ## Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
   ##
-  # local:
-    ## Path to the SQLite3 Database.
-    # path: '/config/db.sqlite3'
+  local:
+    # Path to the SQLite3 Database.
+    path: "/config/db.sqlite3"
 
   ##
   ## MySQL / MariaDB (Storage Provider)
@@ -1169,7 +1174,7 @@ session:
 ##
 ## Notifications are sent to users when they require a password reset, a WebAuthn registration or a TOTP registration.
 ## The available providers are: filesystem, smtp. You must use only one of these providers.
-# notifier:
+notifier:
   ## You can disable the notifier startup check by setting this to true.
   # disable_startup_check: false
 
@@ -1178,8 +1183,8 @@ session:
   ##
   ## Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
   ##
-  # filesystem:
-    # filename: '/config/notification.txt'
+  filesystem:
+    filename: "/config/notification.txt"
 
   ##
   ## SMTP (Notification Provider)
