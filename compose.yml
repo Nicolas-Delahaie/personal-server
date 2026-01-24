@@ -40,8 +40,8 @@ services:
   authelia:
     image: authelia/authelia:latest
     volumes:
-      - /authelia/configuration.yml:/config/configuration.yml
-      - /authelia/secrets:/secrets
+      - ./authelia/config:/config
+      # - /authelia/secrets:/secrets
 
   glances:
     image: nicolargo/glances:latest
