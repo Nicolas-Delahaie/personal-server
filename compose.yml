@@ -27,9 +27,6 @@ services:
       traefik.enable: true
       traefik.http.routers.traefik.service: api@internal
       traefik.http.routers.traefik.middlewares: authelia@file,errp-redirect@file
-      traefik.http.routers.traefik.tls.certResolver: letsencrypt
-      traefik.http.routers.traefik.tls.domains[0].main: "${DOMAIN}"
-      traefik.http.routers.traefik.tls.domains[0].sans: "*.${DOMAIN}"
     depends_on:
       cs:
         condition: service_started

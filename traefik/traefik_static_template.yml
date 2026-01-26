@@ -28,7 +28,10 @@ entryPoints:
     http:
       tls:
         certResolver: letsencrypt
-        options: default
+        domains:
+          - main: "${DOMAIN}"
+            sans:
+              - "*.${DOMAIN}"
 
   web:
     address: :80
@@ -174,7 +177,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # URL de staging (pour tests)
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Staging URL (for tests)
       email: ${LETSENCRYPT_EMAIL}
       storage: /acme/acme.json
       dnsChallenge:
