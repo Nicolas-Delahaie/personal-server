@@ -11,8 +11,7 @@ tls:
 go2rtc:
   streams:
     cam1:
-      - rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1/stream1 # 1080p
-      - rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1/stream2 # 720p
+      - onvif://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1:2020
 
 birdseye:
   enabled: False
@@ -36,7 +35,7 @@ cameras:
           min_score: 0.3
           threshold: 0.5
 
-    onvif:
+    onvif: # Only for PTZ
       host: camera-1
       port: 2020
       user: "{FRIGATE_CAM1_USER}"
