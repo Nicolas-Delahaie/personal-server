@@ -15,8 +15,8 @@ http:
     - !env_var SUBNET_IP
 
 homeassistant:
+  internal_url: !env_var INTERNAL_URL
   external_url: !env_var EXTERNAL_URL
-  internal_url: !env_var EXTERNAL_URL
 
 logger:
   logs:
