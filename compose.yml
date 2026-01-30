@@ -71,8 +71,8 @@ services:
       traefik.http.services.portainer.loadbalancer.server.port: 9000
       traefik.http.routers.portainer.middlewares: errp-redirect@file
     command: ["--admin-password", "${PORTAINER_ADMIN_PASSWORD}"]
-    profiles:
-      - monit
+    ports:
+      - 127.0.0.1:9000:9000 # Necessary for HA, which is not on the same network
 
   ha:
     image: ghcr.io/home-assistant/home-assistant:latest
