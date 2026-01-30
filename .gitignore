@@ -9,6 +9,7 @@
 
 /ha/config/*
 !/ha/config/configuration.yaml
+!/ha/config/iaquk.yaml
 
 /traefik/logs
 
