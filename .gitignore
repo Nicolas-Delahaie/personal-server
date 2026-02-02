@@ -1,8 +1,6 @@
 /.env
 .DS_Store
 
-/cs/config/*
-
 /docs/architecture.drawio
 
 /ha/config/*

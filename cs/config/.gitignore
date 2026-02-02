@@ -1,0 +1,11 @@
+/collections
+/contexts
+/hub
+/patterns
+/postoverflows
+/scenarios
+/notifications
+/parsers
+
+/local_api_credentials.yaml
+/online_api_credentials.yaml
