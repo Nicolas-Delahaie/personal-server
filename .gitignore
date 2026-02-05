@@ -1,8 +1,6 @@
 /.env
 .DS_Store
 
-/docs/architecture.drawio
-
 /ha/config/*
 
 /traefik/logs
