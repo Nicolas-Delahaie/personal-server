@@ -11,7 +11,7 @@ tls:
 go2rtc:
   streams:
     cam1:
-      - onvif://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@camera-1:2020
+      - onvif://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@tapo-c200:2020
 
 birdseye:
   enabled: False
@@ -36,7 +36,7 @@ cameras:
           threshold: 0.5
 
     onvif: # Only for PTZ
-      host: camera-1
+      host: tapo-c200
       port: 2020
       user: "{FRIGATE_CAM1_USER}"
       password: "{FRIGATE_CAM1_PASSWORD}"

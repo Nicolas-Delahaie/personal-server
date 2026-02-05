@@ -162,7 +162,7 @@ services:
     shm_size: "256mb"
     privileged: true # Necessary for GPU acceleration
     extra_hosts:
-      - "camera-1:${CAM1_IP}"
+      - "tapo-c200:${CAM1_IP}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frigate/config:/config
