@@ -181,8 +181,8 @@ services:
       traefik.http.routers.frigate.middlewares: errp-redirect@file
       traefik.http.services.frigate.loadbalancer.server.port: 8971
     environment:
-      - FRIGATE_CAM1_USER=${CAM1_USER}
-      - FRIGATE_CAM1_PASSWORD=${CAM1_PASSWORD}
+      - FRIGATE_TAPO_C200_USER=${CAM1_USER}
+      - FRIGATE_TAPO_C200_PASSWORD=${CAM1_PASSWORD}
     depends_on:
       - mosquitto
 
