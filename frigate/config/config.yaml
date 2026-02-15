@@ -10,8 +10,8 @@ tls:
 
 go2rtc:
   streams:
-    cam1:
-      - onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
+    cam1-main: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
+    cam1-sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
 
 birdseye:
   enabled: False
@@ -22,10 +22,10 @@ cameras:
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://127.0.0.1:8554/cam1?sub
+        - path: rtsp://127.0.0.1:8554/cam1-sub
           roles:
             - detect
-        - path: rtsp://127.0.0.1:8554/cam1?main
+        - path: rtsp://127.0.0.1:8554/cam1-main
           roles:
             - record
             - audio
