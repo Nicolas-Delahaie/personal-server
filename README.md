@@ -38,7 +38,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
          docker compose exec cs cscli bouncers add firewall
          ```
 
-         Cette commande génère une clé API. Il faut ensuite la copier dans le fichier de config `.local` du firewall bouncer (précisé lors de l'installation).
+         Cette commande génère une clé API. Il faut ensuite la copier dans le fichier de config `.local` du firewall bouncer, précisé lors de l'installation (exemple : `/etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local`)
 
       3. (Optionnel) Empêcher le service de planter lorsque l'API Crowdsec n'est pas encore disponible :
 
