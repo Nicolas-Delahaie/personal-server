@@ -19,6 +19,10 @@ birdseye:
 cameras:
   cam1: # Tapo C200
     enabled: true
+    live:
+      streams:
+        Default: cam1-main
+        Sub: cam1-sub
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
