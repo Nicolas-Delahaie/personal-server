@@ -1,5 +1,4 @@
 /.env
-.DS_Store
 
 /ha/config/*
 
@@ -11,5 +10,7 @@
 /frigate/media/
 
 /grdf/log
+
+/.ignored
 
 /streaming
