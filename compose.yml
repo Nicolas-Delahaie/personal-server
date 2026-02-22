@@ -178,8 +178,15 @@ services:
       - "127.0.0.1:8555:8555/udp" # WebRTC UDP
     labels:
       traefik.enable: true
+      # Frigate UI (port 8971)
+      traefik.http.routers.frigate.service: frigate
       traefik.http.routers.frigate.middlewares: errp-redirect@file
       traefik.http.services.frigate.loadbalancer.server.port: 8971
+      # go2rtc UI (port 1984)
+      traefik.http.routers.go2rtc.rule: Host(`go2rtc.${DOMAIN}`)
+      traefik.http.routers.go2rtc.service: go2rtc
+      traefik.http.routers.go2rtc.middlewares: authelia@file,errp-redirect@file
+      traefik.http.services.go2rtc.loadbalancer.server.port: 1984
     environment:
       - FRIGATE_TAPO_C200_USER=${CAM1_USER}
       - FRIGATE_TAPO_C200_PASSWORD=${CAM1_PASSWORD}
