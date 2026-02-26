@@ -1,6 +1,6 @@
 # https://docs.frigate.video/configuration/reference/
 
-version: 0.16-0
+version: 0.17-0
 
 mqtt:
   host: mosquitto
@@ -14,7 +14,7 @@ go2rtc:
     cam1-sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
 
 birdseye:
-  enabled: False
+  enabled: false
 
 cameras:
   cam1: # Tapo C200
@@ -53,9 +53,10 @@ detect:
 
 record:
   enabled: true
-  retain:
+  continuous:
+    days: 0
+  motion:
     days: 10
-    mode: motion
 
 snapshots:
   enabled: true
@@ -65,6 +66,7 @@ snapshots:
 detectors:
   cpu1:
     type: openvino
+    device: CPU
 
 model:
   width: 300
