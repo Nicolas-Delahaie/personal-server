@@ -18,7 +18,7 @@ filters:
   - Alert.GetScope() == "Range"
 decisions:
   - type: ban
-duration_expr: Sprintf('%dh', 3 * int(2 ^ min(6, GetDecisionsCount(Alert.GetValue())))) # 8j max
+duration_expr: Sprintf('%dh', 2 * int(2 ^ min(4, GetDecisionsCount(Alert.GetValue()))))
 # notifications:
 #   - slack_default  # Set the webhook in /etc/crowdsec/notifications/slack.yaml before enabling this.
 #   - splunk_default # Set the splunk url and token in /etc/crowdsec/notifications/splunk.yaml before enabling this.
