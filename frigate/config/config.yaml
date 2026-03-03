@@ -10,7 +10,9 @@ tls:
 
 go2rtc:
   streams:
-    cam1-main: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
+    cam1-main:
+      - onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
+      - tapo://{FRIGATE_TAPO_C200_CLOUD_PASSWORD}@tapo-c200 # Vidéo + 2-way (HTTPS)
     cam1-sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
 
 birdseye:
@@ -22,7 +24,6 @@ cameras:
     live:
       streams:
         Default: cam1-main
-        Sub: cam1-sub
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:

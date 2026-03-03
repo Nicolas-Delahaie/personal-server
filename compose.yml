@@ -196,6 +196,7 @@ services:
     environment:
       - FRIGATE_TAPO_C200_USER=${CAM1_USER}
       - FRIGATE_TAPO_C200_PASSWORD=${CAM1_PASSWORD}
+      - FRIGATE_TAPO_C200_CLOUD_PASSWORD=${CAM1_CLOUD_PASSWORD}
     depends_on:
       - mosquitto
 
