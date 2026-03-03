@@ -21,9 +21,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
    > Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `portainer`, ajouter `--profile monit`.
 
-3. Frigate : se connecter avec le mot de passe admin généré automatiquement (visible dans les logs via `docker compose logs frigate`) et le modifier.
-
-4. CrowdSec :
+3. CrowdSec :
    1. Blocage IP au niveau de l'hôte (Firewall Bouncer Crowdsec) :
       1. Installation :
 
@@ -62,7 +60,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       1. Authentification sur <https://docs.crowdsec.net/u/getting_started/post_installation/console>
       2. Suivre la procédure (appairage de l'instance puis redémarrage)
 
-5. Authelia :
+4. Authelia :
    1. Créer le fichier contenant les utilisateurs Authelia (dont l'administrateur) :
 
       ```bash
@@ -80,7 +78,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       docker run --rm -it authelia/authelia:latest authelia crypto hash generate argon2
       ```
 
-6. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
+5. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
 
    ```bash
    sudo cp host_configs/personal-server.service /etc/systemd/system/
@@ -89,7 +87,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
    > Grâce à ce service, les conteneurs se lanceront automatiquement au démarrage du serveur. Notamment en cas de coupure de courant. `restart=unless-stopped` a été désactivé pour faciliter le diagnostic des plantages et éviter les redémarrages en boucle.
 
-7. (Optionnel) Configuration des services de streaming (profile `movies`)
+6. (Optionnel) Configuration des services de streaming (profile `movies`)
 
    > Ces services doivent être configurés via l'interface (non configurable par variable d'environnement docker)
    1. QBitorrent :
