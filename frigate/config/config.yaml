@@ -78,3 +78,7 @@ model:
 
 face_recognition:
   enabled: true
+  model_size: small
+semantic_search:
+  enabled: true
+  model_size: small
