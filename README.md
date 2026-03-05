@@ -78,7 +78,24 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       docker run --rm -it authelia/authelia:latest authelia crypto hash generate argon2
       ```
 
-5. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
+5. Ollama (Open WebUI) :
+
+   Au premier lancement, aucun modèle n'est installé. Il faut en télécharger au moins un pour pouvoir discuter :
+
+   ```bash
+   docker compose exec ollama ollama pull mistral
+   ```
+
+   Les modèles disponibles sont listés sur [ollama.com/library](https://ollama.com/library). Quelques exemples :
+
+   | Modèle | Taille | Description |
+   |--------|--------|-------------|
+   | `mistral` | ~4 Go | Bon équilibre performance / taille |
+   | `llama3.2` | ~2 Go | Plus léger, adapté aux machines modestes |
+   | `llama3.2:1b` | ~1.3 Go | Très léger |
+
+   > Les modèles sont persistés dans le volume Docker `ollama_datas`. Ils survivent aux redémarrages et mises à jour du conteneur.
+6. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
 
    ```bash
    sudo cp host_configs/personal-server.service /etc/systemd/system/
@@ -87,7 +104,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
    > Grâce à ce service, les conteneurs se lanceront automatiquement au démarrage du serveur. Notamment en cas de coupure de courant. `restart=unless-stopped` a été désactivé pour faciliter le diagnostic des plantages et éviter les redémarrages en boucle.
 
-6. (Optionnel) Configuration des services de streaming (profile `movies`)
+7. (Optionnel) Configuration des services de streaming (profile `movies`)
 
    > Ces services doivent être configurés via l'interface (non configurable par variable d'environnement docker)
    1. QBitorrent :

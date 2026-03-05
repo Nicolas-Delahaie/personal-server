@@ -297,6 +297,21 @@ services:
       traefik.http.routers.prowlarr.middlewares: errp-redirect@file
       traefik.http.services.prowlarr.loadbalancer.server.port: 9696
 
+  ollama:
+    image: ghcr.io/open-webui/open-webui:ollama
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ollama.middlewares: authelia@file,errp-redirect@file
+      traefik.http.services.ollama.loadbalancer.server.port: 8080
+    environment:
+      - WEBUI_AUTH=false
+      - WEBUI_URL=https://ollama.${DOMAIN}
+    volumes:
+      - ollama_datas:/root/.ollama
+      - open_webui_datas:/app/backend/data
+    cpus: ${OLLAMA_CPUS}
+    mem_limit: ${OLLAMA_MEM}
+
 volumes:
   vw_data:
   portainer_data:
@@ -307,6 +322,8 @@ volumes:
   radarr_data:
   qbt_config:
   prowlarr_config:
+  ollama_datas:
+  open_webui_datas:
 
 networks:
   default:
