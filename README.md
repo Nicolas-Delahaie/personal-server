@@ -95,6 +95,25 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
    | `llama3.2:1b` | ~1.3 Go | Très léger |
 
    > Les modèles sont persistés dans le volume Docker `ollama_datas`. Ils survivent aux redémarrages et mises à jour du conteneur.
+
+   **Utiliser un serveur Ollama externe (facultatif)** :
+
+   Le serveur embarqué (Shuttle) est limité en puissance. Si un appareil plus performant est disponible sur le réseau local (ex : un laptop puissant avec Ollama installé), Open WebUI peut s'y connecter pour exécuter des modèles plus gourmands.
+
+   Prérequis sur la machine distante :
+
+   1. Installer Ollama ([ollama.com](https://ollama.com))
+   2. Activer l'accès externe sur Ollama. Le plus simple est de le faire depuis l'interface d'Ollama : **Settings** > **Networking** > activer **Allow external connections**. Alternativement, on peut définir la variable d'environnement `OLLAMA_HOST=0.0.0.0` avant de lancer Ollama.
+   3. Créer un **bail statique (DHCP)** sur le routeur pour cette machine, afin que son IP locale ne change pas (le mDNS ne fonctionne pas avec Open WebUI, il faut une IP fixe)
+
+   Configuration dans Open WebUI :
+
+   1. Se connecter à Open WebUI
+   2. Aller dans **Administration** > **Paramètres** > **Connexions**
+   3. Dans la section **Ollama**, ajouter une nouvelle connexion avec l'URL `http://<IP_FIXE_DU_LAPTOP>:11434`
+   4. Vérifier la connexion : les modèles installés sur la machine distante doivent apparaître dans la liste des modèles disponibles
+
+   > Lorsque le laptop est connecté et accessible sur le réseau local, Open WebUI peut y accéder et faire tourner des modèles bien plus puissants que ce que permet le serveur. Quand la machine est éteinte ou absente du réseau, seuls les modèles locaux du serveur restent disponibles.
 6. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
 
    ```bash
