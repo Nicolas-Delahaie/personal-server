@@ -26,7 +26,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       1. Installation :
 
          ```bash
-         sudo apt install --no-install-recommends crowdsec-firewall-bouncer
+         sudo apt install --no-install-recommends crowdsec-firewall-bouncer ipset
          sudo systemctl enable --now crowdsec-firewall-bouncer # Par sécurité
          ```
 
@@ -36,7 +36,19 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
          docker compose exec cs cscli bouncers add firewall
          ```
 
-         Cette commande génère une clé API. Il faut ensuite la copier dans le fichier de config `.local` du firewall bouncer, précisé lors de l'installation (exemple : `/etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local`)
+         Cette commande génère une clé API. Il faut ensuite créer (ou compléter) le fichier de config `.local` du firewall bouncer `/etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local` avec le contenu suivant :
+
+         ```yaml
+         mode: iptables
+         api_key: <clé générée ci-dessus>
+         iptables_chains:
+           - INPUT
+           - DOCKER-USER
+         prometheus:
+           enabled: false
+         ```
+
+         > Le mode `iptables` est requis pour les environnements Docker : c'est la [recommandation officielle CrowdSec](https://docs.crowdsec.net/u/bouncers/firewall). Il permet d'ajouter la chaîne `DOCKER-USER`, sans laquelle le trafic entrant vers les conteneurs (port forwarding) n'est pas bloqué malgré les décisions de ban. Le mode `nftables` (défaut) ne supporte pas `DOCKER-USER`.
 
       3. (Optionnel) Empêcher le service de planter lorsque l'API Crowdsec n'est pas encore disponible :
 
