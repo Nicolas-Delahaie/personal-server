@@ -1,3 +1,4 @@
+config/authelia.log
 config/db.sqlite3
 config/notification.txt
 config/users_database.yml

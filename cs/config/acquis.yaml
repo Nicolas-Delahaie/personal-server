@@ -8,3 +8,8 @@ journalctl_filter:
   - "_SYSTEMD_UNIT=ssh.service"
 labels:
   type: syslog
+---
+filenames:
+  - /logs/authelia.log
+labels:
+  type: authelia

@@ -240,11 +240,15 @@ services:
       - ./cs/config:/etc/crowdsec
       # Logs
       - ./traefik/logs:/logs/traefik:ro
+      - ./authelia/config/authelia.log:/logs/authelia.log:ro
       - /var/log/journal:/run/log/journal:ro
     ports:
       - 127.0.0.1:8080:8080 # For firewall bouncer on host
     environment:
-      - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/sshd
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/sshd LePresidente/authelia
+    depends_on:
+      authelia: # Necessary for authelia.log to be created
+        condition: service_healthy
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
