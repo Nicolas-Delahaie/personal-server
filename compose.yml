@@ -143,7 +143,7 @@ services:
   errp:
     image: ghcr.io/tarampampam/error-pages:latest
     environment:
-      - TEMPLATE_NAME=win98 #cats,win98,shuffle,connection
+      - TEMPLATE_NAME=shuffle #cats,win98,shuffle,connection
     labels:
       traefik.enable: true
       traefik.http.routers.errp.middlewares: errp-redirect@file
