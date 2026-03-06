@@ -7,7 +7,7 @@ Ce document a pour but de lister les étapes à ne pas oublier lors de la créat
 1. Crowdsec
    1. chercher une collection qui le couvre
    2. Monter les logs
-2. Adapter les labels (utiliser middleware auth si non sécurisé)
+2. Adapter les labels
 3. Ajouter le label `errp-redirect@file`
 4. Ajouter `:ro` dès que possible aux volumes
 5. Variables d'environnement : s'il y en a beaucoup, diviser entre `env_file` et `environment`
