@@ -178,10 +178,12 @@ services:
         tmpfs:
           size: 1000000000
     ports:
-      - "127.0.0.1:5000:5000" # Dangerous internal API
-      - "127.0.0.1:8554:8554" # RTSP from go2rtc
-      - "127.0.0.1:8555:8555" # WebRTC TCP
-      - "127.0.0.1:8555:8555/udp" # WebRTC UDP
+      # Necessary for HA integration (which is not on the same network)
+      - 127.0.0.1:5000:5000 # Dangerous unauthenticated internal API
+      - 127.0.0.1:8554:8554 # RTSP from go2rtc
+      # WebRTC, for direct access to camera streams
+      - 8555:8555
+      - 8555:8555/udp
     labels:
       traefik.enable: true
       # Frigate UI (port 8971)
@@ -194,6 +196,7 @@ services:
       traefik.http.routers.go2rtc.middlewares: authelia@file,errp-redirect@file
       traefik.http.services.go2rtc.loadbalancer.server.port: 1984
     environment:
+      - WEBRTC_LOCAL_CANDIDATE=${LOCAL_DOMAIN}:8555
       - FRIGATE_TAPO_C200_USER=${CAM1_USER}
       - FRIGATE_TAPO_C200_PASSWORD=${CAM1_PASSWORD}
       - FRIGATE_TAPO_C200_CLOUD_PASSWORD=${CAM1_CLOUD_PASSWORD}

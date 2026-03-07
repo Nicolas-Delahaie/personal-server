@@ -14,6 +14,9 @@ go2rtc:
       - onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
       - tapo://{FRIGATE_TAPO_C200_CLOUD_PASSWORD}@tapo-c200 # Vidéo + 2-way (HTTPS)
     cam1-sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
+  webrtc:
+    candidates:
+      - ${WEBRTC_LOCAL_CANDIDATE} # Local access
 
 birdseye:
   enabled: false
