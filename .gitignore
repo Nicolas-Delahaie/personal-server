@@ -2,14 +2,14 @@ CLAUDE.md
 
 /.env
 
-/ha/config/*
+/ha/config
 
 /traefik/logs
 
 /z2m/data
 
-/frigate/config/*
-/frigate/media/
+/frigate/config
+/frigate/media
 
 /grdf/log
 
