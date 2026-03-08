@@ -85,7 +85,7 @@ services:
       - NET_RAW
     environment:
       - SUBNET_IP
-      - INTERNAL_URL=http://${LOCAL_DOMAIN}:8123
+      - INTERNAL_URL=http://${SERVER_IP}:8123
       - EXTERNAL_URL=https://ha.${DOMAIN}
     labels:
       traefik.enable: true
@@ -196,7 +196,7 @@ services:
       traefik.http.routers.go2rtc.middlewares: authelia@file,errp-redirect@file
       traefik.http.services.go2rtc.loadbalancer.server.port: 1984
     environment:
-      - WEBRTC_LOCAL_CANDIDATE=${LOCAL_DOMAIN}:8555
+      - WEBRTC_LOCAL_CANDIDATE=${SERVER_IP}:8555
       - FRIGATE_TAPO_C200_USER=${CAM1_USER}
       - FRIGATE_TAPO_C200_PASSWORD=${CAM1_PASSWORD}
       - FRIGATE_TAPO_C200_CLOUD_PASSWORD=${CAM1_CLOUD_PASSWORD}
