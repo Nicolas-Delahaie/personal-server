@@ -10,10 +10,10 @@ tls:
 
 go2rtc:
   streams:
-    cam1-main:
+    cam1:
       - onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
       - tapo://{FRIGATE_TAPO_C200_CLOUD_PASSWORD}@tapo-c200 # Vidéo + 2-way (HTTPS)
-    cam1-sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
+    cam1_sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
   webrtc:
     candidates:
       - ${WEBRTC_LOCAL_CANDIDATE} # Local access
@@ -26,14 +26,14 @@ cameras:
     enabled: true
     live:
       streams:
-        Default: cam1-main
+        Default: cam1
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://127.0.0.1:8554/cam1-sub
+        - path: rtsp://127.0.0.1:8554/cam1_sub
           roles:
             - detect
-        - path: rtsp://127.0.0.1:8554/cam1-main
+        - path: rtsp://127.0.0.1:8554/cam1
           roles:
             - record
             - audio
