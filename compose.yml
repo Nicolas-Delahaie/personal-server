@@ -168,7 +168,7 @@ services:
     shm_size: "256mb"
     privileged: true # Necessary for GPU acceleration
     extra_hosts:
-      - "tapo-c200:${CAM1_IP}"
+      - "tapo-c200:${TAPO_C200_IP}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frigate/config:/config
@@ -197,9 +197,9 @@ services:
       traefik.http.services.go2rtc.loadbalancer.server.port: 1984
     environment:
       - WEBRTC_LOCAL_CANDIDATE=${SERVER_IP}:8555
-      - FRIGATE_TAPO_C200_USER=${CAM1_USER}
-      - FRIGATE_TAPO_C200_PASSWORD=${CAM1_PASSWORD}
-      - FRIGATE_TAPO_C200_CLOUD_PASSWORD=${CAM1_CLOUD_PASSWORD}
+      - FRIGATE_TAPO_C200_USER=${TAPO_C200_USER}
+      - FRIGATE_TAPO_C200_PASSWORD=${TAPO_C200_PASSWORD}
+      - FRIGATE_TAPO_C200_CLOUD_PASSWORD=${TAPO_C200_CLOUD_PASSWORD}
     depends_on:
       - mosquitto
 
