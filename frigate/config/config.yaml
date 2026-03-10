@@ -23,7 +23,7 @@ birdseye:
 
 cameras:
   tapo_c200:
-    enabled: true
+    enabled: true # Enables camera at restart, even if it was disabled within the UI
     live:
       streams:
         Default: tapo_c200
