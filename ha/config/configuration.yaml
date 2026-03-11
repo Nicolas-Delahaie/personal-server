@@ -30,5 +30,10 @@ alarm_control_panel:
     code_arm_required: false
     arming_time: 0
     delay_time: 0
+    trigger_time: 180
 
 iaquk: !include iaquk.yaml
+
+shell_command:
+  start_youtube_stream: /scripts/start_youtube_stream.sh
+  stop_youtube_stream: /scripts/stop_youtube_stream.sh

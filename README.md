@@ -154,6 +154,13 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
    3. Prowlarr : la configuration est libre
 
+8. (Optionnel) Streaming cloud sur détection (YouTube Live) :
+   1. Dans YouTube Studio, créer un nouveau flux en direct (onglet "En direct"), copier la clé de flux générée et configurer le stream en **Privé**
+   2. Copier la clé dans `.env` : `YOUTUBE_STREAM_KEY=xxxx-xxxx-xxxx`
+   3. `docker compose restart ha`
+
+   > YouTube peut afficher un warning "débit inférieur au recommandé" — c'est normal en scène statique (H264 compresse très efficacement). Le débit remonte automatiquement dès qu'il y a du mouvement.
+
 ## Pare-feu et réseau
 
 Le serveur **ne doit pas avoir de pare-feu actif** (ufw, iptables) au niveau de l'hôte — cela risque de bloquer des services internes. Le filtrage Internet se fait **au niveau du routeur** : seuls les ports 80 et 443 y sont forwardés vers le serveur.

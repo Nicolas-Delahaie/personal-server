@@ -79,12 +79,15 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./ha/config:/config
-    network_mode: host # Only for Linux, usefull for MDNS discovery
+      - ./ha/scripts:/scripts:ro
+    network_mode: host # Necessary for MDNS discovery
     cap_add:
       - NET_ADMIN
       - NET_RAW
     environment:
       - SUBNET_IP
+      - YOUTUBE_STREAM_LOG_FILE
+      - YOUTUBE_STREAM_KEY
       - INTERNAL_URL=http://${SERVER_IP}:8123
       - EXTERNAL_URL=https://ha.${DOMAIN}
     labels:
