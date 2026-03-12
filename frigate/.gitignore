@@ -1,0 +1,6 @@
+/media/
+
+# Frigate generates runtime files (db, model cache, jwt...)
+# Only track our config
+/config/*
+!/config/config.yaml

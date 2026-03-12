@@ -1,18 +1,4 @@
 CLAUDE.md
 
 /.env
-
-/ha/config
-
-/traefik/logs
-
-/z2m/data
-
-/frigate/config
-/frigate/media
-
-/grdf/log
-
 /.ignored
-
-/streaming

@@ -1,0 +1,5 @@
+# HA generates many runtime files (db, logs, cache, backups...)
+# Only track config files
+/config/*
+!/config/configuration.yaml
+!/config/iaquk.yaml
