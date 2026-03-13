@@ -28,7 +28,7 @@ cameras:
       streams:
         Default: tapo_c200
     ffmpeg:
-      hwaccel_args: preset-vaapi
+      hwaccel_args: preset-rtsp-restream
       inputs:
         - path: rtsp://127.0.0.1:8554/tapo_c200_sub
           roles:
