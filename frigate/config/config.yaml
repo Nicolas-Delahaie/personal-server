@@ -70,7 +70,7 @@ snapshots:
 detectors:
   cpu1:
     type: openvino
-    device: CPU
+    device: GPU
 
 model:
   width: 300
