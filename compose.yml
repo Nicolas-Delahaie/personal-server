@@ -21,8 +21,6 @@ services:
       - OVH_CONSUMER_KEY
     ports:
       - 443:443
-    extra_hosts:
-      - "server-host:host-gateway"
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.service: api@internal
@@ -53,11 +51,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - GLANCES_OPT=-w
+      - GLANCES_OPT=-w --bind ${DOCKER_GATEWAY_IP}
     labels:
       traefik.enable: true
       traefik.http.routers.glances.middlewares: authelia@file,errp-redirect@file
-      traefik.http.services.glances.loadbalancer.server.url: http://server-host:61208
+      traefik.http.services.glances.loadbalancer.server.url: http://${DOCKER_GATEWAY_IP}:61208
     network_mode: host
     pid: host
 
@@ -92,7 +90,7 @@ services:
       - EXTERNAL_URL=https://ha.${DOMAIN}
     labels:
       traefik.enable: true
-      traefik.http.services.ha.loadbalancer.server.url: http://server-host:8123
+      traefik.http.services.ha.loadbalancer.server.url: http://${DOCKER_GATEWAY_IP}:8123
       traefik.http.routers.ha.middlewares: errp-redirect@file
     depends_on:
       - mosquitto
