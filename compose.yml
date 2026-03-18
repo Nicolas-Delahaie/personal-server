@@ -169,7 +169,7 @@ services:
     shm_size: "256mb"
     privileged: true # Necessary for GPU acceleration
     extra_hosts:
-      - "tapo-c200:${TAPO_C200_IP}"
+      - "tapo-c200:${FRIGATE_TAPO_C200_IP}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frigate/config:/config
@@ -198,9 +198,9 @@ services:
       traefik.http.services.go2rtc.loadbalancer.server.port: 1984
     environment:
       - WEBRTC_LOCAL_CANDIDATE=${SERVER_IP}:8555
-      - FRIGATE_TAPO_C200_USER=${TAPO_C200_USER}
-      - FRIGATE_TAPO_C200_PASSWORD=${TAPO_C200_PASSWORD}
-      - FRIGATE_TAPO_C200_CLOUD_PASSWORD=${TAPO_C200_CLOUD_PASSWORD}
+      - FRIGATE_TAPO_C200_USER
+      - FRIGATE_TAPO_C200_PASSWORD
+      - FRIGATE_TAPO_C200_CLOUD_PASSWORD
     depends_on:
       - mosquitto
 
@@ -319,6 +319,23 @@ services:
       - open_webui_datas:/app/backend/data
     cpus: ${OLLAMA_CPUS}
     mem_limit: ${OLLAMA_MEM}
+
+  test:
+    build: ./tests
+    profiles:
+      - test
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./tests/reports:/reports
+    environment:
+      - TEST_DOMAIN=${DOMAIN}
+      - TEST_PUBLIC_IP=${PUBLIC_IP}
+      - TEST_SERVER_IP=${SERVER_IP}
+      - TEST_AUTHELIA_USER=${AUTHELIA_TEST_USER}
+      - TEST_AUTHELIA_PASSWORD=${AUTHELIA_TEST_PASSWORD}
+      - TEST_MQTT_USER=${MQTT_LAN_USER}
+      - TEST_MQTT_PASSWORD=${MQTT_LAN_PASSWORD}
+      - TEST_HA_TOKEN=${HA_TEST_TOKEN}
 
 volumes:
   vw_data:
