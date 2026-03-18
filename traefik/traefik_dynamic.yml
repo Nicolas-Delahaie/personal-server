@@ -15,3 +15,8 @@ http:
         address: "http://authelia:9091/api/authz/forward-auth"
         trustForwardHeader: true
         maxResponseBodySize: 10485760
+
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
