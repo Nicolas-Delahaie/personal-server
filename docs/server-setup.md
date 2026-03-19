@@ -55,6 +55,10 @@ Pour un accès direct au serveur, indépendant de la connexion internet
 Pour l'accès depuis internet (configuration DNS et redirection de ports)  
 ➜ [Configuration du routeur et DNS](./router-setup.md)
 
+## Dongle Zigbee
+
+L'USB autosuspend de Linux peut déconnecter aléatoirement le dongle Zigbee (erreur `ASH_ERROR_TIMEOUTS` dans z2m). Désactiver l'autosuspend via une règle udev pour le dongle concerné.
+
 ## Méthodes de développement
 
 ### Développement via SSH
