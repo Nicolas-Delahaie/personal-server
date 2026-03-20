@@ -12,14 +12,37 @@ Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa s
 1. Générer une clé SSH sur la machine locale :
 
    ```bash
-   ssh-keygen -t ed25519 -C "email"
+   ssh-keygen -t ed25519 -C "server-access"
    ```
+
+   > **Sécurité : toujours définir une passphrase.** Sans passphrase, la clé privée est en clair sur le disque. En cas de vol ou de compromission de la machine cliente, un attaquant pourra se connecter directement au serveur. La passphrase chiffre la clé privée localement — même si le fichier est volé, il est inutilisable sans elle.
+   > Pour ajouter une passphrase à une clé existante : `ssh-keygen -p -f ~/.ssh/id_ed25519`
 
 2. Copier la clé sur le serveur :
 
    ```bash
    ssh-copy-id user_name@server
    ```
+
+3. Pour ne pas avoir à ressaisir la passphrase à chaque connexion, la stocker dans un gestionnaire de clés :
+
+   **macOS (Keychain + TouchID) :**
+
+   Ajouter dans `~/.ssh/config` :
+
+   ```conf
+   Host *
+         AddKeysToAgent yes
+         UseKeychain yes
+   ```
+
+   Puis enregistrer la clé dans le Keychain :
+
+   ```bash
+   ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+   ```
+
+   La passphrase sera déverrouillée automatiquement avec la session macOS (TouchID / mot de passe de session). Session verrouillée = clé inaccessible.
 
 ## Sécurisation du serveur
 
