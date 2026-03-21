@@ -314,6 +314,8 @@ services:
     environment:
       - WEBUI_AUTH=false
       - WEBUI_URL=https://ollama.${DOMAIN}
+      - OLLAMA_BASE_URLS=http://localhost:11434;http://${DOCKER_GATEWAY_IP}:11434
+      - ENABLE_PERSISTENT_CONFIG=false
     volumes:
       - ollama_datas:/root/.ollama
       - open_webui_datas:/app/backend/data

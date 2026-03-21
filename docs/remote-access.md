@@ -94,3 +94,105 @@ ssh server.local
 ## Redirection du port 22
 
 Une fois le SSH configuré, il est nécessaire de rediriger le port 22 du serveur sur la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports) et s'assurer que les règles de pare-feu permettent l'accès au port 22.
+
+## Tunnel Ollama (Mac)
+
+Permet d'exposer l'Ollama d'un Mac (Apple Silicon) au Open WebUI du serveur via un tunnel SSH reverse. Les modèles du Mac apparaissent dans Open WebUI en plus des modèles locaux du serveur.
+
+### Prérequis
+
+- Le Mac doit avoir accès SSH au serveur
+- Ollama doit tourner sur le Mac (port 11434)
+- L'option **"Exposer Ollama to the network"** doit être activée dans les réglages d'Ollama. Sans cette option, Ollama rejette les requêtes provenant du tunnel avec une erreur 403.
+
+> **⚠️ Avertissement de sécurité** : activer l'accès réseau fait écouter Ollama sur **toutes les interfaces réseau** du Mac, y compris les réseaux wifi publics. N'importe qui sur le même réseau peut alors accéder à l'API Ollama et :
+>
+> - utiliser le CPU/GPU du Mac pour ses propres prompts (vol de puissance de calcul)
+> - lister, supprimer ou injecter des modèles
+>
+> En revanche, **les conversations Open WebUI ne sont pas exposées** : Ollama est stateless, l'historique est stocké côté Open WebUI sur le Shuttle.
+>
+> **Pourquoi pas mieux ?** Ollama hardcode les hôtes acceptés (`localhost`, `127.0.0.1`) dans son check anti-DNS-rebinding sur le header HTTP `Host`, et ne fournit pas de variable d'environnement pour étendre cette liste. `OLLAMA_ORIGINS` ne contrôle que CORS (header `Origin` des navigateurs), pas ce check. Les alternatives propres (firewall pf, mini proxy local de réécriture du `Host`) ont été écartées pour leur complexité de mise en œuvre et de maintenance.
+
+### Configuration serveur SSH
+
+Ajouter dans la config sshd (ex : `/etc/ssh/sshd_config`) :
+
+```
+GatewayPorts clientspecified
+ClientAliveInterval 30
+ClientAliveCountMax 3
+```
+
+- `GatewayPorts clientspecified` : permet au tunnel de binder sur l'IP Docker gateway (`DOCKER_GATEWAY_IP`), nécessaire pour que les conteneurs accèdent au tunnel
+- `ClientAliveInterval/CountMax` : détecte les clients SSH morts en ~90s et libère le port du tunnel. Sans ça, une déconnexion brutale du Mac (wifi, veille) laisse une session zombie qui bloque le port
+
+Puis relancer sshd : `sudo systemctl restart sshd`
+
+### Lancement automatique au login
+
+Créer `~/Library/LaunchAgents/com.ollama-tunnel.plist` :
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ollama-tunnel</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/ssh</string>
+        <string>-N</string>
+        <string>-o</string>
+        <string>ServerAliveInterval=30</string>
+        <string>-o</string>
+        <string>ServerAliveCountMax=3</string>
+        <string>-R</string>
+        <string>DOCKER_GATEWAY_IP:11434:localhost:11434</string>
+        <string>DOMAIN</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/ollama-tunnel.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/ollama-tunnel.log</string>
+</dict>
+</plist>
+```
+
+- `-N` : pas de shell distant, tunnel uniquement
+- `ServerAliveInterval/CountMax` : détecte une connexion morte en ~90s côté client
+- Le tunnel bind sur l'IP Docker gateway pour être accessible depuis les conteneurs
+- `RunAtLoad` / `KeepAlive` : lance le tunnel au login et le redémarre automatiquement s'il meurt — le binaire `ssh` natif suffit, pas besoin d'`autossh`
+
+Remplacer `DOCKER_GATEWAY_IP` et `DOMAIN` par les valeurs du `.env`, puis charger le plist :
+
+```bash
+launchctl load ~/Library/LaunchAgents/com.ollama-tunnel.plist
+```
+
+`RunAtLoad: true` lance le tunnel immédiatement et `KeepAlive: true` le redémarre automatiquement s'il meurt. Le binaire `ssh` natif suffit : la résilience est assurée par launchd, pas besoin d'`autossh`.
+
+### Mise à jour ou désactivation du tunnel
+
+`KeepAlive: true` rend `launchctl stop` inopérant : le process est immédiatement relancé. Pour modifier le plist ou désactiver le tunnel, utiliser `unload`/`load` :
+
+```bash
+# Désactiver
+launchctl unload ~/Library/LaunchAgents/com.ollama-tunnel.plist
+
+# Recharger après modification
+launchctl load ~/Library/LaunchAgents/com.ollama-tunnel.plist
+```
+
+### Vérification
+
+Sur le Mac : `launchctl list | grep ollama` doit montrer un PID (1re colonne).
+
+Sur le serveur : `ss -tlnp | grep 11434` doit montrer le port en écoute.
+
+Depuis l'interface Open WebUI, les modèles du Mac doivent apparaître dans la catégorie "externe".
