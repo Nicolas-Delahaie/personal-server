@@ -1,6 +1,8 @@
 services:
   traefik:
     image: traefik:latest
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/traefik_static_template.yml:/etc/traefik/traefik_static_template.yml:ro
@@ -35,6 +37,8 @@ services:
 
   authelia:
     image: authelia/authelia:latest
+    security_opt:
+      - no-new-privileges:true
     environment:
       - AUTHELIA_STORAGE_ENCRYPTION_KEY
       - DOMAIN
@@ -61,6 +65,8 @@ services:
 
   portainer:
     image: portainer/portainer-ce:latest
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -97,6 +103,8 @@ services:
 
   z2m:
     image: koenkk/zigbee2mqtt
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - ./z2m/data:/app/data
     devices:
@@ -112,6 +120,8 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
       - ./mosquitto/entrypoint.sh:/entrypoint.sh:ro
@@ -126,6 +136,8 @@ services:
 
   vw:
     image: vaultwarden/server:latest
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - vw_data:/data
       - /etc/localtime:/etc/localtime:ro
@@ -143,6 +155,8 @@ services:
 
   errp:
     image: ghcr.io/tarampampam/error-pages:latest
+    security_opt:
+      - no-new-privileges:true
     environment:
       - TEMPLATE_NAME=shuffle #cats,win98,shuffle,connection
     labels:
@@ -206,6 +220,8 @@ services:
 
   grdf:
     image: ssenart/gazpar2mqtt:latest
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - ./grdf/log:/app/log
     environment:
@@ -239,6 +255,8 @@ services:
 
   cs:
     image: crowdsecurity/crowdsec:latest-debian
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - crowdsec_data:/var/lib/crowdsec/data
       - ./cs/config:/etc/crowdsec
@@ -256,6 +274,8 @@ services:
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
+    security_opt:
+      - no-new-privileges:true
     environment:
       - PUID=1000
       - PGID=1000
@@ -276,6 +296,8 @@ services:
 
   qbt:
     image: lscr.io/linuxserver/qbittorrent:latest
+    security_opt:
+      - no-new-privileges:true
     environment:
       - PUID=1000
       - PGID=1000
@@ -292,6 +314,8 @@ services:
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
+    security_opt:
+      - no-new-privileges:true
     environment:
       - PUID=1000
       - PGID=1000
@@ -307,6 +331,8 @@ services:
 
   ollama:
     image: ghcr.io/open-webui/open-webui:ollama
+    security_opt:
+      - no-new-privileges:true
     labels:
       traefik.enable: true
       traefik.http.routers.ollama.middlewares: authelia@file,errp-redirect@file
