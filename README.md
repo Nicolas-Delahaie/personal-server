@@ -19,7 +19,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
    docker compose up -d --build
    ```
 
-   > Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `portainer`, ajouter `--profile monit`.
+   > Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `stream`, ajouter `--profile stream`.
 
 3. CrowdSec :
    1. Blocage IP au niveau de l'hôte (Firewall Bouncer Crowdsec) :
