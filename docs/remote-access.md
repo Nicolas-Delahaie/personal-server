@@ -195,4 +195,4 @@ Sur le Mac : `launchctl list | grep ollama` doit montrer un PID (1re colonne).
 
 Sur le serveur : `ss -tlnp | grep 11434` doit montrer le port en écoute.
 
-Depuis l'interface Open WebUI, les modèles du Mac doivent apparaître dans la catégorie "externe".
+Depuis l'interface Open WebUI, aller dans **Admin Panel → Settings → Connections** : les deux endpoints (`localhost:11434` et `${DOCKER_GATEWAY_IP}:11434`) doivent apparaître avec un statut vert.
