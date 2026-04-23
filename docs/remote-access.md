@@ -81,7 +81,7 @@ Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa s
 Pour éviter de spécifier l'utilisateur à chaque connexion, ajouter au fichier `~/.ssh/config` :
 
 ```conf
-Host shuttle shuttle.local nicolas-delahaie.fr 64.64.31.31
+Host <hostname> <hostname>.local <public-domain> 64.64.31.31
       User user_name
 ```
 

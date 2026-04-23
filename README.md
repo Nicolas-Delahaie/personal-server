@@ -129,6 +129,7 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
 
    ```bash
    sudo cp host_configs/personal-server.service /etc/systemd/system/
+   sudo sed -i "s|<REPO_PATH>|$(pwd)|" /etc/systemd/system/personal-server.service
    sudo systemctl enable personal-server
    ```
 

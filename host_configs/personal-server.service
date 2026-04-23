@@ -5,7 +5,7 @@ After=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/home/nicolas/personal-server
+WorkingDirectory=<REPO_PATH>
 ExecStart=docker compose up -d --build
 
 [Install]
