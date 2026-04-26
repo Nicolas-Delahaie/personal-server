@@ -23,7 +23,7 @@ nohup ffmpeg \
   -rtsp_transport tcp \
   -i rtsp://127.0.0.1:8554/tapo_c200 \
   -c:v copy \
-  -c:a aac -b:a 128k \
+  -c:a aac -ar 44100 -ac 2 -b:a 128k \
   -max_muxing_queue_size 1024 \
   -f flv "rtmp://a.rtmp.youtube.com/live2/${YOUTUBE_STREAM_KEY}" \
   >> "$YOUTUBE_STREAM_LOG_FILE" 2>&1 &

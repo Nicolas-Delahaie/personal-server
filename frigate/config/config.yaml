@@ -12,7 +12,7 @@ go2rtc:
   streams:
     tapo_c200:
       - onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020
-      - tapo://{FRIGATE_TAPO_C200_CLOUD_PASSWORD}@tapo-c200 # Vidéo + 2-way (HTTPS)
+      - tapo://{FRIGATE_TAPO_C200_CLOUD_PASSWORD}@tapo-c200#audio=false # Vidéo + 2-way (HTTPS)
     tapo_c200_sub: onvif://{FRIGATE_TAPO_C200_USER}:{FRIGATE_TAPO_C200_PASSWORD}@tapo-c200:2020?subtype=1
   webrtc:
     candidates:
