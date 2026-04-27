@@ -99,7 +99,8 @@ services:
       traefik.http.services.ha.loadbalancer.server.url: http://${DOCKER_GATEWAY_IP}:8123
       traefik.http.routers.ha.middlewares: errp-redirect@file
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
 
   z2m:
     image: koenkk/zigbee2mqtt
@@ -116,7 +117,8 @@ services:
       traefik.http.routers.z2m.middlewares: authelia@file,errp-redirect@file
       traefik.http.services.z2m.loadbalancer.server.port: 8080
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
 
   mosquitto:
     image: eclipse-mosquitto
@@ -130,6 +132,13 @@ services:
       - MQTT_LAN_USER
       - MQTT_LAN_PASSWORD
     entrypoint: /entrypoint.sh
+    healthcheck:
+      test: mosquitto_sub -t '$$SYS/broker/uptime' -C 1 -i healthcheck -W 3
+      interval: 30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+      start_interval: 2s
     ports:
       - 127.0.0.1:1883:1883 # Necessary for HA, which is not on the same network
       - 8883:8883 # Local network access with authentication
@@ -216,7 +225,8 @@ services:
       - FRIGATE_TAPO_C200_PASSWORD
       - FRIGATE_TAPO_C200_CLOUD_PASSWORD
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
 
   grdf:
     image: ssenart/gazpar2mqtt:latest
@@ -230,7 +240,8 @@ services:
       - GRDF_PCE_IDENTIFIER
       - MQTT_BROKER=mosquitto
     depends_on:
-      - mosquitto
+      mosquitto:
+        condition: service_healthy
 
   # grafana:
   #   image: grafana/grafana:latest
