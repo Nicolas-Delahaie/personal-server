@@ -1,6 +1,6 @@
 # Home Srv
 
-Serveur personnel domestique basé sur Docker Compose. Hébergé sur un Shuttle sous Debian.
+Serveur maison basé sur Docker Compose. Hébergé sur un Shuttle sous Debian.
 Regroupe domotique, vidéosurveillance, gestion de mots de passe, streaming média et sécurité réseau.
 
 ## Stack technique
