@@ -1,34 +1,34 @@
-# Configuration SSH
+# SSH Configuration
 
-Le SSH (Secure Shell) est un protocole permettant le contrôle à distance sécurisé du serveur. Deux modes d'accès disponibles :
+SSH (Secure Shell) is a protocol for secure remote control of the server. Two access modes are available:
 
-- Réseau local : connexion directe via l'adresse IP locale
-- Accès externe : nécessite une redirection de port sur la box internet
+- Local network: direct connection via the local IP address
+- External access: requires port forwarding on the internet router
 
-Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa simplicité de mise en place. L'exposition du service à Internet nécessite une sécurisation appropriée.
+While using a VPN is possible, SSH is preferred for its simplicity of setup. Exposing the service to the internet requires appropriate hardening.
 
-## Configuration des clés SSH
+## SSH Key Configuration
 
-1. Générer une clé SSH sur la machine locale :
+1. Generate an SSH key on the local machine:
 
    ```bash
    ssh-keygen -t ed25519 -C "server-access"
    ```
 
-   > **Sécurité : toujours définir une passphrase.** Sans passphrase, la clé privée est en clair sur le disque. En cas de vol ou de compromission de la machine cliente, un attaquant pourra se connecter directement au serveur. La passphrase chiffre la clé privée localement — même si le fichier est volé, il est inutilisable sans elle.
-   > Pour ajouter une passphrase à une clé existante : `ssh-keygen -p -f ~/.ssh/id_ed25519`
+   > **Security: always set a passphrase.** Without a passphrase, the private key is stored in plaintext on disk. If the client machine is stolen or compromised, an attacker can connect directly to the server. The passphrase encrypts the private key locally — even if the file is stolen, it is useless without it.
+   > To add a passphrase to an existing key: `ssh-keygen -p -f ~/.ssh/id_ed25519`
 
-2. Copier la clé sur le serveur :
+2. Copy the key to the server:
 
    ```bash
    ssh-copy-id user_name@server
    ```
 
-3. Pour ne pas avoir à ressaisir la passphrase à chaque connexion, la stocker dans un gestionnaire de clés :
+3. To avoid re-entering the passphrase on every connection, store it in a key manager:
 
-   **macOS (Keychain + TouchID) :**
+   **macOS (Keychain + TouchID):**
 
-   Ajouter dans `~/.ssh/config` :
+   Add to `~/.ssh/config`:
 
    ```conf
    Host *
@@ -36,23 +36,23 @@ Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa s
          UseKeychain yes
    ```
 
-   Puis enregistrer la clé dans le Keychain :
+   Then register the key in the Keychain:
 
    ```bash
    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
    ```
 
-   La passphrase sera déverrouillée automatiquement avec la session macOS (TouchID / mot de passe de session). Session verrouillée = clé inaccessible.
+   The passphrase will be automatically unlocked with the macOS session (TouchID / session password). Locked session = key inaccessible.
 
-## Sécurisation du serveur
+## Server Hardening
 
-1. Modifier la configuration SSH :
+1. Edit the SSH configuration:
 
    ```bash
    sudo nano /etc/ssh/sshd_config.d/custom-config.conf
    ```
 
-2. Ajouter les paramètres de sécurité :
+2. Add security parameters:
 
    ```conf
    LoginGraceTime 1m
@@ -60,63 +60,63 @@ Bien que l'utilisation d'un VPN soit possible, le SSH est privilégié pour sa s
    MaxAuthTries 3
    PubkeyAuthentication yes
    X11Forwarding no
-   AllowUsers votre_utilisateur
+   AllowUsers your_user
 
-   # Une fois la clé SSH testée, ajouter :
+   # Once SSH key is tested, add:
    PasswordAuthentication no
    ChallengeResponseAuthentication no
    ```
 
-3. Redémarrer le service SSH :
+3. Restart the SSH service:
 
    ```bash
    sudo systemctl restart sshd
    ```
 
-4. Tester la connexion par clé avec `ssh user_name@server.local`.
-5. Après validation de la connexion, dé-commenter les deux dernières lignes et redémarrer SSH.
+4. Test the key-based connection with `ssh user_name@server.local`.
+5. After validating the connection, uncomment the last two lines and restart SSH.
 
-## Simplification de la connexion
+## Simplified Connection
 
-Pour éviter de spécifier l'utilisateur à chaque connexion, ajouter au fichier `~/.ssh/config` :
+To avoid specifying the user on every connection, add to `~/.ssh/config`:
 
 ```conf
 Host <hostname> <hostname>.local <public-domain> 64.64.31.31
       User user_name
 ```
 
-La connexion devient alors possible via :
+The connection then becomes possible via:
 
 ```bash
 ssh server.local
 ```
 
-## Redirection du port 22
+## Port 22 Forwarding
 
-Une fois le SSH configuré, il est nécessaire de rediriger le port 22 du serveur sur la box. Pour cela, suivre la procédure [ici](./router-setup.md#redirection-des-ports) et s'assurer que les règles de pare-feu permettent l'accès au port 22.
+Once SSH is configured, port 22 must be forwarded on the router. Follow the procedure [here](./router-setup.md#port-forwarding) and ensure firewall rules allow access to port 22.
 
-## Tunnel Ollama (Mac)
+## Ollama Tunnel (Mac)
 
-Permet d'exposer l'Ollama d'un Mac (Apple Silicon) au Open WebUI du serveur via un tunnel SSH reverse. Les modèles du Mac apparaissent dans Open WebUI en plus des modèles locaux du serveur.
+Exposes the Ollama instance running on a Mac (Apple Silicon) to the server's Open WebUI via a reverse SSH tunnel. The Mac's models appear in Open WebUI alongside the server's local models.
 
-### Prérequis
+### Prerequisites
 
-- Le Mac doit avoir accès SSH au serveur
-- Ollama doit tourner sur le Mac (port 11434)
-- L'option **"Exposer Ollama to the network"** doit être activée dans les réglages d'Ollama. Sans cette option, Ollama rejette les requêtes provenant du tunnel avec une erreur 403.
+- The Mac must have SSH access to the server
+- Ollama must be running on the Mac (port 11434)
+- The **"Expose Ollama to the network"** option must be enabled in Ollama's settings. Without this option, Ollama rejects requests coming through the tunnel with a 403 error.
 
-> **⚠️ Avertissement de sécurité** : activer l'accès réseau fait écouter Ollama sur **toutes les interfaces réseau** du Mac, y compris les réseaux wifi publics. N'importe qui sur le même réseau peut alors accéder à l'API Ollama et :
+> **⚠️ Security warning**: enabling network access makes Ollama listen on **all network interfaces** of the Mac, including public Wi-Fi networks. Anyone on the same network can then access the Ollama API and:
 >
-> - utiliser le CPU/GPU du Mac pour ses propres prompts (vol de puissance de calcul)
-> - lister, supprimer ou injecter des modèles
+> - use the Mac's CPU/GPU for their own prompts (compute theft)
+> - list, delete, or inject models
 >
-> En revanche, **les conversations Open WebUI ne sont pas exposées** : Ollama est stateless, l'historique est stocké côté Open WebUI sur le Shuttle.
+> However, **Open WebUI conversations are not exposed**: Ollama is stateless, history is stored on the Open WebUI side on the Shuttle.
 >
-> **Pourquoi pas mieux ?** Ollama hardcode les hôtes acceptés (`localhost`, `127.0.0.1`) dans son check anti-DNS-rebinding sur le header HTTP `Host`, et ne fournit pas de variable d'environnement pour étendre cette liste. `OLLAMA_ORIGINS` ne contrôle que CORS (header `Origin` des navigateurs), pas ce check. Les alternatives propres (firewall pf, mini proxy local de réécriture du `Host`) ont été écartées pour leur complexité de mise en œuvre et de maintenance.
+> **Why not better?** Ollama hardcodes accepted hosts (`localhost`, `127.0.0.1`) in its anti-DNS-rebinding check on the HTTP `Host` header, and does not provide an environment variable to extend this list. `OLLAMA_ORIGINS` only controls CORS (browser `Origin` header), not this check. Clean alternatives (pf firewall, local mini proxy rewriting the `Host`) were ruled out due to their implementation and maintenance complexity.
 
-### Configuration serveur SSH
+### SSH Server Configuration
 
-Ajouter dans la config sshd (ex : `/etc/ssh/sshd_config`) :
+Add to the sshd config (e.g. `/etc/ssh/sshd_config`):
 
 ```
 GatewayPorts clientspecified
@@ -124,14 +124,14 @@ ClientAliveInterval 30
 ClientAliveCountMax 3
 ```
 
-- `GatewayPorts clientspecified` : permet au tunnel de binder sur l'IP Docker gateway (`DOCKER_GATEWAY_IP`), nécessaire pour que les conteneurs accèdent au tunnel
-- `ClientAliveInterval/CountMax` : détecte les clients SSH morts en ~90s et libère le port du tunnel. Sans ça, une déconnexion brutale du Mac (wifi, veille) laisse une session zombie qui bloque le port
+- `GatewayPorts clientspecified`: allows the tunnel to bind on the Docker gateway IP (`DOCKER_GATEWAY_IP`), required for containers to access the tunnel
+- `ClientAliveInterval/CountMax`: detects dead SSH clients in ~90s and releases the tunnel port. Without this, a sudden Mac disconnection (Wi-Fi drop, sleep) leaves a zombie session that blocks the port
 
-Puis relancer sshd : `sudo systemctl restart sshd`
+Then restart sshd: `sudo systemctl restart sshd`
 
-### Lancement automatique au login
+### Auto-start at Login
 
-Créer `~/Library/LaunchAgents/com.ollama-tunnel.plist` :
+Create `~/Library/LaunchAgents/com.ollama-tunnel.plist`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -164,35 +164,35 @@ Créer `~/Library/LaunchAgents/com.ollama-tunnel.plist` :
 </plist>
 ```
 
-- `-N` : pas de shell distant, tunnel uniquement
-- `ServerAliveInterval/CountMax` : détecte une connexion morte en ~90s côté client
-- Le tunnel bind sur l'IP Docker gateway pour être accessible depuis les conteneurs
-- `RunAtLoad` / `KeepAlive` : lance le tunnel au login et le redémarre automatiquement s'il meurt — le binaire `ssh` natif suffit, pas besoin d'`autossh`
+- `-N`: no remote shell, tunnel only
+- `ServerAliveInterval/CountMax`: detects a dead connection in ~90s on the client side
+- The tunnel binds on the Docker gateway IP to be accessible from containers
+- `RunAtLoad` / `KeepAlive`: starts the tunnel at login and automatically restarts it if it dies — the native `ssh` binary is sufficient, no need for `autossh`
 
-Remplacer `DOCKER_GATEWAY_IP` et `DOMAIN` par les valeurs du `.env`, puis charger le plist :
+Replace `DOCKER_GATEWAY_IP` and `DOMAIN` with values from `.env`, then load the plist:
 
 ```bash
 launchctl load ~/Library/LaunchAgents/com.ollama-tunnel.plist
 ```
 
-`RunAtLoad: true` lance le tunnel immédiatement et `KeepAlive: true` le redémarre automatiquement s'il meurt. Le binaire `ssh` natif suffit : la résilience est assurée par launchd, pas besoin d'`autossh`.
+`RunAtLoad: true` starts the tunnel immediately and `KeepAlive: true` restarts it automatically if it dies. The native `ssh` binary is sufficient: resilience is handled by launchd, no need for `autossh`.
 
-### Mise à jour ou désactivation du tunnel
+### Updating or Disabling the Tunnel
 
-`KeepAlive: true` rend `launchctl stop` inopérant : le process est immédiatement relancé. Pour modifier le plist ou désactiver le tunnel, utiliser `unload`/`load` :
+`KeepAlive: true` makes `launchctl stop` ineffective: the process is immediately restarted. To modify the plist or disable the tunnel, use `unload`/`load`:
 
 ```bash
-# Désactiver
+# Disable
 launchctl unload ~/Library/LaunchAgents/com.ollama-tunnel.plist
 
-# Recharger après modification
+# Reload after modification
 launchctl load ~/Library/LaunchAgents/com.ollama-tunnel.plist
 ```
 
-### Vérification
+### Verification
 
-Sur le Mac : `launchctl list | grep ollama` doit montrer un PID (1re colonne).
+On the Mac: `launchctl list | grep ollama` should show a PID (1st column).
 
-Sur le serveur : `ss -tlnp | grep 11434` doit montrer le port en écoute.
+On the server: `ss -tlnp | grep 11434` should show the port listening.
 
-Depuis l'interface Open WebUI, aller dans **Admin Panel → Settings → Connections** : les deux endpoints (`localhost:11434` et `${DOCKER_GATEWAY_IP}:11434`) doivent apparaître avec un statut vert.
+From the Open WebUI interface, go to **Admin Panel → Settings → Connections**: both endpoints (`localhost:11434` and `${DOCKER_GATEWAY_IP}:11434`) should appear with a green status.

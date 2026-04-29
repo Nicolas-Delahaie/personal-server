@@ -1,90 +1,90 @@
-# Configuration de **dnsmasq**
+# **dnsmasq** Configuration
 
-Dnsmasq est un serveur DNS et DHCP léger, souvent utilisé pour gérer les adresses IP sur un réseau local.
+Dnsmasq is a lightweight DNS and DHCP server, commonly used to manage IP addresses on a local network.
 
-## Installation de dnsmasq
+## Installing dnsmasq
 
-Sur la machine hôte (exemple avec Homebrew sur macOS) :
+On the host machine (example with Homebrew on macOS):
 
 ```bash
 brew install dnsmasq
 ```
 
-Une configuration par défaut de `dnsmasq` est disponible dans `host_configs/dnsmasq-example.conf`. Pour l'utiliser comme base :
+A default `dnsmasq` configuration is available in `host_configs/dnsmasq-example.conf`. To use it as a base:
 
 ```bash
 cp host_configs/dnsmasq-example.conf /opt/homebrew/etc/dnsmasq.conf
 ```
 
-## Configuration du DHCP
+## DHCP Configuration
 
-Ce serveur DNS attribue dynamiquement une adresse au serveur, permettant une connexion locale pour le débogage. La machine hôte agit comme une box internet et le serveur peut s'y connecter de manière autonome.
+This DNS server dynamically assigns an address to the server, enabling a local connection for debugging. The host machine acts as an internet router and the server can connect to it autonomously.
 
-1. **Configuration de dnsmasq sur la machine hôte**
+1. **Configure dnsmasq on the host machine**
 
-   - Dans `/opt/homebrew/etc/dnsmasq.conf` (chemin sur MacOS), ajouter :
+   - In `/opt/homebrew/etc/dnsmasq.conf` (macOS path), add:
 
      ```ini
-     # Permet de se déclarer comme unique serveur DHCP sur le réseau
+     # Declare this machine as the sole DHCP server on the network
      dhcp-authoritative
-     # Configure l'interface à écouter, la plage, le masque et la durée de bail
+     # Configure the interface to listen on, the range, netmask and lease duration
      dhcp-range=192.168.10.50,192.168.10.150,255.255.255.0,24h
-     # Définir la passerelle par défaut (l'adresse IP de la machine hôte)
+     # Set the default gateway (host machine's IP address)
      dhcp-option=3,192.168.10.1
-     # Réponses DNS limitées aux réseaux locaux
+     # Limit DNS responses to local networks
      local-service
      ```
 
-     > Notes importantes :
+     > Important notes:
      >
-     > - L'IP de départ doit être supérieure à l'IP statique de la machine hôte
-     > - Dnsmasq devient serveur DHCP pour toutes les interfaces
-     > - Pour limiter à une interface spécifique, préfixer avec son nom (exemple : `dhcp-option=en11,3,192.168.10.1`)
-     > - La plage 192.168.10.x est recommandée car réservée aux réseaux privés et peu utilisée
+     > - The starting IP must be higher than the host machine's static IP
+     > - Dnsmasq becomes the DHCP server for all interfaces
+     > - To limit to a specific interface, prefix with its name (example: `dhcp-option=en11,3,192.168.10.1`)
+     > - The 192.168.10.x range is recommended as it is reserved for private networks and rarely used
 
-   - Redémarrer le service :
+   - Restart the service:
 
      ```bash
      sudo brew services restart dnsmasq
      ```
 
-2. **Configuration IP statique sur l'interface Ethernet de l'hôte**
+2. **Set a static IP on the host's Ethernet interface**
 
-   - Dans Réglages > Réseau > adaptateur ethernet > TCP/IP :
-     - Configurer IPv4 : Manuellement
-     - Adresse IP : 192.168.10.1 (correspondant à la gateway dans dhcp-option)
-     - Masque : 255.255.255.0
+   - In Settings > Network > Ethernet adapter > TCP/IP:
+     - Configure IPv4: Manually
+     - IP Address: 192.168.10.1 (matching the gateway in dhcp-option)
+     - Subnet mask: 255.255.255.0
 
-3. **Configuration du serveur en client DHCP**
+3. **Configure the server as a DHCP client**
 
-   - Configurer le serveur pour utiliser DHCP via NetworkManager :
+   - Configure the server to use DHCP via NetworkManager:
 
      ```bash
      sudo nmtui
      ```
 
-   - Sélectionner "Modifier une connexion"
-   - Choisir la connexion Ethernet > "Modifier"
-   - Vérifier "Configuration IPV4" sur "Automatique" (DHCP)
+   - Select "Edit a connection"
+   - Choose the Ethernet connection > "Edit"
+   - Verify "IPv4 Configuration" is set to "Automatic" (DHCP)
 
-4. **Établissement de la connexion**
-   - Connecter le câble Ethernet entre hôte et serveur
-   - Le serveur recevra automatiquement une IP via dnsmasq
-   - Pour vérifier, consulter la section "[débogage](#débogage)"
+4. **Establish the connection**
+   - Connect the Ethernet cable between host and server
+   - The server will automatically receive an IP via dnsmasq
+   - To verify, see the "[debugging](#debugging)" section
 
-## Configuration du DNS
+## DNS Configuration
 
-Traefik génère des sous-domaines pour chaque service. En production, tous les sous-domaines pointent vers la même IP via le DNS global. En local, il faut configurer la redirection de `*.localhost` vers `localhost`.
+Traefik generates subdomains for each service. In production, all subdomains point to the same IP via the global DNS. Locally, you need to configure redirection of `*.localhost` to `localhost`.
 
-Le serveur DNS redirige tous les sous-domaines locaux vers lui-même, permettant de tester l'application en local dans les mêmes conditions qu'en production.
+The DNS server redirects all local subdomains to itself, allowing the application to be tested locally under the same conditions as in production.
 
-Ajouter dans `/opt/homebrew/etc/dnsmasq.conf` :
+Add to `/opt/homebrew/etc/dnsmasq.conf`:
 
 ```ini
 address=/.localhost/127.0.0.1
 ```
 
-Configuration du résolveur DNS :
+DNS resolver configuration:
 
 ```bash
 sudo mkdir -p /etc/resolver
@@ -97,47 +97,47 @@ sudo nano /etc/resolver/localhost
 ls /etc/resolver
 ```
 
-Note : /etc/resolv.conf est généré automatiquement selon le réseau utilisé
+Note: /etc/resolv.conf is automatically generated based on the current network
 
-## Débogage
+## Debugging
 
 ### Logging
 
-Ajouter dans `/opt/homebrew/etc/dnsmasq.conf` :
+Add to `/opt/homebrew/etc/dnsmasq.conf`:
 
 ```ini
 log-queries
 log-facility=/opt/homebrew/var/log/dnsmasq.log
 ```
 
-Visualisation en temps réel des requêtes DNS et DHCP :
+Real-time view of DNS and DHCP requests:
 
 ```bash
 tail -f /opt/homebrew/var/log/dnsmasq.log
 ```
 
-Pour les erreurs de lancement (configuration invalide) :
+For startup errors (invalid configuration):
 
 ```bash
 sudo log stream --style syslog --predicate 'process == "dnsmasq"'
 ```
 
-Vérification de l'écoute sur le port 53 :
+Check listening on port 53:
 
 ```bash
 sudo lsof -i UDP:53 -i TCP:53
 ```
 
-### Requêtes DNS
+### DNS Queries
 
 ```bash
 dig <domain> +short
 dig @127.0.0.1 <domain> +short
-dig +trace <domain> # tracer la chaîne DNS
+dig +trace <domain> # trace the DNS chain
 nslookup <domain>
 ```
 
-### Informations sur le résolveur (macOS)
+### Resolver Information (macOS)
 
 ```bash
 scutil --dns
@@ -145,14 +145,14 @@ scutil --resolver localhost
 dscacheutil -q host -a name <domain>
 ```
 
-### Vidage du cache DNS (macOS)
+### Flush DNS Cache (macOS)
 
 ```bash
 sudo dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 ```
 
-### Tests de connectivité
+### Connectivity Tests
 
 ```bash
 ping -c1 test.localhost

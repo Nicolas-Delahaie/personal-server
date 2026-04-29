@@ -1,46 +1,46 @@
-# Services et configurations pour le serveur personnel
+# Services and configurations for the home server
 
-Explications de la mise en place d'un serveur personnel et codes divers. Cette configuration, bien que basée sur un "Shuttle" (ordinateur compact) sous Debian, peut s'adapter à tout type de serveur.
+Setup guide for a home server and various configurations. Although based on a Shuttle (compact computer) running Debian, this setup can be adapted to any type of server.
 
 ## Installation
 
-1. Configurer les variables d'environnement
-   1. Générer le fichier vierge :
+1. Configure environment variables
+   1. Generate the blank file:
 
       ```bash
       cp .env.template .env
       ```
 
-   2. Completer le fichier généré avec les variables d'environnement nécessaires.
+   2. Fill in the generated file with the required environment variables.
 
-2. Exécuter la commande suivante :
+2. Run the following command:
 
    ```bash
    docker compose up -d --build
    ```
 
-   > Cette commande exécute les conteneurs minimums nécessaires au fonctionnement du projet. Pour activer des services supplémentaires, ajouter le profile correspondant dans la commande. Par exemple, pour activer le profile `stream`, ajouter `--profile stream`.
+   > This command starts the minimum set of containers required for the project to run. To enable additional services, add the corresponding profile to the command. For example, to enable the `stream` profile, add `--profile stream`.
 
-3. CrowdSec :
-   1. Blocage IP au niveau de l'hôte (Firewall Bouncer Crowdsec) :
-      1. Installation :
+3. CrowdSec:
+   1. IP blocking at host level (CrowdSec Firewall Bouncer):
+      1. Installation:
 
          ```bash
          sudo apt install --no-install-recommends crowdsec-firewall-bouncer ipset
-         sudo systemctl enable --now crowdsec-firewall-bouncer # Par sécurité
+         sudo systemctl enable --now crowdsec-firewall-bouncer # As a precaution
          ```
 
-      2. Initialiser la clé API du service Crowdsec :
+      2. Initialize the CrowdSec service API key:
 
          ```bash
          docker compose exec cs cscli bouncers add firewall
          ```
 
-         Cette commande génère une clé API. Il faut ensuite créer (ou compléter) le fichier de config `.local` du firewall bouncer `/etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local` avec le contenu suivant :
+         This command generates an API key. Then create (or update) the firewall bouncer `.local` config file `/etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local` with the following content:
 
          ```yaml
          mode: iptables
-         api_key: <clé générée ci-dessus>
+         api_key: <key generated above>
          iptables_chains:
            - INPUT
            - DOCKER-USER
@@ -48,15 +48,15 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
            enabled: false
          ```
 
-         > Le mode `iptables` est requis pour les environnements Docker : c'est la [recommandation officielle CrowdSec](https://docs.crowdsec.net/u/bouncers/firewall). Il permet d'ajouter la chaîne `DOCKER-USER`, sans laquelle le trafic entrant vers les conteneurs (port forwarding) n'est pas bloqué malgré les décisions de ban. Le mode `nftables` (défaut) ne supporte pas `DOCKER-USER`.
+         > The `iptables` mode is required for Docker environments: this is the [official CrowdSec recommendation](https://docs.crowdsec.net/u/bouncers/firewall). It allows adding the `DOCKER-USER` chain, without which incoming traffic to containers (port forwarding) is not blocked despite ban decisions. The `nftables` mode (default) does not support `DOCKER-USER`.
 
-      3. (Optionnel) Empêcher le service de planter lorsque l'API Crowdsec n'est pas encore disponible :
+      3. (Optional) Prevent the service from crashing when the CrowdSec API is not yet available:
 
          ```bash
          sudo systemctl edit crowdsec-firewall-bouncer.service
          ```
 
-         Ajouter les lignes suivantes :
+         Add the following lines:
 
          ```ini
          [Service]
@@ -64,16 +64,16 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
          RestartSec=60
          ```
 
-         > Au démarrage, le service tentera de se relancer toutes les minutes jusqu'à ce que l'API soit disponible (conteneur Docker Crowdsec démarré).
+         > At startup, the service will attempt to restart every minute until the API is available (CrowdSec Docker container started).
 
-   2. (Optionnel) Configurer l'interface distance de monitoring (Console):
+   2. (Optional) Configure the remote monitoring interface (Console):
 
-      > La Console de Crowdsec permet de visualiser les alertes et la santé de l'instance Crowdsec via une interface web externe.
-      1. Authentification sur <https://docs.crowdsec.net/u/getting_started/post_installation/console>
-      2. Suivre la procédure (appairage de l'instance puis redémarrage)
+      > The CrowdSec Console allows you to visualize alerts and the health of the CrowdSec instance via an external web interface.
+      1. Authenticate at <https://docs.crowdsec.net/u/getting_started/post_installation/console>
+      2. Follow the procedure (pair the instance then restart)
 
-4. Authelia :
-   1. Créer le fichier contenant les utilisateurs Authelia (dont l'administrateur) :
+4. Authelia:
+   1. Create the file containing Authelia users (including the administrator):
 
       ```bash
       cat > ./authelia/config/users_database.yml << 'EOF'
@@ -84,92 +84,92 @@ Explications de la mise en place d'un serveur personnel et codes divers. Cette c
       EOF
       ```
 
-   2. Générer le hash du mot de passe administrateur souhaité et le copier dans `user.admin.password` :
+   2. Generate the hash for the desired administrator password and copy it into `user.admin.password`:
 
       ```bash
       docker run --rm -it authelia/authelia:latest authelia crypto hash generate argon2
       ```
 
-5. Ollama (Open WebUI) :
+5. Ollama (Open WebUI):
 
-   Au premier lancement, aucun modèle n'est installé. Il faut en télécharger au moins un pour pouvoir discuter :
+   On first launch, no models are installed. At least one must be downloaded to start chatting:
 
    ```bash
    docker compose exec ollama ollama pull mistral
    ```
 
-   Les modèles disponibles sont listés sur [ollama.com/library](https://ollama.com/library). Quelques exemples :
+   Available models are listed on [ollama.com/library](https://ollama.com/library). Some examples:
 
-   | Modèle        | Taille  | Description                              |
-   | ------------- | ------- | ---------------------------------------- |
-   | `mistral`     | ~4 Go   | Bon équilibre performance / taille       |
-   | `llama3.2`    | ~2 Go   | Plus léger, adapté aux machines modestes |
-   | `llama3.2:1b` | ~1.3 Go | Très léger                               |
+   | Model         | Size    | Description                                  |
+   | ------------- | ------- | -------------------------------------------- |
+   | `mistral`     | ~4 GB   | Good performance / size balance              |
+   | `llama3.2`    | ~2 GB   | Lighter, suitable for modest hardware        |
+   | `llama3.2:1b` | ~1.3 GB | Very lightweight                             |
 
-   > Les modèles sont persistés dans le volume Docker `ollama_datas`. Ils survivent aux redémarrages et mises à jour du conteneur.
+   > Models are persisted in the `ollama_datas` Docker volume. They survive container restarts and updates.
 
-   **Utiliser un serveur Ollama externe (facultatif)** :
+   **Using an external Ollama server (optional)**:
 
-   Le serveur embarqué (Shuttle) est limité en puissance. Si un appareil plus performant est disponible sur le réseau local (ex : un laptop puissant avec Ollama installé), Open WebUI peut s'y connecter pour exécuter des modèles plus gourmands.
+   The embedded server (Shuttle) has limited processing power. If a more powerful device is available on the local network (e.g. a powerful laptop with Ollama installed), Open WebUI can connect to it to run more demanding models.
 
-   Prérequis sur la machine distante :
-   1. Installer Ollama ([ollama.com](https://ollama.com))
-   2. Activer l'accès externe sur Ollama. Le plus simple est de le faire depuis l'interface d'Ollama : **Settings** > **Networking** > activer **Allow external connections**. Alternativement, on peut définir la variable d'environnement `OLLAMA_HOST=0.0.0.0` avant de lancer Ollama.
-   3. Créer un **bail statique (DHCP)** sur le routeur pour cette machine, afin que son IP locale ne change pas (le mDNS ne fonctionne pas avec Open WebUI, il faut une IP fixe)
+   Prerequisites on the remote machine:
+   1. Install Ollama ([ollama.com](https://ollama.com))
+   2. Enable external access on Ollama. The simplest way is via the Ollama interface: **Settings** > **Networking** > enable **Allow external connections**. Alternatively, set the environment variable `OLLAMA_HOST=0.0.0.0` before launching Ollama.
+   3. Create a **static DHCP lease** on the router for this machine so its local IP does not change (mDNS does not work with Open WebUI, a fixed IP is required)
 
-   Configuration dans Open WebUI :
-   1. Se connecter à Open WebUI
-   2. Aller dans **Administration** > **Paramètres** > **Connexions**
-   3. Dans la section **Ollama**, ajouter une nouvelle connexion avec l'URL `http://<IP_FIXE_DU_LAPTOP>:11434`
-   4. Vérifier la connexion : les modèles installés sur la machine distante doivent apparaître dans la liste des modèles disponibles
+   Configuration in Open WebUI:
+   1. Log into Open WebUI
+   2. Go to **Admin Panel** > **Settings** > **Connections**
+   3. In the **Ollama** section, add a new connection with the URL `http://<LAPTOP_FIXED_IP>:11434`
+   4. Verify the connection: models installed on the remote machine should appear in the list of available models
 
-   > Lorsque le laptop est connecté et accessible sur le réseau local, Open WebUI peut y accéder et faire tourner des modèles bien plus puissants que ce que permet le serveur. Quand la machine est éteinte ou absente du réseau, seuls les modèles locaux du serveur restent disponibles.
+   > When the laptop is connected and reachable on the local network, Open WebUI can access it and run much more powerful models than the server allows. When the machine is off or absent from the network, only the server's local models remain available.
 
-6. (Optionnel) Pour activer le démarrage automatique des services au lancement du serveur, créer ce service `systemctl` de lancement automatique :
+6. (Optional) To enable automatic service startup when the server boots, create this `systemctl` auto-start service:
 
    ```bash
-   sudo cp host_configs/personal-server.service /etc/systemd/system/
-   sudo sed -i "s|<REPO_PATH>|$(pwd)|" /etc/systemd/system/personal-server.service
-   sudo systemctl enable personal-server
+   sudo cp host_configs/home-srv.service /etc/systemd/system/
+   sudo sed -i "s|<REPO_PATH>|$(pwd)|" /etc/systemd/system/home-srv.service
+   sudo systemctl enable home-srv
    ```
 
-   > Grâce à ce service, les conteneurs se lanceront automatiquement au démarrage du serveur. Notamment en cas de coupure de courant. `restart=unless-stopped` a été désactivé pour faciliter le diagnostic des plantages et éviter les redémarrages en boucle.
+   > With this service, containers will start automatically when the server boots — particularly useful after a power outage. `restart=unless-stopped` has been disabled to facilitate crash diagnosis and avoid restart loops.
 
-7. (Optionnel) Configuration des services de streaming (profile `movies`)
+7. (Optional) Streaming service configuration (`movies` profile)
 
-   > Ces services doivent être configurés via l'interface (non configurable par variable d'environnement docker)
-   1. QBitorrent :
-      1. Se connecter grâce au mot de passe admin temporaire récupérable dans les logs :
+   > These services must be configured via their web interface (not configurable via Docker environment variables)
+   1. QBittorrent:
+      1. Log in using the temporary admin password found in the logs:
 
          ```bash
          docker compose logs qbt
          ```
 
-      2. Modifier l'utilisateur : Tools > Options > WebUI > Authentication
+      2. Change the user: Tools > Options > WebUI > Authentication
 
-   2. Radarr :
-      1. Accéder à la popup de configuration initiale
-      2. Sélectionner `Authentication Required` à `Enabled`
-      3. Définir l'utilisateur principal
-      4. Configurer QBittorent comme client de téléchargement dans Settings > Download Clients. Sélectionner qBitorrent et saisir l'hôte `qbt`, l'utilisateur et le mot de passe définis précédemment.
+   2. Radarr:
+      1. Access the initial configuration popup
+      2. Set `Authentication Required` to `Enabled`
+      3. Define the main user
+      4. Configure QBittorrent as the download client in Settings > Download Clients. Select qBittorrent and enter the host `qbt`, and the username and password defined above.
 
-   3. Prowlarr : la configuration est libre
+   3. Prowlarr: configuration is open
 
-8. (Optionnel) Streaming cloud sur détection (YouTube Live) :
-   1. Dans YouTube Studio, créer un nouveau flux en direct (onglet "En direct"), copier la clé de flux générée et configurer le stream en **Privé**
-   2. Copier la clé dans `.env` : `YOUTUBE_STREAM_KEY=xxxx-xxxx-xxxx`
+8. (Optional) Cloud streaming on detection (YouTube Live):
+   1. In YouTube Studio, create a new live stream (the "Go Live" tab), copy the generated stream key and set the stream to **Private**
+   2. Copy the key into `.env`: `YOUTUBE_STREAM_KEY=xxxx-xxxx-xxxx`
    3. `docker compose restart ha`
 
-   > YouTube peut afficher un warning "débit inférieur au recommandé" — c'est normal en scène statique (H264 compresse très efficacement). Le débit remonte automatiquement dès qu'il y a du mouvement.
+   > YouTube may display a warning "bitrate below recommended" — this is normal on static scenes (H264 compresses very efficiently). The bitrate rises automatically when there is movement.
 
-## Pare-feu et réseau
+## Firewall and Network
 
-Le serveur **ne doit pas avoir de pare-feu actif** (ufw, iptables) au niveau de l'hôte — cela risque de bloquer des services internes. Le filtrage Internet se fait **au niveau du routeur** : seuls les ports 80 et 443 y sont forwardés vers le serveur.
+The server **must not have an active firewall** (ufw, iptables) at the host level — this risks blocking internal services. Internet filtering is handled **at the router level**: only ports 80 and 443 are forwarded to the server.
 
-Les ports non forwardés par le routeur restent accessibles sur le LAN, mais ne sont pas non sécurisés pour autant : tous les services passent par Traefik + Authelia ou disposent de leur propre authentification. Les services sans auth sont liés à `127.0.0.1` uniquement.
+Ports not forwarded by the router remain accessible on the LAN, but are not insecure: all services go through Traefik + Authelia or have their own authentication. Services without auth are bound to `127.0.0.1` only.
 
-**CrowdSec** complète le dispositif en bloquant les IPs malveillantes via le firewall bouncer.
+**CrowdSec** complements the setup by blocking malicious IPs via the firewall bouncer.
 
-## Configuration du serveur
+## Server Configuration
 
-Pour la configuration du serveur, suivre la documentation [ici](./docs/server-setup.md).
+For server configuration, follow the documentation [here](./docs/server-setup.md).

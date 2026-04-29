@@ -1,56 +1,56 @@
-# Configuration box internet et DNS
+# Internet Box and DNS Configuration
 
-Cette configuration s'applique à la Freebox mais peut être adaptée à d'autres box internet.
+This configuration applies to the Freebox but can be adapted to other internet routers.
 
-## Configuration IP fixe
+## Static IP Configuration
 
-Une adresse IP fixe est nécessaire pour router le serveur sur internet. Cela assure la stabilité de l'adresse IP publique, essentielle pour la redirection des ports et la configuration DNS.
+A static IP address is required to route the server over the internet. This ensures the stability of the public IP address, which is essential for port forwarding and DNS configuration.
 
-1. Obtention d'une IP fixe :
+1. Obtain a static IP:
 
-   - Se connecter sur <https://adsl.free.fr>
-   - Accéder à "Ma Freebox"
-   - Sélectionner "Demander une adresse IP fixe V4 "full-stack"
+   - Log in at <https://adsl.free.fr>
+   - Go to "Ma Freebox"
+   - Select "Demander une adresse IP fixe V4 "full-stack""
 
-2. Récupération de l'IP publique :
-   - Consulter "État de la Freebox"
-   - Noter l'adresse IPv4 publique
+2. Retrieve the public IP:
+   - Check "État de la Freebox"
+   - Note the public IPv4 address
 
-## Redirection des ports
+## Port Forwarding
 
-Sur l'intranet de la box (<http://mafreebox.freebox.fr> chez Free), configurer la redirection des ports suivants vers l'IP locale du serveur :
+On the router's intranet (<http://mafreebox.freebox.fr> for Free), configure port forwarding for the following ports to the server's local IP:
 
 - 22 (SSH)
 - 80 (HTTP)
 - 443 (HTTPS)
 
-Cette configuration permet l'accès au serveur depuis l'extérieur via SSH ou navigateur web.
+This allows external access to the server via SSH or a web browser.
 
-> Il est préférable de créer un bail DHCP statique pour le serveur afin de garantir que l'IP locale ne change pas et la redirection se fait bien. Le bail doit se créer à partir de l'interface de la box. Pour renouveler le bail après sa définition statique au niveau de la box, exécuter `sudo dhclient <interface_reseau>`.
+> It is recommended to create a static DHCP lease for the server to ensure its local IP does not change and forwarding works correctly. The lease must be created from the router's interface. To renew the lease after setting it as static on the router side, run `sudo dhclient <network_interface>`.
 
-## Configuration du DNS
+## DNS Configuration
 
-1. Configuration OVH :
-   - Configurer le domaine vers l'IP publique de la box
-   - Ajouter l'enregistrement wildcard pour rediriger les sous domaines : `*.<domaine> A <ip_publique>`
+1. OVH configuration:
+   - Point the domain to the router's public IP
+   - Add a wildcard record to redirect subdomains: `*.<domain> A <public_ip>`
 
-## Nom de domaine local
+## Local Domain Name
 
-Pour résoudre le nom de domaine directement vers l'IP locale du serveur sans passer par internet, configurer le nom de domaine sur la box.
+To resolve the domain name directly to the server's local IP without going through the internet, configure the domain name on the router.
 
-Sur la Freebox : Paramètres de la Freebox > "Nom de domaine" > Ajouter un domaine.
+On the Freebox: Router Settings > "Domain name" > Add a domain.
 
-## Débogage
+## Debugging
 
-### Bypass le cache DNS
+### Bypass DNS Cache
 
-Pour vérifier la propagation DNS : utiliser <www.whatsmydns.net>. Cet outil affiche la destination en temps réel d'une IP, sans la latence du cache DNS.
+To check DNS propagation: use <www.whatsmydns.net>. This tool shows the real-time destination of an IP, without the DNS cache latency.
 
-Pour accélérer la propagation (ignorer le cache DNS de la box) :
+To speed up propagation (bypass the router's DNS cache):
 
-- Dans "Paramètres de la box > DHCP > DNS"
-- Ajouter en début de liste :
+- In "Router Settings > DHCP > DNS"
+- Add at the top of the list:
   1. 8.8.8.8 (Google)
   2. 1.1.1.1 (Cloudflare)
 
-> Le nom de domaine sera ainsi résolu directement via Google, évitant le système de cache de la box peu adapté au développement.
+> The domain name will then be resolved directly via Google, bypassing the router's caching system which is not well suited for development.

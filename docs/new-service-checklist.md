@@ -1,18 +1,18 @@
-# Checklist : ajout d'un nouveau service
+# Checklist: Adding a New Service
 
-Ce document liste les étapes à ne pas oublier lors de la création d'un nouveau service.
+This document lists the steps to remember when creating a new service.
 
-## Obligations
+## Required Steps
 
-1. **CrowdSec** : chercher une collection qui couvre les logs du service
-2. **Labels Traefik** : ajouter le middleware `errp-redirect@file`
-3. **Volumes** : ajouter `:ro` dès que possible
-4. **Variables d'environnement** : s'il y en a beaucoup, diviser entre `env_file` et `environment`
-5. **Documentation** : documenter les étapes obligatoires et facultatives dans le README
+1. **CrowdSec**: look for a collection that covers the service's logs
+2. **Traefik labels**: add the `errp-redirect@file` middleware
+3. **Volumes**: add `:ro` whenever possible
+4. **Environment variables**: if there are many, split between `env_file` and `environment`
+5. **Documentation**: document the required and optional steps in the README
 
-## Conseils
+## Best Practices
 
-1. Mettre une étoile sur le dépôt GitHub du service pour le suivi de version
-2. Privilégier un seul dossier par service. Si des services sont liés, les regrouper dans un dossier parent
-3. Dé-versionner correctement les valeurs sensibles — `.env` + `.gitignore`
-4. Persister au maximum les configurations pour conserver un dépôt plug and play, préconfiguré dès le pull
+1. Star the service's GitHub repository to track version updates
+2. Prefer a single folder per service. If services are related, group them in a parent folder
+3. Properly exclude sensitive values from version control — `.env` + `.gitignore`
+4. Persist configurations as much as possible to keep the repository plug-and-play, pre-configured from the first pull

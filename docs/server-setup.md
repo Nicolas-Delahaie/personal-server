@@ -1,78 +1,78 @@
-# Configuration du serveur
+# Server Setup
 
-Configuration du serveur (dans cet exemple, un Shuttle sous Debian) pour permettre son accès depuis l'extérieur via SSH ou via Ethernet en local.
+Setup of the server (in this example, a Shuttle running Debian) to allow external access via SSH or direct Ethernet connection locally.
 
-## Prérequis
+## Prerequisites
 
-1. Vérifier les branchements (Ethernet correctement connecté)
-2. Installer `network-manager` si nécessaire :
+1. Check physical connections (Ethernet properly connected)
+2. Install `network-manager` if needed:
 
    ```bash
    sudo apt install network-manager
    ```
 
-3. Configurer le réseau :
+3. Configure the network:
 
    ```bash
    sudo nmtui
    ```
 
-   1. Définir le nom d'hôte du système
-   2. Configurer la connexion Ethernet :
-      - Sélectionner "Modifier une connexion".
-      - Si aucune connexion n'existe sous "Ethernet", en ajouter une.
-      - Conserver les valeurs par défaut et valider.
+   1. Set the system hostname
+   2. Configure the Ethernet connection:
+      - Select "Edit a connection".
+      - If no connection exists under "Ethernet", add one.
+      - Keep the default values and confirm.
 
-4. Désactiver ModemManager (pour éviter les conflits avec le modem 4G).
+4. Disable ModemManager (to avoid conflicts with the 4G modem).
 
    ```bash
    sudo systemctl disable --now ModemManager
    sudo systemctl mask ModemManager
    ```
 
-5. Installation de picocom (pour déboguer et communiquer avec un modem 4G en AT) :
+5. Install picocom (for debugging and communicating with a 4G modem via AT commands):
 
    ```bash
    sudo apt-get install picocom
    ```
 
-## Configuration de l'accès
+## Access Configuration
 
-Le serveur nécessite plusieurs configurations pour être pleinement opérationnel :
+The server requires several configurations to be fully operational:
 
-### Accès SSH
+### SSH Access
 
-Pour la gestion à distance sécurisée du serveur  
-➜ [Configuration SSH détaillée](./remote-access.md)
+For secure remote management of the server  
+➜ [Detailed SSH configuration](./remote-access.md)
 
-### Réseau local
+### Local Network
 
-Pour un accès direct au serveur, indépendant de la connexion internet  
-➜ [Configuration du réseau local](./offline-network.md)
+For direct access to the server, independent of the internet connection  
+➜ [Local network configuration](./offline-network.md)
 
-### Accès externe
+### External Access
 
-Pour l'accès depuis internet (configuration DNS et redirection de ports)  
-➜ [Configuration du routeur et DNS](./router-setup.md)
+For access from the internet (DNS configuration and port forwarding)  
+➜ [Router and DNS configuration](./router-setup.md)
 
-## Dongle Zigbee
+## Zigbee Dongle
 
-L'USB autosuspend de Linux peut déconnecter aléatoirement le dongle Zigbee (erreur `ASH_ERROR_TIMEOUTS` dans z2m). Désactiver l'autosuspend via une règle udev pour le dongle concerné.
+Linux's USB autosuspend can randomly disconnect the Zigbee dongle (`ASH_ERROR_TIMEOUTS` error in z2m). Disable autosuspend via a udev rule for the specific dongle.
 
-## Méthodes de développement
+## Development Workflows
 
-### Développement via SSH
+### Development via SSH
 
-Pour un développement efficace avec modifications et relances fréquentes :
+For efficient development with frequent changes and restarts:
 
-1. Installer l'extension VSCode `ms-vscode-remote.remote-ssh` pour développer directement sur le serveur
-2. Tester les modifications sur le serveur
-3. Après validation, copier en local et commiter
+1. Install the VSCode extension `ms-vscode-remote.remote-ssh` to develop directly on the server
+2. Test changes on the server
+3. After validation, copy locally and commit
 
-Cette approche évite le cycle répétitif modifier-commit-push-pull-tester.
+This approach avoids the repetitive modify-commit-push-pull-test cycle.
 
-**Important** : Maintenir une séparation claire entre les modifications locales et celles sur le serveur.
+**Important**: Maintain a clear separation between local modifications and those on the server.
 
-### Développement local
+### Local Development
 
-Pour le développement local avant la production, configurer un DNS local selon la documentation [ici](./docs/dnsmasq.md#configuration-du-dns).
+For local development before production, configure a local DNS as documented [here](./docs/dnsmasq.md#dns-configuration).

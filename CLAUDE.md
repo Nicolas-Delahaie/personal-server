@@ -1,101 +1,101 @@
 # Home Srv
 
-Serveur maison basé sur Docker Compose. Hébergé sur un Shuttle sous Debian.
-Regroupe domotique, vidéosurveillance, gestion de mots de passe, streaming média et sécurité réseau.
+Home server based on Docker Compose. Hosted on a Shuttle running Debian.
+Covers home automation, video surveillance, password management, media streaming and network security.
 
-## Stack technique
+## Tech Stack
 
-- **Orchestration** : Docker Compose (fichier unique `compose.yml`)
-- **Reverse proxy** : Traefik (SSL/TLS via Let's Encrypt, DNS challenge OVH)
-- **Authentification** : Authelia (SSO, 2FA, ForwardAuth via Traefik)
-- **Domotique** : Home Assistant + Zigbee2MQTT + Mosquitto (MQTT)
-- **Vidéosurveillance** : Frigate (détection IA) + go2rtc (streaming RTSP)
-- **Mots de passe** : Vaultwarden
-- **Sécurité** : CrowdSec (détection de menaces, analyse de logs Traefik)
-- **Monitoring** : Glances
-- **Administration** : Portainer
-- **Média** (profil `stream`, optionnel) : qBittorrent + Radarr + Prowlarr
+- **Orchestration**: Docker Compose (single `compose.yml` file)
+- **Reverse proxy**: Traefik (SSL/TLS via Let's Encrypt, OVH DNS challenge)
+- **Authentication**: Authelia (SSO, 2FA, ForwardAuth via Traefik)
+- **Home automation**: Home Assistant + Zigbee2MQTT + Mosquitto (MQTT)
+- **Video surveillance**: Frigate (AI detection) + go2rtc (RTSP streaming)
+- **Passwords**: Vaultwarden
+- **Security**: CrowdSec (threat detection, Traefik log analysis)
+- **Monitoring**: Glances
+- **Administration**: Portainer
+- **Media** (`stream` profile, optional): qBittorrent + Radarr + Prowlarr
 
-## Structure du projet
+## Project Structure
 
 ```text
-compose.yml                    # Orchestration principale
-.env.template                  # Template des variables d'environnement
-generate_env_file.sh           # Génération automatique du .env depuis compose.yml
-traefik/                       # Config statique (template) + dynamique + logs
-authelia/config/               # Config Authelia + base utilisateurs
+compose.yml                    # Main orchestration
+.env.template                  # Environment variable template
+generate_env_file.sh           # Automatic .env generation from compose.yml
+traefik/                       # Static config (template) + dynamic config + logs
+authelia/config/               # Authelia config + user database
 ha/config/                     # Home Assistant (configuration.yaml, automations, custom_components)
 frigate/config/                # Frigate (config.yaml, model_cache)
-frigate/media/                 # Enregistrements, clips, exports
+frigate/media/                 # Recordings, clips, exports
 z2m/data/                      # Zigbee2MQTT (config + devices)
-mosquitto/                     # Config MQTT broker
+mosquitto/                     # MQTT broker config
 cs/config/                     # CrowdSec (parsers, scenarios, collections)
 vw/                            # Vaultwarden
-glances/                       # Config monitoring système
-grdf/                          # Relevé compteur gaz (Gazpar)
-host_configs/                  # Fichiers système hôte (systemd service)
-docs/                          # Documentation (setup, accès, réseau, drawio)
-streaming/                     # Downloads et bibliothèque média
+glances/                       # System monitoring config
+grdf/                          # Gas meter readings (Gazpar)
+host_configs/                  # Host system files (systemd service)
+docs/                          # Documentation (setup, access, network, drawio)
+streaming/                     # Downloads and media library
 ```
 
-## Conventions de nommage
+## Naming Conventions
 
-- **Services dans compose** : noms courts (`traefik`, `authelia`, `ha`, `z2m`, `mosquitto`, `vw`, `cs`, `qbt`, `radarr`, `prowlarr`)
-- **Caméras** : nommées par modèle (`tapo-c200`), pas par numéro. Variables env : `CAM1_USER`, `CAM1_PASSWORD`, `CAM1_IP`
-- **Streams vidéo** : `tapo_c200` (haute qualité), `tapo_c200_sub` (basse qualité) dans go2rtc
-- **Configs** : `./service/config/` pour la configuration, `./service/data/` ou volumes pour les données
-- **Logs** : `./service/log/` ou `./traefik/logs/`
+- **Services in compose**: short names (`traefik`, `authelia`, `ha`, `z2m`, `mosquitto`, `vw`, `cs`, `qbt`, `radarr`, `prowlarr`)
+- **Cameras**: named by model (`tapo-c200`), not by number. Env vars: `CAM1_USER`, `CAM1_PASSWORD`, `CAM1_IP`
+- **Video streams**: `tapo_c200` (high quality), `tapo_c200_sub` (low quality) in go2rtc
+- **Configs**: `./service/config/` for configuration, `./service/data/` or volumes for data
+- **Logs**: `./service/log/` or `./traefik/logs/`
 
-## Réseau
+## Network
 
-- Réseau bridge Docker : subnet `172.50.0.0/16` (configurable via `SUBNET_IP`)
-- Home Assistant : `network_mode: host` (pour mDNS) ; Mosquitto : port mapping uniquement (`127.0.0.1:1883`)
-- Ports sensibles exposés en localhost uniquement : Portainer (`127.0.0.1:9000`), CrowdSec API (`127.0.0.1:8080`), MQTT (`127.0.0.1:1883`)
-- Traefik expose 80 (redirect) et 443 (HTTPS)
+- Docker bridge network: subnet `172.50.0.0/16` (configurable via `SUBNET_IP`)
+- Home Assistant: `network_mode: host` (for mDNS); Mosquitto: port mapping only (`127.0.0.1:1883`)
+- Sensitive ports exposed on localhost only: Portainer (`127.0.0.1:9000`), CrowdSec API (`127.0.0.1:8080`), MQTT (`127.0.0.1:1883`)
+- Traefik exposes 80 (redirect) and 443 (HTTPS)
 
-## Commandes courantes
+## Common Commands
 
 ```bash
-# Démarrage standard
+# Standard startup
 docker compose up -d --build
 
-# Avec profil streaming (média)
+# With streaming profile (media)
 docker compose --profile stream up -d
 
-# Logs d'un service
+# Service logs
 docker compose logs -f <service>
 
-# Redémarrage d'un service
+# Restart a service
 docker compose restart <service>
 ```
 
-## Règles pour les contributions
+## Contribution Rules
 
-- **Langue** : tout le code (variables, fonctions, commentaires dans le code, noms de fichiers de config) doit être en **anglais**. Seuls les README, commits, documentation (`docs/`) et messages utilisateur sont en **français**
-- **Configuration** : toute valeur sensible doit être dans `.env` (jamais en dur dans les fichiers YAML)
-- **Variables d'environnement** : utiliser `${VAR}` dans compose.yml, documenter dans `.env.template`
-- **Fichiers ignorés par git** : `.env`, configs runtime HA/Frigate/Z2M, logs, médias (voir `.gitignore`)
-- Ne pas modifier les fichiers générés automatiquement par les services (ex: bases SQLite, caches)
-- Préférer les modifications via les fichiers de config YAML plutôt que via les UI des services
-- Les templates Traefik utilisent `envsubst` à l'exécution (`traefik_static_template.yml` → config finale)
+- **Language**: all code (variables, functions, inline comments, config file names) must be in **English**. READMEs, commits, documentation (`docs/`) and user-facing messages are also in **English**
+- **Configuration**: any sensitive value must be in `.env` (never hardcoded in YAML files)
+- **Environment variables**: use `${VAR}` in compose.yml, document in `.env.template`
+- **Git-ignored files**: `.env`, HA/Frigate/Z2M runtime configs, logs, media (see `.gitignore`)
+- Do not modify files automatically generated by services (e.g. SQLite databases, caches)
+- Prefer changes via YAML config files rather than service UIs
+- Traefik templates use `envsubst` at runtime (`traefik_static_template.yml` → final config)
 
-## Documentation de référence
+## Reference Documentation
 
-Consulter ces fichiers selon le contexte de la tâche :
+Consult these files based on the task context:
 
-| Quand                               | Fichier                         |
+| When                                | File                            |
 | ----------------------------------- | ------------------------------- |
-| Ajout d'un nouveau service          | `docs/new-service-checklist.md` |
-| Configuration serveur / réseau hôte | `docs/server-setup.md`          |
-| Accès SSH                           | `docs/remote-access.md`         |
-| Réseau local / APIPA                | `docs/offline-network.md`       |
-| Configuration routeur / DNS         | `docs/router-setup.md`          |
-| DNS local (dnsmasq)                 | `docs/dnsmasq.md`               |
+| Adding a new service                | `docs/new-service-checklist.md` |
+| Server / host network configuration | `docs/server-setup.md`          |
+| SSH access                          | `docs/remote-access.md`         |
+| Local network / APIPA               | `docs/offline-network.md`       |
+| Router / DNS configuration          | `docs/router-setup.md`          |
+| Local DNS (dnsmasq)                 | `docs/dnsmasq.md`               |
 
-Les sous-dossiers des services contiennent aussi des `CLAUDE.md` avec les règles spécifiques :
+Service subdirectories also contain `CLAUDE.md` files with service-specific rules:
 
 - `traefik/CLAUDE.md` — middlewares, templates, errp-redirect
-- `frigate/CLAUDE.md` — go2rtc, WebRTC, caméras, streaming
-- `authelia/CLAUDE.md` — ForwardAuth, OIDC, base utilisateurs
-- `ha/CLAUDE.md` — network_mode host, custom components, intégrations
-- `cs/CLAUDE.md` — CrowdSec, parsers, analyse de logs
+- `frigate/CLAUDE.md` — go2rtc, WebRTC, cameras, streaming
+- `authelia/CLAUDE.md` — ForwardAuth, OIDC, user database
+- `ha/CLAUDE.md` — network_mode host, custom components, integrations
+- `cs/CLAUDE.md` — CrowdSec, parsers, log analysis
