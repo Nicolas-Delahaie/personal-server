@@ -1,5 +1,7 @@
 http:
   middlewares:
+    compress-response:
+      compress: {}
     secure-headers:
       headers:
         contentTypeNosniff: true

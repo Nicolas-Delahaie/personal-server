@@ -26,6 +26,8 @@ entryPoints:
     address: :443
     asDefault: true
     http:
+      middlewares:
+        - compress-response@file
       tls:
         certResolver: letsencrypt
         domains:
